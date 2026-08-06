@@ -1,41 +1,53 @@
-"use client";
+import type { LabContent } from "@/data/lab";
 
-import { useState } from "react";
-import dynamic from "next/dynamic";
-import type { LanyardIdentity } from "@/components/lab/Lanyard";
-
-/*
- * The badge is a WASM physics engine plus drei — the heaviest thing on the
- * site by a wide margin. Deferring it to the client, on this route only,
- * is what keeps the homepage from paying for it.
- *
- * This wrapper exists because `ssr: false` is not allowed from a Server
- * Component, and the /studio page is a server component so it can own its
- * metadata. The boundary is one file rather than pushing the whole page
- * client-side.
- */
-const Lanyard = dynamic(() => import("@/components/lab/Lanyard"), {
-  ssr: false,
-  loading: () => null,
-});
+/* Was imported from Lanyard.tsx, which is parked outside the compile
+   graph — see below. The badge's own content type serves instead. */
+type BadgeIdentity = LabContent["studio"]["badge"];
 
 /**
- * A flat card, in the DOM, in the site's own typeface.
+ * The studio badge.
  *
- * This is what the page shows before WebGL is up — and what it keeps
- * showing if WebGL never arrives: a lost context, a device that refuses
- * one, or physics that fails to load. The 3D badge is the delight, and a
- * page whose central element can silently render nothing is a page that
- * is broken for someone. This is the version that cannot fail.
+ * THE 3D LANYARD IS PARKED (Ali's call, 2026-08-01). This component used
+ * to mount `Lanyard` behind a dynamic import and swap to it once physics
+ * reported ready. It no longer imports it at all, which is what allows
+ * `three`, `@react-three/fiber`, `@react-three/drei`,
+ * `@react-three/rapier` and `meshline` to leave the dependency tree — a
+ * ~30MB install for one ornament on a page outside the core funnel.
+ *
+ * What was actually wrong: the rope, the clip and the physics all worked.
+ * The card FACE rendered blank, because the canvas textures never reached
+ * the material. `Lanyard.tsx` is kept in the repo with that note so the
+ * work is not lost if it is ever picked back up.
+ *
+ * Only the flat card ships, and it was always the version that could not
+ * fail — it is what the page showed before WebGL was up, and what it kept
+ * showing on a lost context or a device that refused one.
+ *
+ * Note this is no longer a client component: with the dynamic import gone
+ * there is no state and no effect left, so it renders on the server with
+ * everything else.
  */
-function StaticCard({ identity }: { identity: LanyardIdentity }) {
+/*
+  No caption. It used to read "Grab the card", which was an instruction
+  for a rope that no longer exists; replacing it with the location just
+  printed the card's own last line twice.
+*/
+export default function LanyardStage({ identity }: { identity: BadgeIdentity }) {
   return (
-    <div className="flex h-full w-full items-center justify-center p-8">
-      <div className="flex w-[min(15rem,70%)] flex-col items-center gap-4 rounded-[1.1rem] bg-lab-card p-6 text-center shadow-[0_24px_60px_-30px_rgb(26_23_19/0.55)] ring-1 ring-lab-hairline">
+    <div className="relative flex h-full min-h-[26rem] w-full items-center justify-center p-8">
+      <div className="flex w-[min(17rem,80%)] flex-col items-center gap-4 rounded-[1.1rem] bg-lab-card p-7 text-center shadow-[0_24px_60px_-30px_rgb(26_23_19/0.55)] ring-1 ring-lab-hairline">
         <span aria-hidden="true" className="h-1.5 w-14 rounded-full bg-lab-hairline" />
+
+        {/*
+          A labelled empty frame until Ali supplies a headshot. The page's
+          whole argument is "you would be working with me", so the missing
+          photograph is the one gap worth showing honestly rather than
+          filling with a stock face or an initial.
+        */}
         <span className="flex aspect-square w-full items-center justify-center rounded-[0.7rem] border border-dashed border-lab-hairline text-[13px] text-lab-ink-soft">
           photo
         </span>
+
         <span className="font-display text-lg font-bold leading-tight tracking-[-0.02em] text-lab-ink-warm">
           {identity.name}
         </span>
@@ -45,37 +57,6 @@ function StaticCard({ identity }: { identity: LanyardIdentity }) {
           {identity.location}
         </span>
       </div>
-    </div>
-  );
-}
-
-export default function LanyardStage({
-  identity,
-  hint,
-}: {
-  identity: LanyardIdentity;
-  hint: string;
-}) {
-  const [live, setLive] = useState(false);
-
-  return (
-    /*
-      No panel. The badge hangs in the page itself — boxing it inside a
-      framed card cropped the lanyard and left no room to swing it, which
-      is the whole point of the thing. Taller, unbounded, transparent.
-    */
-    <div className="relative h-[82svh] min-h-[32rem] w-full">
-      {!live && (
-        <div className="absolute inset-0">
-          <StaticCard identity={identity} />
-        </div>
-      )}
-
-      <Lanyard identity={identity} onReady={() => setLive(true)} />
-
-      <p className="pointer-events-none absolute inset-x-0 bottom-5 text-center font-display text-[13px] font-bold uppercase tracking-[0.14em] text-lab-ink-soft">
-        {live ? hint : identity.role}
-      </p>
     </div>
   );
 }

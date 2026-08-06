@@ -268,7 +268,6 @@ export interface LabContent {
     heading: string;
     bio: string[];
     badge: { name: string; role: string; location: string; photo?: string; mark?: string };
-    hint: string;
     process: { step: string; title: string; body: string }[];
     cta: { label: string; href: string };
   };
@@ -850,7 +849,6 @@ export const labContent: LabContent = {
          files — the card draws a labelled empty frame rather than a
          stock face, and falls back to the drawn mark on the reverse. */
     },
-    hint: "Grab the card",
     /* PROPOSED — needs Ali's confirmation that this is how he works. */
     process: [
       {

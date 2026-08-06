@@ -1,3 +1,38 @@
+/*
+ * ============================================================
+ *  PARKED — 2026-08-06. NOT COMPILED, NOT SHIPPED.
+ * ============================================================
+ *
+ * This file is excluded from tsconfig (`docs/parked`) and nothing
+ * imports it. Its dependencies — three, @react-three/fiber,
+ * @react-three/drei, @react-three/rapier, meshline and @types/three —
+ * have been REMOVED from package.json, so this will not typecheck or run
+ * until they are reinstalled.
+ *
+ * WHY IT IS PARKED
+ * Roughly 30MB of install, including a WASM physics engine, for one
+ * ornament on /studio — a page outside the core conversion funnel. That
+ * would be an acceptable trade if it worked. It does not.
+ *
+ * WHAT WORKS
+ * The physics, the rope joints, the swing, the clip, the drag
+ * interaction, and the lost-context fallback. Picking the badge up and
+ * throwing it behaves correctly.
+ *
+ * WHAT IS BROKEN — the actual blocker
+ * The card FACE renders blank. The name, role and location are drawn to
+ * an offscreen <canvas> and turned into a CanvasTexture, and that texture
+ * never reaches the material: the mesh renders with its base colour and
+ * no map. Suspected `needsUpdate` timing or the texture being created
+ * before the canvas has painted, but it was never isolated.
+ *
+ * IF YOU PICK THIS BACK UP
+ * Start there — render the texture to a plain plane in isolation before
+ * reattaching it to the physics rig. And remember the site rule: anything
+ * drawn into a canvas must ALSO exist as real DOM text, because a texture
+ * is invisible to search engines and screen readers. LanyardStage's flat
+ * card already satisfies that and must keep doing so.
+ */
 "use client";
 
 import { Suspense, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";

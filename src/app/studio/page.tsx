@@ -16,17 +16,13 @@ export const metadata: Metadata = {
  *
  * The site's whole pitch is "designed and built by one person, end to end"
  * and until now it never showed the person. This page is that argument:
- * a badge you can pick up and swing, and three paragraphs about who
- * actually answers the email.
+ * a studio card and three paragraphs about who actually answers the
+ * email.
  *
- * Everything printed on the badge is repeated as real text below it. A
- * name painted onto a 3D texture is invisible to search engines and to
- * assistive technology, so the card is the delight and never the only
- * place the facts live.
- *
- * Antigravity is deliberately NOT mounted here: two full-page WebGL
- * contexts on one screen is a cost with no benefit, and the badge should
- * be the only thing on this page asking to be touched.
+ * Everything on the card is also real text below it, and stays that way
+ * whatever the card becomes — the 3D version of it is parked (see
+ * docs/parked/Lanyard.tsx), and a name painted into a texture is
+ * invisible to search engines and to assistive technology regardless.
  */
 export default function StudioPage() {
   const { studio } = labContent;
@@ -77,7 +73,7 @@ export default function StudioPage() {
           </div>
 
           <div className="lg:col-span-5">
-            <LanyardStage identity={studio.badge} hint={studio.hint} />
+            <LanyardStage identity={studio.badge} />
           </div>
         </div>
 

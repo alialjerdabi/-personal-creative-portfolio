@@ -30,5 +30,6 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "//exclude": "docs/parked holds work that is deliberately not shipped and whose dependencies are uninstalled. It stays readable in the repo without being compiled.",
+  "exclude": ["node_modules", "docs/parked"]
 }
