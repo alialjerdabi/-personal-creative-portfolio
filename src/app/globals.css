@@ -1,0 +1,699 @@
+@import "tailwindcss";
+
+/*
+ * True dark mode (2026-07-23, Ali's direction): a first-class second
+ * theme, not an inversion trick. `data-theme` on <html> is the switch
+ * (set by an inline bootstrap script in layout.tsx before paint, and
+ * by ThemeToggle.tsx thereafter) — no attribute defaults to light.
+ * Every semantic token below has a light value here and a dark
+ * override in the `[data-theme="dark"]` block; components consume the
+ * tokens (bg-surface, text-foreground-muted, etc.) and never hardcode
+ * the zinc scale directly. See docs/design-language-notes.md.
+ */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --background: #ffffff;
+  --surface: #fafafa;
+  --surface-hover: #f4f4f5;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --foreground: #18181b;
+  --foreground-muted: #71717a;
+  --foreground-faint: #a1a1aa;
+  /* Space-separated r g b triplets for JS that needs to interpolate
+     (see tension/ProblemReveal.tsx) — kept in sync with the hex values
+     above by hand, since there are only two themes. */
+  --foreground-rgb: 24 24 27;
+  --foreground-muted-rgb: 113 113 122;
+
+  /*
+   * The "dark act" ground (Philosophy, final CTA, Footer, the two dark
+   * Services chapters, hero service cards, capabilities preview card)
+   * — a deliberate light→dark storytelling beat, independent of the
+   * page theme. In Dark Mode it blends via elevation (a shade lighter
+   * than --background) rather than staying a stark contrast, so the
+   * "chapter" still reads through depth, not a jarring color swing.
+   */
+  --ground-inverted: #09090b;
+  --ink-on-inverted: #ffffff;
+
+  /*
+   * The site's one accent color (2026-07-22, Ali's direction — replaces
+   * cobalt everywhere, including the narrative "connection" color in
+   * Act II's turn-line and Act III's loop-close/connector arrows; see
+   * design-language-notes.md). Fixed across both themes — Ali's
+   * direction is that the accent itself doesn't get themed.
+   */
+  --accent: #ff5a1f;
+
+  /*
+   * Mask direction prototype (/lab) — art-directed grounds, deliberately
+   * theme-independent like --ground-inverted already is. This direction
+   * composes a fixed light/dark rhythm (dark hero + work, light services,
+   * dark close); letting the site theme invert that would destroy the
+   * rhythm, not preserve it. Two grounds, each with its own ink set.
+   */
+  --lab-ground: #000000;
+  --lab-surface: #0d0d0f;
+  --lab-ink: #f4f4f2;
+  --lab-ink-muted: #8b8b90;
+  --lab-rule: rgb(255 255 255 / 0.14);
+
+  /*
+   * The project palette. Each project owns a colour, so colour carries
+   * identity rather than decoration — which is what keeps a five-colour
+   * page from reading as a swatch test. Flat fields only: no gradients,
+   * no glows. Every pairing below clears 4.5:1 against its own ink
+   * (measured: orange 6.7, blue 7.4, violet 5.6, lime and cream >12).
+   */
+  --lab-orange: #ff5a1f;
+  --lab-blue: #1b3fe0;
+  --lab-lime: #c6f24e;
+  --lab-violet: #6e3bff;
+  --lab-cream: #eeece7;
+  /* NextShot's own mint. Sixth project, sixth field. */
+  --lab-teal: #00bfa6;
+  /*
+    Kids Island's yellow. Added because --lab-cream is within three points
+    of the page ground on every channel: as a card field it renders a hole
+    rather than a project. Cream survives for type and rules, not fields.
+  */
+  --lab-sun: #ffc220;
+
+  --lab-paper: #f2f2ef;
+  --lab-paper-ink: #0b0b0d;
+  --lab-paper-muted: #6b6b70;
+  --lab-paper-rule: rgb(0 0 0 / 0.14);
+
+  /*
+   * Light register (2026-07-31, Ali's direction): the prototype turns
+   * warm and approachable — a pale sky wash rather than a black ground.
+   * The page is one continuous gradient, so these are the stops, not
+   * flat section fills.
+   */
+  /*
+   * Warm cream ground (2026-07-31, Ali's palette). Off-white and
+   * paper-like rather than the cool blue wash it replaces: relaxed and
+   * personal without tipping into beige. --lab-air is the page, --lab-haze
+   * the recessed sections, --lab-sky the lift at the top of the hero, and
+   * cards sit on the near-white so sections separate by warmth instead of
+   * by borders.
+   */
+  /*
+    COOLED 2026-08-06. The cream above ran 18–24 points of red over blue,
+    which is enough yellow to fight the cold navy in the Petrolas stills —
+    the work looked like it was sitting ON the page rather than IN it.
+    These hold 6–9 points instead: still warm, still paper, no longer
+    yellow. Not plain white, which loses the register entirely, and not
+    warming the imagery, which makes real client work look filtered.
+  */
+  --lab-sky: #eae7e1;
+  --lab-air: #f1efe9;
+  --lab-haze: #e9e6e0;
+  --lab-card: #fcfbf9;
+  --lab-ink-warm: #1a1713;
+  --lab-ink-soft: #6b6459;
+  --lab-hairline: rgb(26 23 19 / 0.10);
+  /* Rich brown-gold for the cursor field — reads against cream where the
+     orange accent would compete with it. */
+  --lab-gold: #945d00;
+}
+
+:root[data-theme="dark"] {
+  --background: #0a0a0a;
+  --surface: #141414;
+  --surface-hover: #1c1c1c;
+  --border: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.14);
+  --foreground: #f4f4f5;
+  --foreground-muted: #a1a1aa;
+  --foreground-faint: #71717a;
+  --foreground-rgb: 244 244 245;
+  --foreground-muted-rgb: 161 161 170;
+
+  --ground-inverted: #1a1a1a;
+  --ink-on-inverted: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-faint: var(--foreground-faint);
+  --color-ground-inverted: var(--ground-inverted);
+  --color-ink-on-inverted: var(--ink-on-inverted);
+  --color-accent: var(--accent);
+  --color-lab-ground: var(--lab-ground);
+  --color-lab-surface: var(--lab-surface);
+  --color-lab-ink: var(--lab-ink);
+  --color-lab-ink-muted: var(--lab-ink-muted);
+  --color-lab-rule: var(--lab-rule);
+  --color-lab-orange: var(--lab-orange);
+  --color-lab-blue: var(--lab-blue);
+  --color-lab-lime: var(--lab-lime);
+  --color-lab-violet: var(--lab-violet);
+  --color-lab-cream: var(--lab-cream);
+  --color-lab-teal: var(--lab-teal);
+  --color-lab-sun: var(--lab-sun);
+  --color-lab-sky: var(--lab-sky);
+  --color-lab-air: var(--lab-air);
+  --color-lab-haze: var(--lab-haze);
+  --color-lab-ink-warm: var(--lab-ink-warm);
+  --color-lab-ink-soft: var(--lab-ink-soft);
+  --color-lab-hairline: var(--lab-hairline);
+  --color-lab-card: var(--lab-card);
+  --color-lab-gold: var(--lab-gold);
+  --font-display: var(--font-rounded);
+  --color-lab-paper: var(--lab-paper);
+  --color-lab-paper-ink: var(--lab-paper-ink);
+  --color-lab-paper-muted: var(--lab-paper-muted);
+  --color-lab-paper-rule: var(--lab-paper-rule);
+  --font-sans: var(--font-schibsted);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+/*
+ * Theme transition (2026-07-23): color interpolation on toggle should
+ * feel premium, never flash. Universal selector deliberately used —
+ * its specificity (0,0,0) is lower than any class selector, so every
+ * component that already declares its own transition-colors (for
+ * hover/focus states, e.g. MethodRail, CapabilitiesListInteractive)
+ * keeps that exact timing untouched; this only fills in the gap for
+ * otherwise-static elements (section backgrounds, borders) that would
+ * snap instantly. Excluded via .theme-transition-none where an element
+ * drives its own color imperatively every animation frame (see
+ * tension/ProblemReveal.tsx) — a CSS transition fighting a per-frame
+ * style mutation would make scroll-tied color lag behind the scroll.
+ * Skipped entirely under reduced motion, matching this codebase's
+ * existing motion-safe discipline everywhere else.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    transition:
+      background-color 200ms ease-out,
+      color 200ms ease-out,
+      border-color 200ms ease-out;
+  }
+
+  /* Higher specificity than the universal rule above — deliberately
+     opts an element out where it drives its own color every frame. */
+  .theme-transition-none {
+    transition: none;
+  }
+}
+
+/*
+ * No CSS smooth scrolling: on a document this long, native smooth
+ * anchor jumps glide for seconds and are easily interrupted —
+ * instant jumps are the better UX (verified 2026-07-15). Controlled-
+ * duration eased scrolling is the Lenis trial's job, if adopted.
+ */
+
+/*
+ * Services page exception (2026-07-20): chapter-to-chapter distances
+ * on this page are short, so native smooth anchor scrolling reads as
+ * calm and quick rather than the multi-second glide rejected above —
+ * scoped to this one page via a class toggled by SmoothAnchorScroll.tsx
+ * only while it's mounted, so the homepage's instant-jump rule is
+ * completely untouched. Reduced-motion users get the browser's default
+ * instant jump automatically — the class only has an effect inside
+ * this media query, no JS branching needed for that part.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html.services-smooth-scroll {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-schibsted), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/*
+ * Partner strip marquee (user-directed exception to the no-loop rule,
+ * 2026-07-15): slow, pausable on hover, and static under reduced motion.
+ * The track holds two copies of the list; -50% loops seamlessly.
+ */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/*
+ * Editorial loading intro (approved 2026-07-16): a grey field with the
+ * thesis as a small centered statement, then a white architectural
+ * frame expands from the center and becomes the page. Transform +
+ * opacity only; ends in visibility:hidden via CSS fill so the page is
+ * never gated on JavaScript. Skipped entirely under reduced motion.
+ */
+@keyframes intro-backdrop {
+  0%,
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes intro-statement {
+  0% {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+  8%,
+  50% {
+    opacity: 1;
+    transform: none;
+  }
+  66%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+@keyframes intro-frame {
+  0%,
+  36% {
+    transform: scale(0.14);
+    opacity: 0;
+  }
+  44% {
+    opacity: 1;
+  }
+  88%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #editorial-intro {
+    display: none;
+  }
+}
+
+/*
+ * Hero entrance: a single restrained rise on first paint, staggered via
+ * .entrance-1..5 to establish reading order through timing. CSS-only —
+ * no JS, no layout shift (transform/opacity), skipped entirely under
+ * reduced motion.
+ */
+@keyframes entrance-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .entrance-1,
+  .entrance-2,
+  .entrance-3,
+  .entrance-4,
+  .entrance-5 {
+    animation: entrance-rise 400ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .entrance-2 {
+    animation-delay: 80ms;
+  }
+  .entrance-3 {
+    animation-delay: 160ms;
+  }
+  .entrance-4 {
+    animation-delay: 240ms;
+  }
+  .entrance-5 {
+    animation-delay: 320ms;
+  }
+
+  /*
+   * While the editorial intro is present, the hero entrance waits and
+   * settles in as the frame completes — content arriving inside the
+   * architecture. (When the intro is skipped, the node is removed
+   * before paint and the normal delays apply.)
+   */
+  body:has(#editorial-intro) .entrance-1 {
+    animation-delay: 1700ms;
+  }
+  body:has(#editorial-intro) .entrance-2 {
+    animation-delay: 1780ms;
+  }
+  body:has(#editorial-intro) .entrance-3 {
+    animation-delay: 1860ms;
+  }
+  body:has(#editorial-intro) .entrance-4 {
+    animation-delay: 1940ms;
+  }
+  body:has(#editorial-intro) .entrance-5 {
+    animation-delay: 2020ms;
+  }
+}
+
+/*
+ * Hero cards' resting/expanded state (2026-07-26) no longer lives here —
+ * it's driven by the `data-active` attribute set from
+ * HeroCardGroupContext's single `activeId`, via Tailwind's
+ * data-[active=true]/group-data-[active=true] variants directly on
+ * ServiceCards.tsx, so layout and MediaCycler playback share one source
+ * of truth instead of this rule and the JS state independently agreeing
+ * by coincidence.
+ */
+
+/*
+ * ============================================================
+ * MASK DIRECTION PROTOTYPE (/lab)
+ * ============================================================
+ *
+ * The aperture: the site's one signature mechanic. Oversized words are
+ * not set over imagery, they are cut out of it — the letterform becomes
+ * a window onto the work. The text stays real text in the DOM (selectable,
+ * readable by assistive tech, indexable); only its fill is an image.
+ *
+ * The image is passed in as a custom property rather than an inline
+ * `background-image` so the @supports fallback below can cleanly win:
+ * anywhere background-clip:text is unsupported, the word simply renders
+ * as solid ink and the composition still reads.
+ */
+.aperture {
+  background-image: var(--aperture-image);
+  background-size: cover;
+  background-position: var(--aperture-position, 50% 50%);
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Letterforms crop the image hard; a hair of extra weight keeps the
+     counters open enough for the fill to actually be legible as an image. */
+  -webkit-text-stroke: 0.5px transparent;
+}
+
+@supports not ((background-clip: text) or (-webkit-background-clip: text)) {
+  .aperture {
+    background-image: none;
+    color: inherit;
+  }
+}
+
+/*
+ * The cursor field must never intercept a click.
+ *
+ * `pointer-events` inherits, so `none` on the wrapper ought to be enough —
+ * but React Three Fiber re-enables it on its own container div and on the
+ * canvas element, which puts a full-page click-eater at z-20 over every
+ * button on the site. Measured: elementFromPoint over the hero's call to
+ * action returned CANVAS, not the link.
+ *
+ * `!important` on the subtree is the reliable fix; the field reads the
+ * pointer from `window`, so it never needed events of its own.
+ */
+[data-cursor-field],
+[data-cursor-field] * {
+  pointer-events: none !important;
+}
+
+/*
+ * Hovering one tile pushes the rest of the mosaic back. The point is
+ * commitment: the page decides what you are looking at instead of
+ * presenting a wall of equals.
+ *
+ * Written as plain CSS rather than Tailwind variants because the two
+ * rules have identical specificity, so the winner is decided by source
+ * order — which utility generation does not guarantee. Gated on a real
+ * hover device so a touch tap can never leave a tile stuck dimmed, and
+ * on motion preference so it never flickers for anyone who asked for
+ * stillness.
+ */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .lab-mosaic [data-tile] {
+    transition: opacity 350ms ease-out;
+  }
+
+  .lab-mosaic:hover [data-tile] {
+    opacity: 0.3;
+  }
+
+  .lab-mosaic [data-tile]:hover {
+    opacity: 1;
+  }
+}
+
+/*
+ * Loader failsafe. The overlay is server-rendered so there is no flash of
+ * hero before it mounts — which means it must be able to clear itself
+ * without JavaScript ever running. This animation is the only thing
+ * guaranteeing that: it ends in visibility:hidden regardless. When GSAP
+ * is available it cancels this animation on the first frame and drives
+ * the real sequence instead (see lab/MaskLoader.tsx).
+ */
+@keyframes lab-loader-failsafe {
+  0%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+#mask-loader {
+  animation: lab-loader-failsafe 3.4s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+/*
+ * Reduced motion: no loading sequence at all. The brief's "immediate
+ * fallback" — the overlay is removed from the box tree before paint, so
+ * these visitors land directly on the composition.
+ */
+@media (prefers-reduced-motion: reduce) {
+  #mask-loader {
+    display: none;
+  }
+}
+
+/*
+ * "More +" pointer companion (see components/lab/MoreCursor.tsx).
+ *
+ * Hidden by default and only ever built where it can work. The whole
+ * block — including `cursor: none` — sits inside one query, so the native
+ * cursor can never be removed without the replacement appearing: a touch
+ * device, a coarse pointer or a reduced-motion visitor keeps its own
+ * cursor and never sees this at all.
+ */
+.lab-cursor {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .lab-cursor-field [data-more-target] {
+    cursor: none;
+  }
+
+  .lab-cursor {
+    --cursor-x: 50vw;
+    --cursor-y: 50vh;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(26 23 19 / 0.42);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    pointer-events: none;
+    opacity: 0;
+    /* Two transforms: the follow, then the half-size offset that centres
+       the pill on the pointer rather than hanging it below and right. */
+    transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%)
+      scale(0.3);
+    transition:
+      width 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      height 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 160ms ease-out,
+      transform 110ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .lab-cursor[data-visible] {
+    opacity: 1;
+    transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%)
+      scale(1);
+  }
+
+  .lab-cursor[data-expanded] {
+    width: 5.5rem;
+    height: 2rem;
+  }
+
+  .lab-cursor-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    /* Nunito, matching the rest of the interface. */
+    font-family: var(--font-rounded), system-ui, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+      opacity 160ms ease-out,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lab-cursor[data-expanded] .lab-cursor-label {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/*
+ * Testimonial rail: a doubled track translated by exactly -50%, so the
+ * second copy lands where the first started and the loop has no seam.
+ *
+ * Default state is a plain horizontal scroller. The animation is added
+ * only when motion is welcome, which means reduced-motion visitors and
+ * anyone without CSS animation get something they can still read and
+ * operate, rather than a broken marquee.
+ */
+.lab-rail {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.lab-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.lab-rail-track {
+  display: flex;
+  width: max-content;
+  align-items: stretch;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lab-rail {
+    overflow-x: hidden;
+  }
+
+  .lab-rail-track {
+    animation: lab-rail-drift 64s linear infinite;
+  }
+
+  /* A marquee nobody can stop is unreadable. Hover pauses it; focus-within
+     pauses it for keyboard users, who would otherwise be tabbing into a
+     moving target. */
+  .lab-rail:hover .lab-rail-track,
+  .lab-rail:focus-within .lab-rail-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes lab-rail-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/*
+ * Pointer tilt (see components/lab/Tilt.tsx).
+ *
+ * The gating lives here rather than in JS: a tilt is a pointer affordance,
+ * so it exists only where there is a hovering pointer and only when motion
+ * is welcome. Everywhere else the custom properties are simply never read
+ * and the card sits flat — no listener to remove, no hydration branch.
+ */
+.lab-tilt {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .lab-tilt {
+    perspective: 900px;
+  }
+
+  .lab-tilt > * {
+    /* Settles back over 500ms on leave, but tracks the pointer with no
+       transition while moving — a transition on every frame of a
+       pointermove reads as lag, not smoothness. */
+    transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+    transform-style: preserve-3d;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .lab-tilt:hover > * {
+    transition-duration: 90ms;
+  }
+}
+
+/*
+ * Mobile menu: the overlay settles, then each line rises a beat after the
+ * one above it. Quiet — the menu is a way through, not an event.
+ */
+@keyframes lab-menu-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog[open] {
+    animation: lab-menu-fade 220ms ease-out both;
+  }
+
+  .lab-menu-item {
+    animation: lab-menu-rise 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes lab-menu-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
