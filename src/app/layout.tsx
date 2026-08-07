@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk, Geist_Mono, Nunito } from "next/font/google";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const schibstedGrotesk = Schibsted_Grotesk({
@@ -24,10 +25,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const TITLE = "Ali Aljardabi — Brand, Web & Social Design";
+const DESCRIPTION =
+  "Brand identity, websites, and social media design for small and growing businesses. Designed and built by one person, end to end, from Manama, Bahrain.";
+
+/*
+ * `metadataBase` is what makes the share card work at all: Open Graph
+ * requires absolute URLs, and without it Next emits a relative og:image
+ * that every scraper silently ignores.
+ *
+ * The image itself is `opengraph-image.png` beside this file, picked up
+ * by file convention — Next adds og:image and twitter:image from it, so
+ * neither is declared here. Regenerate it with `node scripts/og.mjs`
+ * after any change to the headline or the ground colour.
+ */
 export const metadata: Metadata = {
-  title: "Ali Aljardabi — Brand, Web & Social Design",
-  description:
-    "Brand identity, websites, and social media design for small and growing businesses. Designed and built by one person, end to end, from Manama, Bahrain.",
+  metadataBase: new URL(siteUrl),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "Ali Aljardabi",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 /**
