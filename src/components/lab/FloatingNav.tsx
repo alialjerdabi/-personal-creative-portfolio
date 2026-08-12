@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { LabContent } from "@/data/lab";
 import MobileMenu from "./MobileMenu";
@@ -26,32 +27,27 @@ export default function FloatingNav({ content }: { content: LabContent }) {
           className="flex items-center gap-2.5 focus-visible:outline-none"
           aria-label={`${content.identity} — home`}
         >
-          {/* The mark: a rule and a rising arc. Drawn, not licensed. */}
-          <svg
+          {/*
+            Ali's mark, supplied 2026-08-10. Replaces the rising-sun
+            placeholder that was drawn in code while no real logo
+            existed.
+
+            It is a raster, so it cannot take `currentColor` — the file
+            is flat black, which is the ink this nav already uses. IT IS
+            STILL WORTH GETTING AS AN SVG: at 40px the PNG is fine, but
+            an SVG would stay crisp anywhere, recolour for a dark ground,
+            and let the favicon and share card carry the same mark
+            instead of the placeholder they still use.
+          */}
+          <Image
+            src="/brand/mark.png"
+            alt=""
             aria-hidden="true"
-            viewBox="0 0 40 24"
-            className="h-5 w-8 text-lab-ink-warm sm:h-6 sm:w-10"
-            fill="none"
-          >
-            <path
-              d="M3 21h34"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-            />
-            <path
-              d="M8 21a12 12 0 0 1 24 0"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-            />
-            <path
-              d="M20 3v3M31 8l2-2M9 8L7 6"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-            />
-          </svg>
+            width={277}
+            height={160}
+            priority
+            className="h-5 w-auto sm:h-6"
+          />
           <span className="font-display text-[15px] font-bold tracking-[-0.01em] text-lab-ink-warm">
             {content.identity}
           </span>
