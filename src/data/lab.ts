@@ -728,11 +728,21 @@ export const labContent: LabContent = {
         alt: "Qobban stair and terrace railing in black steel against pale stone",
         form: "bleed",
       },
-      /* Square for the homepage card; the mosaic tile keeps the
-         landscape cover above. */
+      /*
+        Replaced 2026-08-12 with Ali's own presentation mockup — the
+        Qobban site on a laptop, shot on leather in warm light.
+        Deliberately not a photograph of the metalwork: this card sits
+        beside Petrolas on the homepage, and a pair of presentation
+        mockups reads as a portfolio while a gate photograph next to a
+        laptop reads as two unrelated things.
+
+        Square for the homepage card only; the mosaic tile keeps the
+        landscape cover above, because a 0.80 portrait cropped to 16/11
+        would lose the machine.
+      */
       feature: {
         src: "/work/qobban/feature-square.jpg",
-        alt: "A Qobban entrance gate in dark steel, set into a villa façade",
+        alt: "The Qobban website on a laptop, its tipping spirit level above the headline Precision is our standard",
         form: "bleed",
       },
       /*
