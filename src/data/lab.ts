@@ -43,6 +43,22 @@ export interface ApertureAsset {
   position: string;
 }
 
+/**
+ * A site that is live right now, shown in browser chrome.
+ *
+ * The URL is the point. Everything else on a portfolio is a claim about
+ * work the visitor has to take on trust; this is the one thing they can
+ * check in a single click, so it is stated rather than implied.
+ */
+export interface LabSite {
+  url: string;
+  /** The link's own words — never a bare "visit site". */
+  label: string;
+  desktop: LabAsset;
+  /** Optional. A responsive build is one design at two sizes. */
+  mobile?: LabAsset;
+}
+
 export interface LabSpread {
   id: string;
   /** Mono discipline label — the system register. */
@@ -79,6 +95,11 @@ export interface LabSpread {
    * it with another client's imagery.
    */
   assets: LabAsset[];
+  /**
+   * Present only where the project shipped a site that is live. Renders
+   * above this spread's assets, in browser chrome, with a link out.
+   */
+  site?: LabSite;
 }
 
 /**
@@ -601,9 +622,22 @@ export const labContent: LabContent = {
           id: "digital",
           label: "04 — Digital",
           title: "SCREEN",
-          note: "The same language carried into screens — social, site, and a live operations view built in the identity, not beside it.",
+          note: "The same language carried into screens — social, site, and a live operations view built in the identity, not beside it. The partnership page is the argument at its sharpest: a serif italic against the grotesque, and a brief set as a document rather than a pitch.",
           layout: "bleed-plate",
           aperture: { src: "/hero/petrolas-digital.jpg", position: "55% 45%" },
+          /* Captured from the live build 2026-08-12, at Ali's
+             instruction. The URL is a preview deployment, so it is the
+             one link on this site that can rot — swap it for the
+             production domain the moment Petrolas has one. */
+          site: {
+            url: "https://petrolas-v2-git-feature-process-ignition-redesign-ali-aljardabi.vercel.app/partnership",
+            label: "Open the Petrolas partnership page",
+            desktop: {
+              src: "/work/petrolas/site-partnership.jpg",
+              alt: "The Petrolas partnership page: the right capital, the right capability, one industrial direction",
+              form: "bleed",
+            },
+          },
           assets: [
             {
               src: "/work/petrolas/dashboard.jpg",
@@ -689,12 +723,30 @@ export const labContent: LabContent = {
       sector: "Fabrication & metalwork",
       summary:
         "A fabrication and welding workshop that read as a general workshop — repositioned with a full identity across the premises, the marketing, and the website.",
+      cover: {
+        src: "/work/qobban/cover.jpg",
+        alt: "Qobban stair and terrace railing in black steel against pale stone",
+        form: "bleed",
+      },
+      /* Square for the homepage card; the mosaic tile keeps the
+         landscape cover above. */
+      feature: {
+        src: "/work/qobban/feature-square.jpg",
+        alt: "A Qobban entrance gate in dark steel, set into a villa façade",
+        form: "bleed",
+      },
       /*
-        Written 2026-08-06 from Ali's account of the engagement. The
-        assets have not been delivered yet, so each spread renders its
-        label, title and note over a pending panel. When the files land
-        they go in `public/work/qobban/` and get added here — the page
-        does not change shape.
+        Written 2026-08-06 from Ali's account. Imagery pulled from the
+        live site at qobban.store on 2026-08-12, at Ali's instruction —
+        it is his work for his client, and it is the same photography the
+        client publishes.
+
+        EVERY QOBBAN IMAGE IS LANDSCAPE (1.33 or 1.78). The "plates"
+        layout frames its assets at 2:3 portrait, so it is not used here:
+        forcing a landscape photograph into a portrait plate crops away
+        half the subject, which is what happened to the tanker on the
+        featured card. Layouts are chosen to fit the material rather than
+        the material cropped to fit a layout.
       */
       spreads: [
         {
@@ -702,27 +754,95 @@ export const labContent: LabContent = {
           label: "01 — Brand identity",
           title: "MARK",
           note: "A letter Q built around a spirit level: the tool the trade actually measures with, made into the thing the business is recognised by. Precision as a mark rather than a promise.",
-          layout: "bleed-plate",
-          assets: [],
+          layout: "bleeds",
+          aperture: { src: "/work/qobban/level-vial.jpg", position: "50% 50%" },
+          assets: [
+            {
+              src: "/work/qobban/level-vial.jpg",
+              alt: "The bubble in a spirit level vial — the device the Qobban mark is built from",
+              form: "bleed",
+            },
+            {
+              src: "/work/qobban/level-on-gate.jpg",
+              alt: "A spirit level held against a Qobban gate post during installation",
+              form: "bleed",
+            },
+            {
+              src: "/work/qobban/quote-document.jpg",
+              alt: "A Qobban written scope document with the studio's stationery",
+              form: "bleed",
+            },
+          ],
         },
         {
           id: "workshop",
-          label: "02 — Premises & fleet",
+          label: "02 — Premises & workwear",
           /* Not "PLACE" — Petrolas already owns that word, and a spread
              title is the loudest thing on its page. Repeating it makes two
              projects read as one template. */
           title: "STREET",
-          note: "The identity had to survive where the work happens — signage, workwear, the vehicles. For a workshop the van in the street is the advert, so it was designed as one.",
+          /* Rewritten 2026-08-12. The original line named "the vehicles",
+             and there is no vehicle in the delivered photography — a note
+             that describes work the page cannot show reads as a claim.
+             What the images do show is the workshop, the workwear and the
+             install, so that is what it now says. */
+          note: "The identity had to survive where the work happens — the workshop, the workwear, the site visit. A client meets this business in a half-built villa long before they meet a brochure.",
           layout: "bleeds",
-          assets: [],
+          assets: [
+            {
+              src: "/work/qobban/workshop.jpg",
+              alt: "The Qobban fabrication workshop, benches and stock racked along the span",
+              form: "bleed",
+            },
+            {
+              src: "/work/qobban/site-survey.jpg",
+              alt: "Two Qobban fabricators in branded workwear surveying a villa entrance",
+              form: "bleed",
+            },
+            {
+              src: "/work/qobban/install.jpg",
+              alt: "A Qobban gate leaf being installed against a finished wall",
+              form: "bleed",
+            },
+          ],
         },
         {
           id: "digital",
           label: "03 — Website",
           title: "SITE",
-          note: "A site that shows the craft rather than listing services: fabrication, welding, architectural metalwork and maintenance, presented so a client can tell the standard before they call.",
-          layout: "plates",
-          assets: [],
+          note: "A site that shows the craft rather than listing services: fabrication, welding, architectural metalwork and maintenance, presented so a client can tell the standard before they call. The spirit level runs across the top of the page and tips with the cursor — the mark, made operable.",
+          layout: "bleeds",
+          site: {
+            url: "https://www.qobban.store",
+            label: "Open qobban.store",
+            desktop: {
+              src: "/work/qobban/site-desktop.jpg",
+              alt: "The Qobban homepage: a tipping spirit level above the headline Precision is our standard",
+              form: "bleed",
+            },
+            mobile: {
+              src: "/work/qobban/site-mobile.jpg",
+              alt: "The Qobban homepage on a phone",
+              form: "bleed",
+            },
+          },
+          assets: [
+            {
+              src: "/work/qobban/site-work.jpg",
+              alt: "The selected work section of the Qobban site, projects listed by dimension and location",
+              form: "bleed",
+            },
+            {
+              src: "/work/qobban/gate-villa.jpg",
+              alt: "A Qobban sliding entrance gate in a villa façade at dusk",
+              form: "bleed",
+            },
+            {
+              src: "/work/qobban/level-vial.jpg",
+              alt: "The spirit level vial that opens the Qobban site",
+              form: "bleed",
+            },
+          ],
         },
       ],
     },

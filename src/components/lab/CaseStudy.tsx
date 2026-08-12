@@ -3,6 +3,7 @@ import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import ApertureText from "@/components/lab/ApertureText";
 import FloatingNav from "@/components/lab/FloatingNav";
+import LiveSite from "@/components/lab/LiveSite";
 import type { LabAsset, LabContent, LabPalette, LabProject, LabSpread } from "@/data/lab";
 
 /**
@@ -186,6 +187,14 @@ function Spread({
           {spread.note}
         </p>
       </div>
+
+      {/* The live site, where there is one, above this spread's stills:
+          the thing itself first, the pictures of it second. */}
+      {spread.site && (
+        <div className="mt-10 sm:mt-14">
+          <LiveSite site={spread.site} />
+        </div>
+      )}
 
       <div className="mt-10 sm:mt-14">
         <SpreadAssets spread={spread} palette={palette} pendingLabel={pendingLabel} />

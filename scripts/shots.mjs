@@ -89,6 +89,12 @@ async function overflows(page) {
       if (el.closest(".lab-cursor")) continue;
       const style = getComputedStyle(el);
       if (style.overflowX === "auto" || style.overflowX === "scroll") continue;
+      /* Truncation is a decision, not a defect: `text-overflow: ellipsis`
+         means someone chose to cut this string and show that it was cut.
+         Without this the browser-chrome address bar, which truncates a
+         long URL exactly as a real browser does, reports as clipped at
+         every width. */
+      if (style.textOverflow === "ellipsis") continue;
       found.add(`${el.tagName} "${text.slice(0, 40)}" — ${el.scrollWidth}px in ${el.clientWidth}px`);
     }
     return [...found];
