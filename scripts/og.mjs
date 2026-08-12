@@ -44,7 +44,19 @@ await page.evaluate(() => document.fonts.ready);
 
 const { headline, sub, name } = await page.evaluate(() => ({
   headline: document.querySelector("h1")?.innerText.replace(/\s+/g, " ").trim() ?? "",
-  sub: document.querySelector("[data-hero-tail]")?.innerText.trim() ?? "",
+  /*
+   * The LONGEST hero-tail line, not the first.
+   *
+   * There are two now — the availability/location marker and the line
+   * that says what Ali actually does — and the marker comes first in the
+   * document. Taking [0] put "Taking on new work · Manama, Bahrain" on
+   * the share card, which is true and says nothing about the business.
+   * Length is the cheap discriminator and survives either being reworded.
+   */
+  sub:
+    [...document.querySelectorAll("[data-hero-tail]")]
+      .map((el) => el.innerText.trim())
+      .sort((a, b) => b.length - a.length)[0] ?? "",
   name: document.querySelector("header a span")?.innerText.trim() ?? "",
 }));
 
@@ -58,13 +70,14 @@ await page.evaluate(
         padding:78px 84px;display:flex;flex-direction:column;
         justify-content:space-between;
       ">
+        <!--
+          Ali's real mark, served from /brand/mark.png rather than the
+          rising-sun placeholder this used to draw inline. The share card
+          is the first impression in a DM, so it must not be the one
+          surface still carrying a stand-in logo.
+        -->
         <div style="display:flex;align-items:center;gap:14px;">
-          <svg viewBox="0 0 40 24" width="52" height="31" fill="none"
-               stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-            <path d="M3 21h34"/>
-            <path d="M8 21a12 12 0 0 1 24 0"/>
-            <path d="M20 3v3M31 8l2-2M9 8L7 6"/>
-          </svg>
+          <img src="/brand/mark.png" alt="" style="height:34px;width:auto;display:block;" />
           <span style="font-size:26px;font-weight:700;letter-spacing:-0.01em;">${name}</span>
         </div>
 
