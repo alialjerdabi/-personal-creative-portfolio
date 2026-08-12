@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import FloatingNav from "@/components/lab/FloatingNav";
 import LanyardStage from "@/components/lab/LanyardStage";
-import ProcessStepper from "@/components/lab/ProcessStepper";
 import Reveal from "@/components/ui/Reveal";
 import { labContent } from "@/data/lab";
 
@@ -86,21 +85,16 @@ export default function StudioPage() {
       </div>
 
       {/*
-        The four-card row that used to sit here is gone. It laid the
-        process out as four equal boxes read left to right, which is a
-        grid, not a sequence — and it ended in a button rather than in
-        the ask. The stepper says the same four things in order, and
-        finishes on the enquiry.
+        NO PROCESS SECTION HERE ANY MORE (Ali's call, 2026-08-12).
 
-        Rendered outside the page's own container because it manages its
-        own measure and its own sticky rail.
+        It has been a four-card row, then a scroll-driven stepper, then
+        a press-through one, and none of them earned the space: a client
+        wants to know what it costs, how long it takes and what they end
+        up owning, and "A conversation -> Direction -> Design and build
+        -> Launch" answers none of those. The one line worth keeping —
+        that the work is handed over and owned outright — now sits with
+        the services, where the price is.
       */}
-      <ProcessStepper
-        process={studio.process}
-        contact={labContent.contact}
-        heading="How working together goes."
-        headingId="studio-process"
-      />
     </main>
   );
 }

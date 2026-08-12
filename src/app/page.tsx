@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import HeroScreen from "@/components/lab/HeroScreen";
-import StackShowcase from "@/components/lab/StackShowcase";
+import MuseumScreen from "@/components/lab/MuseumScreen";
 import FloatingNav from "@/components/lab/FloatingNav";
 import ClientStrip from "@/components/lab/ClientStrip";
 import FeaturedWork from "@/components/lab/FeaturedWork";
 import ServiceIndex from "@/components/lab/ServiceIndex";
 import Testimonials from "@/components/lab/Testimonials";
-import ProcessStepper from "@/components/lab/ProcessStepper";
 import PromiseSection from "@/components/lab/PromiseSection";
 import NotesSection from "@/components/lab/NotesSection";
 import ContactClose from "@/components/lab/ContactClose";
@@ -36,7 +35,7 @@ export default function HomePage() {
     <main id="main">
       <FloatingNav content={labContent} />
       <HeroScreen content={labContent} />
-      <StackShowcase content={labContent} />
+      <MuseumScreen content={labContent} />
       {/* Only the work with finished imagery, at full size. The complete
           index lives on /work — see FeaturedWork for why. */}
       <FeaturedWork content={labContent} />
@@ -44,14 +43,6 @@ export default function HomePage() {
       <ClientStrip content={labContent} />
       <Testimonials content={labContent} />
       <ServiceIndex services={labContent.services} />
-      {/* Straight after the services: "what is this actually like to buy"
-          is the question the price list has just raised. */}
-      <ProcessStepper
-        process={labContent.studio.process}
-        contact={labContent.contact}
-        heading="How working together goes."
-        headingId="home-process"
-      />
       {/* What is for sale, then what the visitor ends up with. The promise
           only lands once the services have said what the work actually is. */}
       <PromiseSection promise={labContent.promise} />

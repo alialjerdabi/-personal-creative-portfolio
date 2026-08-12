@@ -38,6 +38,19 @@ function FeaturedCard({
   onOpen: (element: HTMLButtonElement) => void;
 }) {
   const buttonRef = useRef<HTMLButtonElement>(null);
+  /*
+   * A card with a live site LEAVES THE SITE (Ali's call 2026-08-12).
+   *
+   * The popup was a summary of the work; the work is a website, and it
+   * is running right now. Sending someone to a page about it, when the
+   * thing itself is one click away, is the weaker version of the
+   * strongest proof this portfolio has. The branding, the photography
+   * and the case study stay one link further on, at /work.
+   *
+   * Cards without a live site keep the popup, so the interaction only
+   * changes where there is somewhere better to go.
+   */
+  const live = project.live;
   /* `feature` where the square card needs a different still from the
      landscape mosaic tile; `cover` everywhere else. */
   const image = project.feature ?? project.cover;
@@ -61,14 +74,11 @@ function FeaturedCard({
   const ink = hasCover ? "text-white" : "";
   const soft = hasCover ? "text-white/75" : "opacity-70";
 
-  return (
-    <button
-      ref={buttonRef}
-      type="button"
-      data-more-target
-      onClick={() => buttonRef.current && onOpen(buttonRef.current)}
-      className="group block h-full w-full rounded-[1.6rem] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-4"
-    >
+  const shell =
+    "group block h-full w-full rounded-[1.6rem] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-4";
+
+  const face = (
+    <>
       <Tilt amplitude={7}>
         <span
           /*
@@ -141,12 +151,38 @@ function FeaturedCard({
                 {project.name}
               </span>
               <span className={`font-display text-[15px] ${soft}`}>
-                {project.disciplines.join(", ")}
+                {live ? "Open the live site ↗" : project.disciplines.join(", ")}
               </span>
             </span>
           </span>
         </span>
       </Tilt>
+    </>
+  );
+
+  if (live) {
+    return (
+      <a
+        href={live}
+        target="_blank"
+        rel="noreferrer"
+        data-more-target
+        className={shell}
+      >
+        {face}
+      </a>
+    );
+  }
+
+  return (
+    <button
+      ref={buttonRef}
+      type="button"
+      data-more-target
+      onClick={() => buttonRef.current && onOpen(buttonRef.current)}
+      className={shell}
+    >
+      {face}
     </button>
   );
 }

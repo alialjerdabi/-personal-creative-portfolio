@@ -38,6 +38,21 @@ export default function ServiceIndex({ services }: { services: LabContent["servi
           </h2>
         </Reveal>
 
+        {/*
+          What survived the process section.
+          "A conversation → Direction → Design and build → Launch" told a
+          client nothing they were actually asking. This is the part of it
+          that answers a real question, and it belongs beside the prices
+          rather than in a section of its own two screens further down.
+        */}
+        <Reveal delay={70}>
+          <p className="mt-5 max-w-xl font-display text-[clamp(1.05rem,1.5vw,1.2rem)] leading-relaxed text-lab-ink-soft">
+            Every project runs the same way: we agree the direction before
+            anything is designed, I design and build it myself, and it is
+            handed over with a period of support. You own everything.
+          </p>
+        </Reveal>
+
         <div className="mt-12 grid gap-5 sm:mt-16 lg:grid-cols-3">
           {services.items.map((service, index) => (
             <Reveal key={service.index} delay={index * 80}>

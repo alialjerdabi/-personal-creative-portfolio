@@ -44,6 +44,33 @@ export interface ApertureAsset {
 }
 
 /**
+ * One exhibit on the museum screen.
+ *
+ * A discriminated union rather than an optional `video` field, because
+ * the two need different markup — a poster frame is meaningless on a
+ * still, and `alt` on a <video> is not a thing. The screen switches on
+ * `kind` and nothing has to guess.
+ *
+ * Both are wanted: Jitter exports MP4 loops AND animated stills, and a
+ * showreel that can only take one of them would decide Ali's asset
+ * pipeline for him.
+ */
+export type LabMedia =
+  | { kind: "image"; src: string; alt: string }
+  | {
+      kind: "video";
+      src: string;
+      /**
+       * REQUIRED on video, not optional. A muted autoplaying loop shows
+       * nothing at all until it has buffered, and a blank screen in the
+       * middle of a dark room reads as broken rather than as loading.
+       */
+      poster: string;
+      /** Described in text, because a <video> is invisible to a reader. */
+      alt: string;
+    };
+
+/**
  * A site that is live right now, shown in browser chrome.
  *
  * The URL is the point. Everything else on a portfolio is a claim about
@@ -155,6 +182,17 @@ export interface LabProject {
    * shapes genuinely disagree.
    */
   feature?: LabAsset;
+  /**
+   * The site Ali built for this client, if it is live.
+   *
+   * Set here rather than derived from a spread's `site`, because the two
+   * answer different questions: a spread's site is evidence inside a
+   * case study, and this is where the featured card SENDS you. Ali's
+   * call 2026-08-12 — press a card on the homepage and you land on the
+   * real thing, not on a page about it. The branding and the rest of the
+   * assets are what /work is for.
+   */
+  live?: string;
   /** One line of context, shown on the card. */
   summary?: string;
   sector?: string;
@@ -252,11 +290,19 @@ export interface LabContent {
     items: LabService[];
   };
 
-  /** Scroll-scrubbed panel of project stills under the hero. */
+  /**
+   * The museum screen under the hero: one screen in a dark room, pinned
+   * while the page scrolls, cutting between exhibits.
+   *
+   * Replaced the stacked-card showcase 2026-08-12 (Ali's call). Frames
+   * take `media` rather than `image` so a reel and a still are the same
+   * kind of thing to this section — the Jitter exports drop in beside
+   * the photographs without the component changing shape.
+   */
   showcase: {
     label: string;
     heading: string;
-    frames: { image: LabAsset; caption: string; project: string }[];
+    frames: { media: LabMedia; caption: string; project: string }[];
   };
 
   /**
@@ -329,9 +375,12 @@ export interface LabContent {
    * establishes — independent, Manama, three disciplines, end to end. No
    * invented years of experience, employers or education.
    *
-   * The process steps were confirmed by Ali on 2026-08-10 as how he
-   * actually works. They are no longer proposed, and they now drive the
-   * stepper on both the homepage and this page.
+   * No `process` and no `cta` any more. The process section was cut on
+   * 2026-08-12 — it had been a card row, a scroll stepper and a
+   * press-through stepper, and none of them answered what a client
+   * actually asks. The one durable line moved into the services index,
+   * beside the prices. The steps themselves are in git if they are ever
+   * wanted back.
    */
   studio: {
     eyebrow: string;
@@ -340,10 +389,6 @@ export interface LabContent {
     /** Scannable facts beside the bio — never an invented figure. */
     highlights: { value: string; label: string }[];
     badge: { name: string; role: string; location: string; photo?: string; mark?: string };
-    /* No `cta` here any more: the process now ends in the stepper's own
-       fifth panel, which carries WhatsApp and email rather than a button
-       pointing at a section further down. */
-    process: { step: string; title: string; body: string }[];
   };
 
   contact: {
@@ -383,7 +428,7 @@ export const labContent: LabContent = {
     a page that animates the word PRODUCT on entry while offering
     something else at the services index reads as out of date.
   */
-  descriptor: "Brand, Web & Social Design",
+  descriptor: "Brand, Web & Marketing",
   /* Absolute, not bare fragments: the same header renders on case-study
      pages, where "#services" would resolve to nothing. */
   navLinks: [
@@ -453,7 +498,7 @@ export const labContent: LabContent = {
       { kind: "break" },
       { kind: "text", value: "and easy to buy from." },
     ],
-    sub: "Brand identity, websites, and social media design — made and run by one person, end to end.",
+    sub: "Brand identity, websites, and advertising — made and run by one person, end to end.",
     cta: { label: "Start a project", href: "#contact" },
     secondary: { label: "See the work", href: "#work" },
   },
@@ -506,6 +551,9 @@ export const labContent: LabContent = {
     {
       slug: "petrolas",
       name: "Petrolas",
+      /* Preview deployment — swap for the production domain when there
+         is one. This is the link the homepage card sends people to. */
+      live: "https://petrolas-v2-git-feature-process-ignition-redesign-ali-aljardabi.vercel.app/",
       palette: "blue",
       disciplines: ["Branding", "Websites"],
       year: "2026",
@@ -717,6 +765,7 @@ export const labContent: LabContent = {
     {
       slug: "qobban",
       name: "Qobban",
+      live: "https://www.qobban.store",
       palette: "violet",
       disciplines: ["Branding", "Websites"],
       year: "—",
@@ -912,62 +961,95 @@ export const labContent: LabContent = {
            whole "one person, end to end" argument priced. */
         from: "From BHD 400",
       },
+      /*
+        REPOSITIONED 2026-08-12 (Ali's call): "Social media design" became
+        "Marketing & advertising".
+
+        The old name priced the deliverable — templates and posts — and a
+        business buying templates negotiates on templates. This one names
+        the job: campaigns that bring people in. Same work, described at
+        the altitude it is actually practised at, which is what makes a
+        higher number a discussion rather than a refusal.
+
+        Nothing invented: every scope line below is work already
+        evidenced on this site — Kids Island's campaigns, Delivery Point's
+        marketing plan built from market and competitor analysis, and the
+        four campaign films in the reel.
+      */
       {
         index: "03",
-        name: "Social media design",
+        name: "Marketing & advertising",
         palette: "lime",
-        outcome: "Look like yourself every time you post.",
+        outcome: "Be the one they think of, and the one they call.",
         scope: [
-          "Social brand system & templates",
-          "Content & art direction",
-          "Campaign & advertising creative",
-          "Social media management",
-          "Launch campaigns",
+          "Campaign strategy & art direction",
+          "Advertising creative — film, motion, still",
+          "Social brand system & content direction",
+          "Paid campaign creative",
+          "Channel management",
         ],
         from: "From BHD 100",
       },
     ],
   },
 
+  /*
+    THE HALL. Four campaign films Ali directed, supplied 2026-08-12 and
+    re-encoded from 10-15 Mbps down to roughly 1.5 — the sources were
+    720p at about eight times the bitrate that resolution needs, and
+    67MB of homepage is not a portfolio, it is a bill.
+
+    VIDEO ONLY IN THIS SECTION, per Ali. The hall is where the moving
+    work plays; stills live on the cards and inside the case studies.
+
+    CAPTIONS ARE DESCRIPTIVE, NOT ATTRIBUTED. Ali has not said which
+    client each film was made for, and naming one would be inventing a
+    credit. They describe what is on screen until he supplies the real
+    campaigns.
+  */
   showcase: {
     label: "Selected work",
-    heading: "Proof, one frame at a time.",
+    heading: "Four films, directed end to end.",
     frames: [
       {
-        image: {
-          src: "/work/petrolas/booth.jpg",
-          alt: "Petrolas exhibition booth with the full identity applied at trade-show scale",
-          form: "bleed",
+        media: {
+          kind: "video" as const,
+          src: "/reel/ad-01.mp4",
+          poster: "/reel/ad-01.jpg",
+          alt: "A chronograph on the wrist of a sailor working a yacht at sea",
         },
-        caption: "Identity, applied at trade-show scale",
-        project: "Petrolas",
+        caption: "Campaign film — a watch, at sea",
+        project: "Art direction",
       },
       {
-        image: {
-          src: "/work/petrolas/hoarding-wide.jpg",
-          alt: "Petrolas construction hoarding with connected circuit-line graphics",
-          form: "bleed",
+        media: {
+          kind: "video" as const,
+          src: "/reel/ad-02.mp4",
+          poster: "/reel/ad-02.jpg",
+          alt: "A freediver, a gulet at anchor at dusk, and a helmsman under sail",
         },
-        caption: "Environmental graphics, on site",
-        project: "Petrolas",
+        caption: "Campaign film — under sail",
+        project: "Art direction",
       },
       {
-        image: {
-          src: "/work/petrolas/dashboard.jpg",
-          alt: "Petrolas operations dashboard showing live production data",
-          form: "bleed",
+        media: {
+          kind: "video" as const,
+          src: "/reel/ad-03.mp4",
+          poster: "/reel/ad-03.jpg",
+          alt: "A resort pool with slides, floats and a summer crowd, shot from the water and from above",
         },
-        caption: "Operations dashboard, built in the identity",
-        project: "Petrolas",
+        caption: "Campaign film — a resort summer",
+        project: "Art direction",
       },
       {
-        image: {
-          src: "/hero/petrolas-digital.jpg",
-          alt: "Phone on a stone plinth showing Petrolas social content",
-          form: "bleed",
+        media: {
+          kind: "video" as const,
+          src: "/reel/ad-04.mp4",
+          poster: "/reel/ad-04.jpg",
+          alt: "Coloured glass and liquid breaking apart in slow motion against black",
         },
-        caption: "Social and digital, same language",
-        project: "Petrolas",
+        caption: "Campaign film — a material study",
+        project: "Art direction",
       },
     ],
   },
@@ -1097,7 +1179,7 @@ export const labContent: LabContent = {
       scanned instead of read.
     */
     bio: [
-      "I'm Ali. I design brands, websites and social media for small and growing businesses in Bahrain.",
+      "I'm Ali. I build brands, websites and advertising for small and growing businesses in Bahrain.",
       "I work alone, end to end. The person you brief is the person who designs it and the person who builds it — so nothing gets lost between a designer and a developer, and one person is accountable for whether it works.",
     ],
     /*
@@ -1116,11 +1198,11 @@ export const labContent: LabContent = {
          broke the row's rhythm — three values that scan as one rank have
          to be the same kind of thing. The disciplines are still named,
          in the label where they are read rather than counted. */
-      { value: "3", label: "disciplines: brand, web, social" },
+      { value: "3", label: "disciplines: brand, web, marketing" },
     ],
     badge: {
       name: "Ali Aljardabi",
-      role: "Brand, Web & Social",
+      role: "Brand, Web & Marketing",
       location: "Manama, Bahrain",
       /*
         Supplied by Ali 2026-08-10. Cropped square to head-and-shoulders
@@ -1134,29 +1216,6 @@ export const labContent: LabContent = {
       */
       photo: "/studio/ali.jpg",
     },
-    /* Confirmed by Ali 2026-08-10. */
-    process: [
-      {
-        step: "01",
-        title: "A conversation",
-        body: "A call about the business — where it's going, who it's for, and what's getting in the way. Not a pitch.",
-      },
-      {
-        step: "02",
-        title: "Direction",
-        body: "Positioning and visual direction agreed before anything is designed, so the work is judged against a decision rather than a taste.",
-      },
-      {
-        step: "03",
-        title: "Design and build",
-        body: "Designed and built together rather than thrown over a wall — which is why it ends up looking like the design instead of an approximation of it.",
-      },
-      {
-        step: "04",
-        title: "Launch and after",
-        body: "Handover, and a period of support while it settles. You own everything.",
-      },
-    ],
   },
 
   contact: {
