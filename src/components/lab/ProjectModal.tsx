@@ -109,7 +109,17 @@ export default function ProjectModal({
   return (
     <dialog
       ref={dialogRef}
-      aria-labelledby="lab-modal-title"
+      /*
+       * Only while there is something to label.
+       *
+       * The dialog is always in the document but its contents are not —
+       * they render from `project`, which is null until a card is
+       * clicked. A permanent aria-labelledby therefore pointed at an id
+       * that did not exist, which is a broken reference on every page
+       * that mounts the grid, and leaves the dialog unnamed at the exact
+       * moment it opens.
+       */
+      aria-labelledby={project ? "lab-modal-title" : undefined}
       onClick={(event) => {
         // A click that lands on the dialog element itself is a click on
         // the backdrop; anything inside the panel stops here.
