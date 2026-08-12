@@ -27,6 +27,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      /* The work index. Higher priority than /studio: it is the page
+         the homepage now hands most visitors, since only the projects
+         with finished imagery are featured there. */
+      url: `${siteUrl}/work`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: `${siteUrl}/studio`,
       lastModified: new Date(),
       changeFrequency: "yearly",

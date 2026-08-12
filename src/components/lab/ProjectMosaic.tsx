@@ -25,13 +25,11 @@ const FIELD: Record<LabPalette, string> = {
 
 function ProjectCard({
   project,
-  pendingLabel,
   wide,
   priority,
   onOpen,
 }: {
   project: LabProject;
-  pendingLabel: string;
   wide: boolean;
   priority: boolean;
   onOpen: (element: HTMLButtonElement) => void;
@@ -86,16 +84,30 @@ function ProjectCard({
         </span>
       </Tilt>
 
+      {/*
+        The metadata line says what the work WAS, never what the page is
+        missing.
+
+        It used to print "Cover in production" on every project without
+        cover art — five of six, so the phrase appeared five times in one
+        scroll and the grid read as an unfinished portfolio rather than a
+        body of work. The pending state is already carried by the colour
+        panel above; saying it again in words turns a design decision into
+        an apology.
+
+        Every project has real disciplines and a real sector, so there is
+        always something true and useful to print. The year is filtered
+        rather than joined blindly: five of six are still "—", and
+        "Branding · —" reads as a bug.
+      */}
       <span className="mt-4 flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1">
         <span className="font-display text-xl font-bold tracking-[-0.02em] text-lab-ink-warm sm:text-2xl">
           {project.name}
         </span>
         <span className="font-display text-[15px] text-lab-ink-soft">
-          {hasCover
-            ? [project.disciplines.join(", "), project.year]
-                .filter(Boolean)
-                .join(" · ")
-            : pendingLabel}
+          {[project.disciplines.join(", "), project.sector, project.year]
+            .filter((part) => part && part !== "—")
+            .join(" · ")}
         </span>
       </span>
     </button>
@@ -116,7 +128,17 @@ function ProjectCard({
  * the part of a dialog that is invisible when right and disorienting
  * when missing.
  */
-export default function ProjectMosaic({ content }: { content: LabContent }) {
+export default function ProjectMosaic({
+  content,
+  heading = "A few things I’ve made.",
+}: {
+  content: LabContent;
+  /**
+   * Overridden on /work, where this grid is the whole page rather than a
+   * section of one and "A few things" undersells an index of everything.
+   */
+  heading?: string;
+}) {
   const [openProject, setOpenProject] = useState<LabProject | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -133,7 +155,7 @@ export default function ProjectMosaic({ content }: { content: LabContent }) {
               id="lab-work-heading"
               className="max-w-xl font-display text-[clamp(1.9rem,4.2vw,3.25rem)] font-bold leading-[1.1] tracking-[-0.035em] text-lab-ink-warm"
             >
-              A few things I&rsquo;ve made.
+              {heading}
             </h2>
             <p className="font-display text-[15px] text-lab-ink-soft">
               {String(content.projects.length).padStart(2, "0")}{" "}
@@ -155,7 +177,6 @@ export default function ProjectMosaic({ content }: { content: LabContent }) {
                 >
                   <ProjectCard
                     project={project}
-                    pendingLabel={content.lobby.pendingLabel}
                     wide={wide}
                     priority={index === 0}
                     onOpen={(element) => {

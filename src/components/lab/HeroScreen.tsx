@@ -239,6 +239,36 @@ export default function HeroScreen({ content }: { content: LabContent }) {
         </h1>
 
         {/*
+          The fold's only credibility marker, and it sits in the hole.
+          Between the statement and the tail row there was ~300px of
+          nothing at 1600x900 — enough emptiness that the headline read
+          smaller than it is, and the whole first screen was claim with
+          no evidence: no location, no availability, nothing a stranger
+          could weigh.
+
+          Both facts are already in the content layer and already true.
+          Availability in particular was buried in the last section of
+          the page, which is the one place a scarcity signal cannot do
+          any work.
+
+          Part of the tail group so it arrives with the supporting line
+          rather than competing with the sentence for attention.
+        */}
+        <p
+          data-hero-tail
+          className="mx-auto mt-9 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-display text-[15px] text-lab-ink-soft"
+        >
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-lab-lime" />
+            {content.lobby.availability}
+          </span>
+          <span aria-hidden="true" className="opacity-40">
+            ·
+          </span>
+          <span>{content.lobby.location}</span>
+        </p>
+
+        {/*
           `justify-between`, not `justify-center`. Centring the pair left
           the supporting line hard against the left edge and the buttons
           adrift in the middle, with a visible hole on the right — the row

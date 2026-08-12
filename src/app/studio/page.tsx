@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import FloatingNav from "@/components/lab/FloatingNav";
 import LanyardStage from "@/components/lab/LanyardStage";
+import ProcessStepper from "@/components/lab/ProcessStepper";
 import Reveal from "@/components/ui/Reveal";
 import { labContent } from "@/data/lab";
 
@@ -53,21 +53,27 @@ export default function StudioPage() {
               ))}
             </div>
 
-            {/* The badge's own information, in text, for everyone. */}
-            <Reveal delay={360}>
-              <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-lab-hairline pt-7 font-display text-[15px]">
-                <div>
-                  <dt className="text-lab-ink-soft">Name</dt>
-                  <dd className="mt-1 font-bold">{studio.badge.name}</dd>
-                </div>
-                <div>
-                  <dt className="text-lab-ink-soft">Role</dt>
-                  <dd className="mt-1 font-bold">{studio.badge.role}</dd>
-                </div>
-                <div>
-                  <dt className="text-lab-ink-soft">Based in</dt>
-                  <dd className="mt-1 font-bold">{studio.badge.location}</dd>
-                </div>
+            {/*
+              Highlights, where a Name / Role / Based in table used to
+              sit. That table printed the card beside it word for word —
+              three rows restating three lines the visitor had already
+              read, which is why it read as filler rather than as detail.
+
+              The card still carries name, role and location as real DOM
+              text, so nothing here was the only place those facts lived.
+            */}
+            <Reveal delay={300}>
+              <dl className="mt-10 grid gap-6 border-t border-lab-hairline pt-7 sm:grid-cols-3">
+                {studio.highlights.map((item) => (
+                  <div key={item.label}>
+                    <dt className="font-display text-[clamp(1.35rem,2.2vw,1.9rem)] font-bold leading-none tracking-[-0.03em] text-lab-ink-warm">
+                      {item.value}
+                    </dt>
+                    <dd className="mt-2 font-display text-[14px] leading-snug text-lab-ink-soft">
+                      {item.label}
+                    </dd>
+                  </div>
+                ))}
               </dl>
             </Reveal>
           </div>
@@ -77,44 +83,24 @@ export default function StudioPage() {
           </div>
         </div>
 
-        <section aria-labelledby="studio-process" className="mt-24 sm:mt-32">
-          <Reveal>
-            <h2
-              id="studio-process"
-              className="font-display text-[clamp(1.7rem,3.6vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.035em]"
-            >
-              How working together goes.
-            </h2>
-          </Reveal>
-
-          <ol className="mt-10 grid gap-5 sm:mt-14 lg:grid-cols-4">
-            {studio.process.map((step, index) => (
-              <Reveal key={step.step} delay={index * 80}>
-                <li className="flex h-full flex-col rounded-[1.4rem] border border-lab-hairline bg-lab-card/70 p-7">
-                  <span className="font-display text-[13px] font-bold uppercase tracking-[0.14em] text-accent">
-                    {step.step}
-                  </span>
-                  <h3 className="mt-5 font-display text-[1.35rem] font-bold leading-tight tracking-[-0.025em]">
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 font-display text-[16px] leading-relaxed text-lab-ink-soft">
-                    {step.body}
-                  </p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-
-          <Reveal delay={340}>
-            <Link
-              href={studio.cta.href}
-              className="mt-12 inline-block rounded-full bg-lab-ink-warm px-7 py-3.5 font-display text-[15px] font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-2 sm:mt-16"
-            >
-              {studio.cta.label}
-            </Link>
-          </Reveal>
-        </section>
       </div>
+
+      {/*
+        The four-card row that used to sit here is gone. It laid the
+        process out as four equal boxes read left to right, which is a
+        grid, not a sequence — and it ended in a button rather than in
+        the ask. The stepper says the same four things in order, and
+        finishes on the enquiry.
+
+        Rendered outside the page's own container because it manages its
+        own measure and its own sticky rail.
+      */}
+      <ProcessStepper
+        process={studio.process}
+        contact={labContent.contact}
+        heading="How working together goes."
+        headingId="studio-process"
+      />
     </main>
   );
 }

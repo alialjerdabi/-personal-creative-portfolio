@@ -108,6 +108,32 @@ export interface LabProject {
   year: string;
   /** Portrait cover for the rail. Absent until real cover art exists. */
   cover?: LabAsset;
+  /**
+   * The client's own mark, for the badge on the featured card.
+   *
+   * SLOT ONLY UNTIL FILES ARRIVE. Ali has no logo files for any client
+   * yet, so the badge renders only where a logo actually exists — an
+   * empty rounded square on a full-width card reads as an image that
+   * failed to load, which is worse than no badge at all. Drop a file at
+   * `public/work/<slug>/logo.svg` and add it here; nothing else changes.
+   *
+   * A client's mark is theirs. Never draw one, and never substitute an
+   * initial or a generic glyph for one that has not been supplied.
+   */
+  logo?: LabAsset;
+  /**
+   * The still used on the homepage's featured card, when the cover is
+   * the wrong shape for it.
+   *
+   * The featured card is square, per Ali's reference; the mosaic tile is
+   * landscape. A single image cannot serve both without one of them
+   * being butchered — cropping a 1.79 photograph to 1:1 discards 44% of
+   * its width, which on the tanker meant a truck cut off at both ends.
+   *
+   * Falls back to `cover`, so this only needs setting where the two
+   * shapes genuinely disagree.
+   */
+  feature?: LabAsset;
   /** One line of context, shown on the card. */
   summary?: string;
   sector?: string;
@@ -123,6 +149,20 @@ export interface LabService {
   /** The business outcome, in the client's own words — not the deliverable. */
   outcome: string;
   scope: string[];
+  /**
+   * Starting price, supplied by Ali 2026-08-10.
+   *
+   * A number here does two jobs at once: it reassures the business that
+   * can afford it, and it lets the one that cannot disqualify itself
+   * before either of you spends a call finding out. Small businesses
+   * overwhelmingly do the second silently, which is why an absent price
+   * filters nothing and costs real enquiries.
+   *
+   * "From" is doing load-bearing work — these are floors, not quotes,
+   * and every one of them is a real engagement's starting point rather
+   * than a rounded-up number.
+   */
+  from: string;
 }
 
 /**
@@ -182,6 +222,9 @@ export interface LabContent {
 
   projects: LabProject[];
 
+  /** Slugs of the projects on the homepage's featured cards, in order. */
+  featuredWork: string[];
+
   services: {
     label: string;
     heading: string;
@@ -194,14 +237,6 @@ export interface LabContent {
     heading: string;
     frames: { image: LabAsset; caption: string; project: string }[];
   };
-
-  /**
-   * Honest counts only. EMPTY BY DESIGN — the band does not render until
-   * Ali supplies real figures. Never populate this with plausible-looking
-   * numbers; a stats band is the one section on the page whose entire job
-   * is to be believed.
-   */
-  stats: { value: string; label: string }[];
 
   /**
    * Real, publishable client quotes only. EMPTY BY DESIGN — the section
@@ -225,6 +260,19 @@ export interface LabContent {
      * would make the attribution false.
      */
     emphasis: string[];
+    /**
+     * The qualification a figure in the quote cannot travel without.
+     *
+     * A client-reported number and its caveat are one fact. The brief
+     * already requires Delivery Point's 20% / 5% to carry the note that
+     * the three-month plan was not completed — but that note only lived
+     * on the case-study spread, so the homepage rail was quoting the
+     * numbers bare to far more people than ever reached the case study.
+     *
+     * Never a disclaimer written to sound careful: this is the client's
+     * own qualification, in the words already recorded with the figures.
+     */
+    caveat?: string;
   }[];
 
   /**
@@ -260,16 +308,21 @@ export interface LabContent {
    * establishes — independent, Manama, three disciplines, end to end. No
    * invented years of experience, employers or education.
    *
-   * The process steps describe a PROPOSED engagement and need Ali's
-   * confirmation that it is how he actually works before this ships.
+   * The process steps were confirmed by Ali on 2026-08-10 as how he
+   * actually works. They are no longer proposed, and they now drive the
+   * stepper on both the homepage and this page.
    */
   studio: {
     eyebrow: string;
     heading: string;
     bio: string[];
+    /** Scannable facts beside the bio — never an invented figure. */
+    highlights: { value: string; label: string }[];
     badge: { name: string; role: string; location: string; photo?: string; mark?: string };
+    /* No `cta` here any more: the process now ends in the stepper's own
+       fifth panel, which carries WhatsApp and email rather than a button
+       pointing at a section further down. */
     process: { step: string; title: string; body: string }[];
-    cta: { label: string; href: string };
   };
 
   contact: {
@@ -277,6 +330,25 @@ export interface LabContent {
     heading: string;
     email: string;
     body: string;
+    /**
+     * WhatsApp, in international format with no spaces or punctuation —
+     * that is the only shape wa.me accepts.
+     *
+     * Added 2026-08-10 because email was the single channel on the site,
+     * and in Bahrain and the wider Gulf WhatsApp is where business
+     * actually happens. A `mailto:` also asks a desktop visitor to have
+     * a mail client configured, which many do not: that click is a dead
+     * end, and it was the only way to reach him.
+     */
+    whatsapp: string;
+    /**
+     * Instagram handle, without the @.
+     *
+     * For someone selling social media design the feed is portfolio that
+     * already exists — which matters more than usual while five of six
+     * projects are still waiting on cover art.
+     */
+    instagram: string;
   };
 }
 
@@ -294,7 +366,10 @@ export const labContent: LabContent = {
   /* Absolute, not bare fragments: the same header renders on case-study
      pages, where "#services" would resolve to nothing. */
   navLinks: [
-    { label: "Work", href: "/#work" },
+    /* /work, not /#work: the homepage now shows only the projects with
+       finished imagery, so "Work" in the nav has to reach the index
+       rather than the two-card sample of it. */
+    { label: "Work", href: "/work" },
     { label: "Services", href: "/#services" },
     { label: "Studio", href: "/studio" },
     { label: "Contact", href: "/#contact" },
@@ -384,6 +459,20 @@ export const labContent: LabContent = {
     availability: "Taking on new work",
   },
 
+  /**
+   * The two projects on the homepage's featured cards, in order.
+   *
+   * Stated explicitly rather than derived. The first version sorted by
+   * "has cover art, then source order", which quietly made Delivery
+   * Point the second card — a rule that picks for you is a rule that
+   * picks wrong the moment the data shifts, and which of two projects
+   * leads the homepage is an editorial decision, not a computed one.
+   *
+   * Slugs must match entries in `projects`; anything that does not is
+   * dropped rather than rendered as a gap.
+   */
+  featuredWork: ["petrolas", "qobban"],
+
   /*
    * Five entries. Petrolas is complete — cover, metadata, and a full case
    * study. The rest are real engagements Ali named, listed honestly with
@@ -402,10 +491,40 @@ export const labContent: LabContent = {
       sector: "Energy & sustainability",
       summary:
         "A conventional energy business repositioning toward clean energy — given an identity, campaigns, and a digital presence that match where it is actually headed.",
+      /*
+        Changed 2026-08-10 from campaign-plastic.jpg.
+
+        That poster is 418x627 — portrait, and small. Every card that
+        shows a cover is landscape, so it was being centre-cropped to
+        about 45% of itself AND upscaled: on the new full-width featured
+        card it ran at 2.7x its own resolution with the word TURNING
+        sliced in half. This one is 2400x1340, lands within a few percent
+        of every card ratio it has to fill, and shows the identity
+        applied to something real rather than a poster of it.
+
+        The poster is not lost: it is still the first hero still, and it
+        still runs inside the case study.
+      */
       cover: {
-        src: "/work/petrolas/campaign-plastic.jpg",
-        alt: "Petrolas campaign poster: Turning plastic into possibility",
-        form: "plate",
+        src: "/work/petrolas/fleet-systems.jpg",
+        alt: "Petrolas identity applied to a tanker in the company's blue and white",
+        form: "bleed",
+      },
+      /*
+        The stand, not the tanker, on the square featured card. The
+        tanker is a long horizontal object and loses both ends at 1:1;
+        the stand is composed around a centred logo, so a square crop
+        lands on the mark and the reception desk rather than cutting
+        through the subject.
+
+        It also appears in the showcase directly above. Unavoidable while
+        Petrolas is the only project with imagery — the fix is cover art
+        for a second client, not a weaker image here.
+      */
+      feature: {
+        src: "/work/petrolas/booth.jpg",
+        alt: "Petrolas exhibition stand, identity applied at trade-show scale",
+        form: "bleed",
       },
       spreads: [
         {
@@ -645,6 +764,7 @@ export const labContent: LabContent = {
           "Guidelines & applications",
           "Campaign direction",
         ],
+        from: "From BHD 250",
       },
       {
         index: "02",
@@ -658,6 +778,9 @@ export const labContent: LabContent = {
           "Responsive implementation",
           "Launch support",
         ],
+        /* Design AND development — the 400 covers both, which is the
+           whole "one person, end to end" argument priced. */
+        from: "From BHD 400",
       },
       {
         index: "03",
@@ -671,6 +794,7 @@ export const labContent: LabContent = {
           "Social media management",
           "Launch campaigns",
         ],
+        from: "From BHD 100",
       },
     ],
   },
@@ -718,20 +842,6 @@ export const labContent: LabContent = {
     ],
   },
 
-  /*
-    Countable, not claimed. Six is the number of engagements listed in
-    `projects` above and the number of distinct sectors across them — if a
-    project is added or removed, these move with it. "One designer" is the
-    central sales argument and the only one that needs no source.
-
-    No years-of-experience figure: Ali has not given one, and it is the
-    single easiest stat to round upward without noticing.
-  */
-  stats: [
-    { value: "6", label: "brands built" },
-    { value: "6", label: "sectors, logistics to food" },
-    { value: "1", label: "designer, brief to launch" },
-  ],
 
   /*
     Real people, real titles, permission confirmed 2026-08-06; attributions
@@ -759,12 +869,21 @@ export const labContent: LabContent = {
       quote:
         "Ali gave Delivery Point a clearer and more competitive position in the logistics market. His branding and marketing strategy helped differentiate us locally and internationally, increased our reach by approximately 20%, and contributed to approximately 5% sales growth in the first month.",
       name: "Zainab Mohamed",
-      role: "Delivery Point",
+      /* Supplied by Ali 2026-08-10. Until now this read "Delivery Point"
+         — the company, not a job title — which sat beside "CEO, Kids
+         Island" and "CEO, Nextshoot" and made the one quote carrying
+         real numbers look like the least sourced on the page. */
+      role: "Marketing Manager, Delivery Point",
       project: "delivery-point",
       emphasis: [
         "increased our reach by approximately 20%",
         "approximately 5% sales growth in the first month",
       ],
+      /* Ali's own wording, already carried on the case-study spread. The
+         figures are the client's, and the caveat is what makes them
+         believable — it must not be the part that stays behind. */
+      caveat:
+        "The full three-month plan was not completed; those figures cover the implemented period.",
     },
     {
       quote:
@@ -836,20 +955,56 @@ export const labContent: LabContent = {
   studio: {
     eyebrow: "Studio",
     heading: "You'd be working with me. Just me.",
+    /*
+      CUT to two short paragraphs 2026-08-10 (Ali's direction: smaller,
+      simpler, to the point). The third paragraph explained the argument
+      the second one had already made — "fewer people between the idea
+      and the thing" is the same sentence as "nothing gets lost in
+      translation", said again more slowly.
+
+      What is left is the claim and the reason for it. The facts that
+      were buried in the prose now sit in `highlights`, where they can be
+      scanned instead of read.
+    */
     bio: [
-      "I'm Ali. I design brands, websites and social media for small and growing businesses, from Manama, Bahrain.",
-      "I work on my own, end to end. The person you brief is the person who designs it and the person who builds it — nothing is handed down to a junior, and nothing gets lost in translation between a designer and a developer.",
-      "That's the whole reason to hire one person instead of a studio: fewer people between the idea and the thing, and one person who is accountable for whether it actually works.",
+      "I'm Ali. I design brands, websites and social media for small and growing businesses in Bahrain.",
+      "I work alone, end to end. The person you brief is the person who designs it and the person who builds it — so nothing gets lost between a designer and a developer, and one person is accountable for whether it works.",
+    ],
+    /*
+      Facts, not claims — each one is checkable against this site.
+
+      NO YEARS OF EXPERIENCE. It is the number a page like this usually
+      leads with, and it is the one number Ali has not given. An
+      approximate one here would be the same invention the brief forbids
+      everywhere else.
+    */
+    highlights: [
+      { value: "6", label: "brands built, end to end" },
+      { value: "6", label: "sectors, logistics to food" },
+      /* A figure, not the phrase "Brand · Web · Social". Set at the same
+         size as the numbers beside it, that phrase ran to two lines and
+         broke the row's rhythm — three values that scan as one rank have
+         to be the same kind of thing. The disciplines are still named,
+         in the label where they are read rather than counted. */
+      { value: "3", label: "disciplines: brand, web, social" },
     ],
     badge: {
       name: "Ali Aljardabi",
       role: "Brand, Web & Social",
       location: "Manama, Bahrain",
-      /* photo and mark are intentionally absent until Ali supplies the
-         files — the card draws a labelled empty frame rather than a
-         stock face, and falls back to the drawn mark on the reverse. */
+      /*
+        Supplied by Ali 2026-08-10. Cropped square to head-and-shoulders
+        and re-encoded as JPEG — the original is a 5MB full-length PNG,
+        which is ~40x the bytes and, squared from the full frame, put his
+        face at about a fifth of the card.
+
+        `mark` is still absent: the logo is drawn in code until a real
+        SVG exists, and a client's or one's own mark is not something to
+        approximate.
+      */
+      photo: "/studio/ali.jpg",
     },
-    /* PROPOSED — needs Ali's confirmation that this is how he works. */
+    /* Confirmed by Ali 2026-08-10. */
     process: [
       {
         step: "01",
@@ -872,7 +1027,6 @@ export const labContent: LabContent = {
         body: "Handover, and a period of support while it settles. You own everything.",
       },
     ],
-    cta: { label: "Start a conversation", href: "/#contact" },
   },
 
   contact: {
@@ -880,5 +1034,11 @@ export const labContent: LabContent = {
     heading: "Tell me what you're building.",
     email: "alialjardabi@gmail.com",
     body: "A first conversation is a conversation — what the business is, where it's going, and whether the way it looks is keeping up.",
+    /* +973 35665422, Bahrain. Digits only for wa.me. */
+    whatsapp: "97335665422",
+    /* Ali's brand account (2026-08-10). If this handle changes, every
+       copy of the link already sent in a DM breaks — change it here and
+       nowhere else. */
+    instagram: "the_brandgrid",
   },
 };

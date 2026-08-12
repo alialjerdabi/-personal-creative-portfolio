@@ -60,6 +60,19 @@ export default function ServiceIndex({ services }: { services: LabContent["servi
                   {service.outcome}
                 </p>
 
+                {/*
+                  The price, stated. A small business that cannot afford
+                  the work disqualifies itself silently rather than
+                  asking, so an absent number filters nothing and quietly
+                  costs the enquiries that would have converted.
+
+                  "From" is the whole claim — these are floors, not
+                  quotes, and the card must never read as one.
+                */}
+                <p className="mt-4 font-display text-[15px] font-bold text-lab-ink-warm">
+                  {service.from}
+                </p>
+
                 <ul className="mt-7 space-y-2 border-t border-lab-hairline pt-6">
                   {service.scope.map((item) => (
                     <li
@@ -70,6 +83,31 @@ export default function ServiceIndex({ services }: { services: LabContent["servi
                     </li>
                   ))}
                 </ul>
+
+                {/*
+                  Every card ends with a way to act. Read to the bottom of
+                  one of these and the visitor has just decided they have
+                  the problem it describes — until now that was the moment
+                  the page stopped talking.
+
+                  It goes to the enquiry rather than to matching work on
+                  purpose: only two of the three disciplines have a
+                  routable case study (nothing social has one yet), and a
+                  set of cards where the third link is missing reads as
+                  broken rather than as honest.
+                */}
+                <a
+                  href="#contact"
+                  className="group mt-auto inline-flex items-center gap-2 pt-8 font-display text-[15px] font-bold text-lab-ink-warm transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+                >
+                  Start a project
+                  <span
+                    aria-hidden="true"
+                    className="inline-block transition-transform group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </a>
               </article>
             </Reveal>
           ))}

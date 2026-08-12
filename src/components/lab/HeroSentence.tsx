@@ -76,7 +76,25 @@ function ChipCluster({ images }: { images: LabAsset[] }) {
           key={image.src}
           data-hero-chip
           onMouseEnter={() => push(index)}
-          className="relative inline-block h-[0.86em] w-[1.02em] origin-bottom overflow-hidden rounded-[0.14em] bg-lab-haze shadow-[0_4px_18px_rgb(26_23_19/0.18)] ring-1 ring-white/70"
+          /*
+            The stills are the only proof of craft above the fold, and at
+            1.02em they rendered ~90px on a 1600px screen — decoration
+            rather than work.
+
+            The ceiling is set by the line, not by taste: the cluster has
+            to stay on the row "I make businesses" occupies, or the
+            three-line composition becomes four. Measured at 1600, where
+            the inset leaves 1552px and the type sets at 150px, the
+            cluster wraps between 1.12em and 1.16em — but 1.12em then
+            overflowed the h1's own box by 2px, which the overflow audit
+            in scripts/shots.mjs caught. 1.08em is the real ceiling, and
+            it is only a 6% gain.
+
+            MAKING THESE MATERIALLY LARGER IS A COMPOSITION DECISION, not
+            a tuning one — it means accepting the cluster on a row of its
+            own. Ali's call, not a thing to change quietly.
+          */
+          className="relative inline-block h-[0.91em] w-[1.08em] origin-bottom overflow-hidden rounded-[0.15em] bg-lab-haze shadow-[0_4px_18px_rgb(26_23_19/0.18)] ring-1 ring-white/70"
           style={{ transform: REST[index % REST.length] }}
         >
           <Image src={image.src} alt="" aria-hidden="true" fill sizes="200px" className="object-cover" />
@@ -178,7 +196,24 @@ export default function HeroSentence({
         if (token.kind === "arrow") {
           return (
             <span key={tokenIndex} aria-hidden="true">
-              <span data-hero-unit="arrow" data-unit-index={unit++} className="inline-block">
+              {/*
+                Hidden below `lg`, with the hand-placed breaks.
+
+                An arrow is a pointing gesture, and it only reads as one
+                while the thing it points at is still to its right on the
+                same line. Above `lg` the breaks hold the composition and
+                it aims straight at "easy to remember". Below `lg` the
+                breaks switch off, the sentence rewraps, and the arrow
+                ends up at the end of a line pointing into the margin —
+                the same class of defect as the arrowhead that used to
+                fall outside its own viewBox, and just as invisible to
+                everything except looking at it on a phone.
+              */}
+              <span
+                data-hero-unit="arrow"
+                data-unit-index={unit++}
+                className="hidden lg:inline-block"
+              >
                 <DrawnArrow />
               </span>{" "}
             </span>
@@ -187,7 +222,24 @@ export default function HeroSentence({
 
         return (
           <span key={tokenIndex} aria-hidden="true">
-            <span data-hero-unit="chips" data-unit-index={unit++} className="inline-block">
+            {/*
+              Its own row below `lg`, inline from `lg` up.
+
+              Inline on a phone the cluster sets with whatever word the
+              wrap happens to leave beside it — and once the arrow was
+              hidden at this width the freed space pulled "easy" up onto
+              the cluster's line and stranded "to" alone on the next one,
+              which the type rules here forbid outright. As a block it
+              takes a line of its own, the sentence breaks on whole
+              phrases again, and the only proof of craft on a phone's
+              first screen gets a full row instead of a gap between two
+              words.
+            */}
+            <span
+              data-hero-unit="chips"
+              data-unit-index={unit++}
+              className="block lg:inline-block"
+            >
               <ChipCluster images={token.images} />
             </span>{" "}
           </span>

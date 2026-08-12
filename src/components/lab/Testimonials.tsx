@@ -105,6 +105,14 @@ function Panel({
           &rdquo;
         </blockquote>
 
+        {/* Set quietly and directly under the quote, not in a footnote:
+            a caveat that has to be hunted for is not a caveat. */}
+        {testimonial.caveat && (
+          <p className="mt-4 font-display text-[13px] leading-relaxed text-lab-ink-soft/80">
+            {testimonial.caveat}
+          </p>
+        )}
+
         <figcaption className="mt-auto pt-6 font-display text-[14px]">
           <span className="font-bold text-lab-ink-warm">{testimonial.name}</span>
           <span className="text-lab-ink-soft"> — {testimonial.role}</span>

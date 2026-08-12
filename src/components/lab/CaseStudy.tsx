@@ -158,8 +158,19 @@ function Spread({
           has to hold that job on a phone too. Measured against the
           longest title ("CAMPAIGN", which sets 5.12x its own font size)
           it fills 83-90% of the column from 320px up and cannot wrap.
+
+          The CEILING is the part that matters, and 15rem was wrong.
+          The column is capped by max-w-6xl (72rem) less the 2rem gutters
+          — 1088px, and it stops growing at a ~1216px viewport while 15vw
+          keeps going. At 1600 that put CAMPAIGN at 1229px inside 1088px
+          and POSITION at 1119px: both lost their last letter, on the
+          widest and most common desktop width, while reading perfectly
+          at 390 and 1024. 12.5rem holds the longest permitted title at
+          94% of the column, so the cap is set by the container rather
+          than by the viewport. scripts/shots.mjs now fails on any text
+          wider than its own box, which is what would have caught this.
         */}
-        <h2 className="text-[clamp(3rem,15vw,15rem)] font-semibold uppercase leading-[0.86] tracking-[-0.05em]">
+        <h2 className="text-[clamp(3rem,15vw,12.5rem)] font-semibold uppercase leading-[0.86] tracking-[-0.05em]">
           {/* Cut out of this spread's own imagery where it exists; solid
               ink where it does not yet. */}
           {spread.aperture ? (
@@ -183,6 +194,93 @@ function Spread({
   );
 }
 
+/**
+ * This project's own client quote, set against its own colour.
+ *
+ * The quotes already existed, but only on the homepage rail — so the
+ * proof for Delivery Point sat three sections above a page that never
+ * mentioned it, and someone who arrived at the case study from a link
+ * read the whole argument with none of the evidence. A testimonial is
+ * worth most beside the work it describes.
+ *
+ * Renders nothing when the project has no quote. Four of six do.
+ */
+function ClientQuote({
+  testimonial,
+  palette,
+}: {
+  testimonial: LabContent["testimonials"][number];
+  palette: LabPalette;
+}) {
+  return (
+    <Reveal>
+      <figure className={`rounded-[2rem] px-7 py-12 sm:px-14 sm:py-16 ${FIELD[palette]}`}>
+        <blockquote className="max-w-3xl font-display text-[clamp(1.25rem,2.4vw,1.85rem)] font-medium leading-[1.35] tracking-[-0.02em]">
+          &ldquo;{testimonial.quote}&rdquo;
+        </blockquote>
+        {testimonial.caveat && (
+          <p className="mt-5 max-w-2xl font-display text-[14px] leading-relaxed opacity-70">
+            {testimonial.caveat}
+          </p>
+        )}
+        <figcaption className="mt-8 font-display text-[15px]">
+          <span className="font-bold">{testimonial.name}</span>
+          <span className="opacity-70"> — {testimonial.role}</span>
+        </figcaption>
+      </figure>
+    </Reveal>
+  );
+}
+
+/**
+ * The ask, at the bottom of the story.
+ *
+ * A reader who has just finished a case study is the warmest traffic this
+ * site will ever have, and until now the page handed them "← All work"
+ * and a link to a different project — every case study ended by sending
+ * the most convinced visitor somewhere other than the enquiry.
+ *
+ * Deliberately the same words as the homepage close rather than new ones:
+ * this is the same offer, and inventing a second version of it would mean
+ * writing a second promise.
+ */
+function CaseStudyClose({ contact }: { contact: LabContent["contact"] }) {
+  return (
+    <Reveal>
+      <section
+        aria-labelledby="case-study-close"
+        className="rounded-[2rem] bg-lab-ink-warm px-7 py-12 text-white sm:px-14 sm:py-16"
+      >
+        <h2
+          id="case-study-close"
+          className="max-w-2xl font-display text-[clamp(1.6rem,3.4vw,2.5rem)] font-bold leading-[1.1] tracking-[-0.035em]"
+        >
+          {contact.heading}
+        </h2>
+        <p className="mt-4 max-w-xl font-display text-[16px] leading-relaxed text-white/70">
+          {contact.body}
+        </p>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <a
+            href={`https://wa.me/${contact.whatsapp}`}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full bg-white px-7 py-3.5 font-display text-[15px] font-bold text-lab-ink-warm transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-lab-ink-warm"
+          >
+            WhatsApp
+          </a>
+          <a
+            href={`mailto:${contact.email}`}
+            className="rounded-full border border-white/30 px-7 py-3.5 font-display text-[15px] font-bold text-white transition-colors hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-lab-ink-warm"
+          >
+            {contact.email}
+          </a>
+        </div>
+      </section>
+    </Reveal>
+  );
+}
+
 interface CaseStudyProps {
   content: LabContent;
   project: LabProject;
@@ -200,6 +298,10 @@ interface CaseStudyProps {
  * discipline cut out of that spread's own imagery as its title.
  */
 export default function CaseStudy({ content, project, next }: CaseStudyProps) {
+  const testimonial = content.testimonials.find(
+    (entry) => entry.project === project.slug
+  );
+
   return (
     <main id="main" className="min-h-screen bg-lab-air text-lab-ink-warm">
       <FloatingNav content={content} />
@@ -217,10 +319,23 @@ export default function CaseStudy({ content, project, next }: CaseStudyProps) {
 
           <div className="mt-10 grid gap-8 border-t border-current/25 pt-8 sm:mt-14 lg:grid-cols-12 lg:gap-10">
             <dl className="space-y-2.5 font-display text-[15px] lg:col-span-4">
-              <div className="flex gap-4">
-                <dt className="w-20 shrink-0 opacity-60">Year</dt>
-                <dd>{project.year}</dd>
-              </div>
+              {/*
+                Omitted while unknown rather than printed as "—".
+
+                Five of six projects have no year yet, and a metadata
+                table whose first row is a dash reads as a page that
+                failed to load its own data — on the header, above the
+                fold, before anything else has had a chance to speak. The
+                row returns by itself the moment a real year lands in the
+                content layer. A plausible-looking date is still an
+                invented one, and these are real companies.
+              */}
+              {project.year && project.year !== "—" && (
+                <div className="flex gap-4">
+                  <dt className="w-20 shrink-0 opacity-60">Year</dt>
+                  <dd>{project.year}</dd>
+                </div>
+              )}
               {project.sector && (
                 <div className="flex gap-4">
                   <dt className="w-20 shrink-0 opacity-60">Sector</dt>
@@ -254,8 +369,17 @@ export default function CaseStudy({ content, project, next }: CaseStudyProps) {
           ))}
         </div>
 
+        {/* Spaced by the wrapper, so the close sits correctly whether or
+            not this project has a quote to run above it. */}
+        <div className="mt-24 space-y-8 sm:mt-36 sm:space-y-10">
+          {testimonial && (
+            <ClientQuote testimonial={testimonial} palette={project.palette} />
+          )}
+          <CaseStudyClose contact={content.contact} />
+        </div>
+
         <Reveal>
-          <div className="mt-24 flex flex-col gap-6 border-t border-lab-hairline pt-8 sm:mt-36 sm:flex-row sm:items-baseline sm:justify-between">
+          <div className="mt-16 flex flex-col gap-6 border-t border-lab-hairline pt-8 sm:mt-20 sm:flex-row sm:items-baseline sm:justify-between">
             <Link
               href="/#work"
               className="font-display text-[15px] text-lab-ink-soft transition-colors hover:text-lab-ink-warm focus-visible:text-lab-ink-warm focus-visible:outline-none"

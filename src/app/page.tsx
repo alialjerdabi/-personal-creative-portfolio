@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import HeroScreen from "@/components/lab/HeroScreen";
 import StackShowcase from "@/components/lab/StackShowcase";
 import FloatingNav from "@/components/lab/FloatingNav";
-import StatsBand from "@/components/lab/StatsBand";
-import ProjectMosaic from "@/components/lab/ProjectMosaic";
+import ClientStrip from "@/components/lab/ClientStrip";
+import FeaturedWork from "@/components/lab/FeaturedWork";
 import ServiceIndex from "@/components/lab/ServiceIndex";
 import Testimonials from "@/components/lab/Testimonials";
+import ProcessStepper from "@/components/lab/ProcessStepper";
 import PromiseSection from "@/components/lab/PromiseSection";
 import NotesSection from "@/components/lab/NotesSection";
 import ContactClose from "@/components/lab/ContactClose";
@@ -27,8 +28,8 @@ export const metadata: Metadata = {
  * services so the visitor is already convinced by the time they read
  * what is for sale.
  *
- * StatsBand and Testimonials render nothing when their data is empty, so
- * the page can never be padded with proof that does not exist.
+ * ClientStrip and Testimonials render nothing when their data is empty,
+ * so the page can never be padded with proof that does not exist.
  */
 export default function HomePage() {
   return (
@@ -36,10 +37,21 @@ export default function HomePage() {
       <FloatingNav content={labContent} />
       <HeroScreen content={labContent} />
       <StackShowcase content={labContent} />
-      <ProjectMosaic content={labContent} />
-      <StatsBand stats={labContent.stats} />
+      {/* Only the work with finished imagery, at full size. The complete
+          index lives on /work — see FeaturedWork for why. */}
+      <FeaturedWork content={labContent} />
+      {/* Was StatsBand. Names beat counts — see ClientStrip. */}
+      <ClientStrip content={labContent} />
       <Testimonials content={labContent} />
       <ServiceIndex services={labContent.services} />
+      {/* Straight after the services: "what is this actually like to buy"
+          is the question the price list has just raised. */}
+      <ProcessStepper
+        process={labContent.studio.process}
+        contact={labContent.contact}
+        heading="How working together goes."
+        headingId="home-process"
+      />
       {/* What is for sale, then what the visitor ends up with. The promise
           only lands once the services have said what the work actually is. */}
       <PromiseSection promise={labContent.promise} />

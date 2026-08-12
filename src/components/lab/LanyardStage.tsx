@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { LabContent } from "@/data/lab";
 
 /* Was imported from Lanyard.tsx, which is parked outside the compile
@@ -35,18 +36,43 @@ type BadgeIdentity = LabContent["studio"]["badge"];
 export default function LanyardStage({ identity }: { identity: BadgeIdentity }) {
   return (
     <div className="relative flex h-full min-h-[26rem] w-full items-center justify-center p-8">
-      <div className="flex w-[min(17rem,80%)] flex-col items-center gap-4 rounded-[1.1rem] bg-lab-card p-7 text-center shadow-[0_24px_60px_-30px_rgb(26_23_19/0.55)] ring-1 ring-lab-hairline">
+      <div className="flex w-[min(21rem,92%)] flex-col items-center gap-4 rounded-[1.1rem] bg-lab-card p-7 text-center shadow-[0_24px_60px_-30px_rgb(26_23_19/0.55)] ring-1 ring-lab-hairline">
         <span aria-hidden="true" className="h-1.5 w-14 rounded-full bg-lab-hairline" />
 
         {/*
-          A labelled empty frame until Ali supplies a headshot. The page's
-          whole argument is "you would be working with me", so the missing
-          photograph is the one gap worth showing honestly rather than
-          filling with a stock face or an initial.
+          The headshot, once it exists.
+
+          Until then, a labelled empty frame — the page's whole argument
+          is "you would be working with me", so the missing photograph is
+          the one gap worth showing honestly rather than filling with a
+          stock face or an initial.
+
+          The frame matches the photograph's own 3:4 rather than being a
+          square the picture has to survive.
+
+          It was square, and cropped to head-and-shoulders to fill it —
+          Ali asked for the full image instead, and the honest way to
+          show a whole portrait is to stop cropping it, not to letterbox
+          it inside a shape it was never made for. The card grew taller
+          to accommodate it, which is the correct direction: on a page
+          whose entire argument is "you would be working with me", the
+          photograph earns the space.
         */}
-        <span className="flex aspect-square w-full items-center justify-center rounded-[0.7rem] border border-dashed border-lab-hairline text-[13px] text-lab-ink-soft">
-          photo
-        </span>
+        {identity.photo ? (
+          <span className="relative block aspect-[3/4] w-full overflow-hidden rounded-[0.7rem] bg-lab-haze">
+            <Image
+              src={identity.photo}
+              alt={`${identity.name}, ${identity.role}, ${identity.location}`}
+              fill
+              sizes="(max-width: 1024px) 70vw, 21rem"
+              className="object-cover"
+            />
+          </span>
+        ) : (
+          <span className="flex aspect-square w-full items-center justify-center rounded-[0.7rem] border border-dashed border-lab-hairline text-[13px] text-lab-ink-soft">
+            photo
+          </span>
+        )}
 
         <span className="font-display text-lg font-bold leading-tight tracking-[-0.02em] text-lab-ink-warm">
           {identity.name}
