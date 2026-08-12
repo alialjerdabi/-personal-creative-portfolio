@@ -1009,7 +1009,7 @@ export const labContent: LabContent = {
   */
   showcase: {
     label: "Selected work",
-    heading: "Four films, directed end to end.",
+    heading: "Directed end to end.",
     frames: [
       {
         media: {
@@ -1029,16 +1029,6 @@ export const labContent: LabContent = {
           alt: "A freediver, a gulet at anchor at dusk, and a helmsman under sail",
         },
         caption: "Campaign film — under sail",
-        project: "Art direction",
-      },
-      {
-        media: {
-          kind: "video" as const,
-          src: "/reel/ad-03.mp4",
-          poster: "/reel/ad-03.jpg",
-          alt: "A resort pool with slides, floats and a summer crowd, shot from the water and from above",
-        },
-        caption: "Campaign film — a resort summer",
         project: "Art direction",
       },
       {

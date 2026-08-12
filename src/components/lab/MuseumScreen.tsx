@@ -116,6 +116,55 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
     return () => observer.disconnect();
   }, [showcase.frames.length]);
 
+  /*
+   * THE DOLLY-IN.
+   *
+   * Ali's reference does not cut between exhibits from a fixed seat — it
+   * walks you toward the screen. The first frame is a screen on a wall
+   * in a room; by the last, the work fills the viewport and the room is
+   * gone. That push is the sequence, and a version that only cross-fades
+   * is a slideshow in a dark div.
+   *
+   * A scroll handler, not IntersectionObserver, because this needs a
+   * continuous value rather than a threshold — and not ScrollTrigger,
+   * because it reads getBoundingClientRect fresh on every frame and so
+   * cannot hold a stale measurement the way a cached trigger position
+   * can. rAF-throttled and passive, so it never blocks the scroll it is
+   * reading.
+   *
+   * The value goes out as a CSS custom property and CSS does the rest:
+   * one write per frame, no React re-render, and the whole effect
+   * disappears under reduced motion by simply never starting.
+   */
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const rect = root.getBoundingClientRect();
+      const travel = rect.height - window.innerHeight;
+      if (travel <= 0) return;
+      const progress = Math.min(1, Math.max(0, -rect.top / travel));
+      root.style.setProperty("--push", String(progress));
+    };
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   if (showcase.frames.length === 0) return null;
 
   const current = showcase.frames[active];
@@ -126,6 +175,17 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
       aria-labelledby="lab-museum-heading"
       className="relative bg-lab-ink-warm text-white"
     >
+      {/*
+        The sticky context ends HERE, not at the section.
+
+        A sticky element releases at its parent's bottom edge. With the
+        room and the closing text as siblings inside one <section>, the
+        room stayed pinned over the text as it scrolled up — the caption
+        list rose straight through the film. Wrapping the room and its
+        markers in their own box ends the pin exactly where the reel
+        ends, and the text arrives on clean ground.
+      */}
+      <div className="relative">
       {/* The room. Sticky, so it holds while the markers below travel. */}
       {/* pt clears the floating nav, which is fixed and contributes
           nothing to flow — at an even py-16 the "Selected work" label sat
@@ -144,7 +204,15 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
           everything: if a reader never sees the room, they lose nothing
           but the room.
         */}
-        <span aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <span
+          aria-hidden="true"
+          /* The room recedes as you reach the screen. At the far end of
+             the push the walls and lights are almost gone, which is what
+             makes the last frame read as being inside the work rather
+             than as a bigger picture on the same wall. */
+          style={{ opacity: "calc(1 - (var(--push, 0) * 0.9))" }}
+          className="pointer-events-none absolute inset-0"
+        >
           {/* Side walls. Skewed so their inner edges converge toward the
               screen and the eye reads depth rather than two dark bars. */}
           <span className="absolute inset-y-0 -left-[6%] w-[34%] origin-left skew-y-[7deg] bg-[linear-gradient(to_right,rgb(255_255_255/0.10),rgb(255_255_255/0.015))]" />
@@ -165,6 +233,10 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
         <div className="relative mx-auto flex w-full max-w-6xl flex-col">
           <h2
             id="lab-museum-heading"
+            /* Fades with the room. The screen grows past where this sits,
+               so leaving it lit would put the gallery's own label on top
+               of the film. */
+            style={{ opacity: "calc(1 - (var(--push, 0) * 1.6))" }}
             className="font-display text-[13px] font-bold uppercase tracking-[0.14em] text-white/45"
           >
             {showcase.label}
@@ -182,7 +254,24 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
             width means it fills a short laptop and a tall monitor
             equally, and never pushes anything out of the room.
           */}
-          <div className="relative mx-auto mt-5 aspect-[16/10] h-[58svh] max-h-full w-auto max-w-full overflow-hidden rounded-[1.1rem] bg-black shadow-[0_60px_140px_-50px_rgb(0_0_0/0.9)] ring-1 ring-white/12 sm:mt-6">
+          <div
+            /*
+              `--push` runs 0 -> 1 across the section. The screen grows
+              from a framed object in the room to something close to
+              full-bleed, and its corners square off as it arrives — a
+              rounded rectangle reads as a card, a hard edge reads as a
+              picture you are standing in front of.
+
+              scale(), not width/height: a transform is composited and
+              costs nothing per frame, where animating box size would
+              relayout the whole section on every scroll event.
+            */
+            style={{
+              transform: "scale(calc(1 + (var(--push, 0) * 0.42)))",
+              borderRadius: "calc(1.1rem - (var(--push, 0) * 0.85rem))",
+            }}
+            className="relative mx-auto mt-5 aspect-[16/10] h-[58svh] max-h-full w-auto max-w-full overflow-hidden bg-black shadow-[0_60px_140px_-50px_rgb(0_0_0/0.9)] ring-1 ring-white/12 will-change-transform sm:mt-6"
+          >
             {showcase.frames.map((frame, index) => (
               <Exhibit
                 key={frame.media.src}
@@ -192,8 +281,14 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
             ))}
           </div>
 
-          {/* The label beside the work, the way a gallery captions a wall. */}
-          <div className="mt-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 sm:mt-6">
+          {/* The label beside the work, the way a gallery captions a wall.
+              It fades out with the room for the same reason the section
+              label does — by the end of the push the screen has grown
+              over this line, and a caption behind a film is a mistake. */}
+          <div
+            style={{ opacity: "calc(1 - (var(--push, 0) * 1.6))" }}
+            className="relative z-10 mt-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 sm:mt-6"
+          >
             <p className="font-display text-[clamp(1rem,1.6vw,1.25rem)] font-bold tracking-[-0.02em]">
               {current.project}
               <span className="font-normal text-white/55"> — {current.caption}</span>
@@ -225,6 +320,7 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
         {showcase.frames.map((frame) => (
           <div key={frame.media.src} data-museum-marker className="h-[80svh]" />
         ))}
+      </div>
       </div>
 
       {/*
