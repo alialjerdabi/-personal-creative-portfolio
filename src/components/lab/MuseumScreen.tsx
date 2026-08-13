@@ -210,7 +210,7 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
              the push the walls and lights are almost gone, which is what
              makes the last frame read as being inside the work rather
              than as a bigger picture on the same wall. */
-          style={{ opacity: "calc(1 - (var(--push, 0) * 0.9))" }}
+          style={{ opacity: "calc(1 - (var(--push, 0) * 1.25))" }}
           className="pointer-events-none absolute inset-0"
         >
           {/* Side walls. Skewed so their inner edges converge toward the
@@ -236,7 +236,7 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
             /* Fades with the room. The screen grows past where this sits,
                so leaving it lit would put the gallery's own label on top
                of the film. */
-            style={{ opacity: "calc(1 - (var(--push, 0) * 1.6))" }}
+            style={{ opacity: "calc(1 - (var(--push, 0) * 2.4))" }}
             className="font-display text-[13px] font-bold uppercase tracking-[0.14em] text-white/45"
           >
             {showcase.label}
@@ -267,8 +267,19 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
               relayout the whole section on every scroll event.
             */
             style={{
-              transform: "scale(calc(1 + (var(--push, 0) * 0.42)))",
-              borderRadius: "calc(1.1rem - (var(--push, 0) * 0.85rem))",
+              /*
+                0.72 -> 1.90, not 1.00 -> 1.42.
+                The first version measured 835px wide at the start and
+                1186px at the end, spread over 2436px of scrolling —
+                about 15% growth per screen-height, which is below the
+                threshold at which a person notices anything is moving
+                at all. Ali could not see it, and he was right not to.
+                It now starts as a screen across a room and ends filling
+                the viewport, which is the distance the reference
+                actually travels.
+              */
+              transform: "scale(calc(0.72 + (var(--push, 0) * 1.18)))",
+              borderRadius: "calc(1.1rem - (var(--push, 0) * 1rem))",
             }}
             className="relative mx-auto mt-5 aspect-[16/10] h-[58svh] max-h-full w-auto max-w-full overflow-hidden bg-black shadow-[0_60px_140px_-50px_rgb(0_0_0/0.9)] ring-1 ring-white/12 will-change-transform sm:mt-6"
           >
@@ -286,7 +297,7 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
               label does — by the end of the push the screen has grown
               over this line, and a caption behind a film is a mistake. */}
           <div
-            style={{ opacity: "calc(1 - (var(--push, 0) * 1.6))" }}
+            style={{ opacity: "calc(1 - (var(--push, 0) * 2.4))" }}
             className="relative z-10 mt-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 sm:mt-6"
           >
             <p className="font-display text-[clamp(1rem,1.6vw,1.25rem)] font-bold tracking-[-0.02em]">
@@ -318,7 +329,7 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
       */}
       <div aria-hidden="true">
         {showcase.frames.map((frame) => (
-          <div key={frame.media.src} data-museum-marker className="h-[80svh]" />
+          <div key={frame.media.src} data-museum-marker className="h-[62svh]" />
         ))}
       </div>
       </div>
