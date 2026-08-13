@@ -580,19 +580,24 @@ export const labContent: LabContent = {
         form: "bleed",
       },
       /*
-        The stand, not the tanker, on the square featured card. The
-        tanker is a long horizontal object and loses both ends at 1:1;
-        the stand is composed around a centred logo, so a square crop
-        lands on the mark and the reception desk rather than cutting
-        through the subject.
+        Replaced 2026-08-14 with Ali's own presentation mockup — the
+        Petrolas site on a laptop, shot on a blue bench in a dark room.
+        Matches what Qobban's card does, and for the same reason: the two
+        sit side by side on the homepage, and a pair of presentation
+        mockups reads as a portfolio while a trade-show photograph next
+        to a laptop reads as two unrelated things.
 
-        It also appears in the showcase directly above. Unavoidable while
-        Petrolas is the only project with imagery — the fix is cover art
-        for a second client, not a weaker image here.
+        Cropped from 1448x1086 to a 1086 square starting at x=117 rather
+        than a centred x=181 — that centres the LAPTOP rather than the
+        frame, which keeps the machine whole and drops the amber glass
+        prop instead of slicing it.
+
+        The stand is not lost: booth.jpg still opens the identity spread
+        inside the case study.
       */
       feature: {
-        src: "/work/petrolas/booth.jpg",
-        alt: "Petrolas exhibition stand, identity applied at trade-show scale",
+        src: "/work/petrolas/feature-square.jpg",
+        alt: "The Petrolas website on a laptop, its headline reading Waste is not the end. It is potential.",
         form: "bleed",
       },
       spreads: [
