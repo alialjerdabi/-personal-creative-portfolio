@@ -164,19 +164,30 @@ write it as continuing to work together, not as an upsell.
 A perfectionist who is always learning and trying new approaches and
 solutions. True, and he is comfortable saying it.
 
-#### 8. Years — PENDING, DO NOT GUESS
+#### 8. Years — STILL PENDING, DO NOT GUESS
 
-7+ years of experience as of 2026-08-14. Ali chose to express this as a
-**start year the site counts from**, so it never goes stale — but the
-year itself has not been supplied yet.
+Ali chose to express this as a **start year the site counts from**, so it
+never goes stale. Two figures are on the table and they disagree:
 
-**Leave the years figure out entirely until Ali gives the year.** Do not
-compute it, do not approximate it, and do not write "7+" as a literal.
+- He described his experience as **7+ years** (2026-08-14).
+- He gave the anchor as **mid-2020**, when he finished the first design
+  course he bought — which is **six years and one month** as of
+  2026-08-14, not seven.
 
-This also lifts a standing rule: `src/data/lab.ts` carries a comment
-saying a years figure is the one number Ali has never given. That comment
-is now out of date — update it when the year lands, and note that
-`highlights` may take a fourth stat at that point.
+**Unresolved.** The likely explanation is that the anchor is wrong rather
+than the figure: he was already doing graphic design and social coverage
+for the family business as a part-time manager and student, and a bought
+course reads as something taken to improve work already underway. If that
+work started in 2019 or earlier, 7+ holds.
+
+**Until Ali confirms a single year, leave the years figure off the page
+entirely.** Do not compute it from mid-2020, do not write "7+" as a
+literal, and do not split the difference. This is the one number on a
+page about not inflating things, and a prospect can do the subtraction.
+
+When the year lands: `src/data/lab.ts` carries a comment stating that a
+years figure is the one number Ali has never given. Update it, and note
+that `highlights` may take a fourth stat at that point.
 
 ## Traps that apply here
 
