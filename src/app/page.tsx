@@ -9,6 +9,7 @@ import Testimonials from "@/components/lab/Testimonials";
 import PromiseSection from "@/components/lab/PromiseSection";
 import NotesSection from "@/components/lab/NotesSection";
 import ContactClose from "@/components/lab/ContactClose";
+import ApertureLoader from "@/components/lab/ApertureLoader";
 import { labContent } from "@/data/lab";
 
 export const metadata: Metadata = {
@@ -31,23 +32,37 @@ export const metadata: Metadata = {
  * so the page can never be padded with proof that does not exist.
  */
 export default function HomePage() {
+  const videoSources = labContent.showcase.frames.flatMap(({ media }) =>
+    media.kind === "video" ? [media.src] : []
+  );
+  const posterSources = labContent.showcase.frames.flatMap(({ media }) =>
+    media.kind === "video" ? [media.poster] : []
+  );
+  const heroSources = labContent.hero.tokens.flatMap((token) =>
+    token.kind === "chips" ? token.images.map((image) => image.src) : []
+  );
+  const imageSources = [...new Set([...posterSources, ...heroSources])];
+
   return (
-    <main id="main">
-      <FloatingNav content={labContent} />
-      <HeroScreen content={labContent} />
-      <MuseumScreen content={labContent} />
-      {/* Only the work with finished imagery, at full size. The complete
-          index lives on /work — see FeaturedWork for why. */}
-      <FeaturedWork content={labContent} />
-      {/* Was StatsBand. Names beat counts — see ClientStrip. */}
-      <ClientStrip content={labContent} />
-      <Testimonials content={labContent} />
-      <ServiceIndex services={labContent.services} />
-      {/* What is for sale, then what the visitor ends up with. The promise
-          only lands once the services have said what the work actually is. */}
-      <PromiseSection promise={labContent.promise} />
-      <NotesSection notes={labContent.notes} />
-      <ContactClose content={labContent} />
-    </main>
+    <>
+      <ApertureLoader imageSources={imageSources} videoSources={videoSources} />
+      <main id="main">
+        <FloatingNav content={labContent} />
+        <HeroScreen content={labContent} />
+        <MuseumScreen content={labContent} />
+        {/* Only the work with finished imagery, at full size. The complete
+            index lives on /work — see FeaturedWork for why. */}
+        <FeaturedWork content={labContent} />
+        {/* Was StatsBand. Names beat counts — see ClientStrip. */}
+        <ClientStrip content={labContent} />
+        <Testimonials content={labContent} />
+        <ServiceIndex services={labContent.services} />
+        {/* What is for sale, then what the visitor ends up with. The promise
+            only lands once the services have said what the work actually is. */}
+        <PromiseSection promise={labContent.promise} />
+        <NotesSection notes={labContent.notes} />
+        <ContactClose content={labContent} />
+      </main>
+    </>
   );
 }

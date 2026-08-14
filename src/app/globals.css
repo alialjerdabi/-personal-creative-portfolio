@@ -465,13 +465,11 @@ body {
 
 /*
  * Loader failsafe. The overlay is server-rendered so there is no flash of
- * hero before it mounts — which means it must be able to clear itself
- * without JavaScript ever running. This animation is the only thing
- * guaranteeing that: it ends in visibility:hidden regardless. When GSAP
- * is available it cancels this animation on the first frame and drives
- * the real sequence instead (see lab/MaskLoader.tsx).
+ * the hero before hydration. Without JavaScript this short animation is
+ * what guarantees the overlay still clears itself; the client component
+ * cancels it before taking ownership of the real asset-driven sequence.
  */
-@keyframes lab-loader-failsafe {
+@keyframes aperture-loader-failsafe {
   0%,
   88% {
     opacity: 1;
@@ -482,17 +480,83 @@ body {
   }
 }
 
-#mask-loader {
-  animation: lab-loader-failsafe 3.4s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+#aperture-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  pointer-events: none;
+  background: #000;
+  animation: aperture-loader-failsafe 4.2s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+html[data-aperture-seen="true"] #aperture-loader {
+  display: none;
+}
+
+.aperture-loader__window {
+  position: absolute;
+  left: calc(50vw - 23.4909vh);
+  top: 37.94vh;
+  width: 47.0861vh;
+  height: 25.82vh;
+  overflow: hidden;
+  transform-origin: left top;
+  background: var(--lab-air);
+  will-change: transform;
+}
+
+.aperture-loader__counter {
+  position: absolute;
+  left: clamp(0.75rem, 1.25vw, 1.25rem);
+  bottom: clamp(0.75rem, 1.25vw, 1.25rem);
+  color: var(--lab-ink-warm);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: clamp(0.625rem, 0.75vw, 0.75rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+/* If the viewport is wider than the wide render, the image is width-bound. */
+@media (min-aspect-ratio: 1672/941) {
+  .aperture-loader__window {
+    left: 36.78vw;
+    top: calc(50vh - 6.786vw);
+    width: 26.5vw;
+    height: 14.5318vw;
+  }
 }
 
 /*
- * Reduced motion: no loading sequence at all. The brief's "immediate
- * fallback" — the overlay is removed from the box tree before paint, so
- * these visitors land directly on the composition.
+ * Tall render measurement: black screen x=334..787, y=485..815 in the
+ * 1122x1402 source. The cover-crop formula preserves the 1.37 ratio.
+ */
+@media (orientation: portrait) {
+  .aperture-loader__window {
+    left: calc(50vw - 16.191vh);
+    top: 34.5934vh;
+    width: 32.3818vh;
+    height: 23.6091vh;
+  }
+}
+
+@media (orientation: portrait) and (min-aspect-ratio: 1122/1402) {
+  .aperture-loader__window {
+    left: 29.7683vw;
+    top: calc(50vh - 19.251vw);
+    width: 40.4635vw;
+    height: 29.5004vw;
+  }
+}
+
+/*
+ * Reduced motion: no loading sequence at all. The overlay leaves the box
+ * tree before paint, so these visitors land directly on the composition.
  */
 @media (prefers-reduced-motion: reduce) {
-  #mask-loader {
+  #aperture-loader {
     display: none;
   }
 }

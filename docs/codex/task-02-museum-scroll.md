@@ -83,8 +83,8 @@ unmounts. Keep that property.
   elements for anything outside the container.
 - **Turbopack serves stale CSS.** Computed value ≠ file value means delete
   `.next` and restart.
-- The homepage already carries ~8.8MB of video. Two more full-bleed
-  images is real weight — state what you added.
+- The homepage already carries 6.51MB of video across three films. Two
+  more full-bleed images is real weight — state what you added.
 
 ## Done means
 

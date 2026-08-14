@@ -40,8 +40,12 @@ ceiling line.
 ## What it must load
 
 Real progress, not a fake timer. The weight this exists for is the
-homepage video: four films in `public/reel/` at roughly 8.8MB total, plus
-the hero stills. Drive the counter off actual decode/load events for the
+homepage video: **three** films in `public/reel/` at 6.51MB total, plus
+the hero stills.
+
+> Corrected 2026-08-14. This spec originally said four films / 8.8MB,
+> inherited from a summary written before `ad-03` was deleted in
+> `36ce3a2`. Codex caught it. Three is right. Drive the counter off actual decode/load events for the
 film posters and hero stills. A timer that finishes before the assets do
 is worse than no loader, because it hands over to a page that then stalls.
 
