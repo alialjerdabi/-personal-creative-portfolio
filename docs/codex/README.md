@@ -9,7 +9,7 @@ each for Ali's review.
 | `task-02` | museum scroll + morph, and the board | ready |
 | `task-03` | /studio becomes /about | Part A ready, Part B needs one number |
 | `task-04` | drag the testimonial rail | ready |
-| `task-05` | replace the films | blocked — one of three files missing |
+| `task-05` | replace the films | ready — all three confirmed |
 
 That gating is not ceremony. Shipping several things and reviewing them
 together is what produced six rounds of rework on the predecessor project,
