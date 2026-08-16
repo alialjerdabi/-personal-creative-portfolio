@@ -1015,35 +1015,54 @@ export const labContent: LabContent = {
   showcase: {
     label: "Selected work",
     heading: "Directed end to end.",
+    /*
+      Films replaced 2026-08-16 with the set Ali supplied.
+
+      TWO OF THESE ARE ONE AD. watch-01 and watch-02 are two cuts of the
+      same film — same yacht, same man, same grade — and the captions say
+      so. Running them as two separate campaigns would claim three
+      campaigns where there are two, which is the same invention the
+      honesty rules forbid everywhere else. Two cuts of one film is still
+      three exhibits of craft, and it is true.
+
+      Re-encoded from 48.5MB of source to 5.00MB at CRF 25, which is
+      lighter than the 6.51MB set it replaces and sharper. The weight
+      matters more than it used to: ApertureLoader now waits on real
+      bytes, so the homepage's video budget IS the loading time.
+
+      Posters are sampled from mid-film, never frame zero. The opening
+      frame of the watch cut does not show the watch, and captioning from
+      a poster is what produced a wrong caption once already.
+    */
     frames: [
       {
         media: {
           kind: "video" as const,
-          src: "/reel/ad-01.mp4",
-          poster: "/reel/ad-01.jpg",
-          alt: "A chronograph on the wrist of a sailor working a yacht at sea",
+          src: "/reel/watch-01.mp4",
+          poster: "/reel/watch-01.jpg",
+          alt: "A classic yacht at anchor at dusk, then under sail with her helmsman at the wheel",
         },
-        caption: "Campaign film — a watch, at sea",
+        caption: "Campaign film, cut one — under sail",
         project: "Art direction",
       },
       {
         media: {
           kind: "video" as const,
-          src: "/reel/ad-02.mp4",
-          poster: "/reel/ad-02.jpg",
-          alt: "A freediver, a gulet at anchor at dusk, and a helmsman under sail",
+          src: "/reel/watch-02.mp4",
+          poster: "/reel/watch-02.jpg",
+          alt: "A chronograph on the yacht's cabin table, then on the wrist at the helm",
         },
-        caption: "Campaign film — under sail",
+        caption: "Campaign film, cut two — the watch itself",
         project: "Art direction",
       },
       {
         media: {
           kind: "video" as const,
-          src: "/reel/ad-04.mp4",
-          poster: "/reel/ad-04.jpg",
-          alt: "Coloured glass and liquid breaking apart in slow motion against black",
+          src: "/reel/fragrance.mp4",
+          poster: "/reel/fragrance.jpg",
+          alt: "A burgundy fragrance bottle wrapped in a gold serpent, in candlelight",
         },
-        caption: "Campaign film — a material study",
+        caption: "Campaign film — a fragrance",
         project: "Art direction",
       },
     ],
