@@ -543,13 +543,42 @@ html[data-aperture-seen="true"] #aperture-loader {
  * the frame does not inflate along with the picture.
  */
 .museum-board {
-  border-radius: 0.15vmin;
+  /*
+   * content-box so the border is drawn OUTSIDE the measured aperture.
+   * The exhibit has to keep that box exactly — it is the same rectangle
+   * the loader expands from — so the frame grows away from it rather
+   * than eating into it.
+   */
+  box-sizing: content-box;
+  border-style: solid;
+  border-width: 1vmin;
+  /* Pull the border box back by its own width so the frame grows evenly
+     on all four sides. Without this, `left`/`top` position the BORDER
+     edge and the hole ends up a border-width down and to the right of
+     the film it is supposed to be framing. */
+  margin: -1vmin;
   background: #0b0a09;
+
+  /*
+   * Lit per edge, not uniformly. The room's light comes from two ceiling
+   * strips, and its floor is polished — so the top edge takes the direct
+   * light, the sides fall off, and the bottom edge picks up the bounce
+   * off the floor. That bottom edge is the one Ali circled in the
+   * reference: it is what tells you the panel has thickness and is
+   * standing in a room rather than printed on the wall.
+   *
+   * A first pass used a uniform dark ring and was invisible — it was
+   * darker than the wall behind it, so it read as more shadow instead of
+   * as an edge.
+   */
+  border-top-color: #4c473f;
+  border-right-color: #383430;
+  border-left-color: #383430;
+  border-bottom-color: #5a544b;
+
   box-shadow:
-    0 0 0 0.62vmin #17140f,
-    0 0.16vmin 0 0.62vmin rgb(255 255 255 / 0.11),
-    0 1.1vmin 2.4vmin rgb(0 0 0 / 0.5),
-    0 3.2vmin 7vmin rgb(0 0 0 / 0.45);
+    0 0.9vmin 2vmin rgb(0 0 0 / 0.55),
+    0 2.6vmin 6vmin rgb(0 0 0 / 0.4);
 }
 
 .aperture-loader__counter {
