@@ -67,6 +67,42 @@ async function settle(page) {
 }
 
 /**
+ * A sticky scroll scene needs two frames to prove that it moves and that the
+ * handoff stays aligned. Capture the hall before the push, then halfway through
+ * its own sticky track (not halfway through the following caption list).
+ */
+async function museumFrames(page, slug, name) {
+  const metrics = await page.evaluate(() => {
+    const track = document.querySelector("[data-museum-track]");
+    if (!(track instanceof HTMLElement)) return null;
+
+    const top = track.getBoundingClientRect().top + window.scrollY;
+    return {
+      top,
+      travel: Math.max(0, track.offsetHeight - window.innerHeight),
+    };
+  });
+
+  if (!metrics) return;
+
+  await page.evaluate((top) => window.scrollTo(0, top), metrics.top);
+  await page.waitForTimeout(350);
+  await page.screenshot({ path: `${OUT}/${slug}__${name}__museum-rest.png` });
+
+  await page.evaluate(
+    ({ top, travel }) => window.scrollTo(0, top + travel * 0.5),
+    metrics
+  );
+  await page.waitForTimeout(350);
+  await page.screenshot({ path: `${OUT}/${slug}__${name}__museum-mid.png` });
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  // Returning to the fold wakes the hero's spring-backed chips. Give them the
+  // same settling window as the initial page walk before auditing overflow.
+  await page.waitForTimeout(900);
+}
+
+/**
  * Text wider than the box it sits in.
  *
  * A screenshot shows this only if you happen to look at the right band at
@@ -125,6 +161,10 @@ for (const route of routes) {
     await page.screenshot({ path: `${OUT}/${slug}__${name}__fold.png` });
 
     await settle(page);
+
+    if (route === "/") {
+      await museumFrames(page, slug, name);
+    }
 
     for (const line of await overflows(page)) {
       clipped.push(`${route} @ ${w}  ${line}`);

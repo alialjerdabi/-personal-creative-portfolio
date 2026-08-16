@@ -494,15 +494,25 @@ html[data-aperture-seen="true"] #aperture-loader {
   display: none;
 }
 
-.aperture-loader__window {
-  position: absolute;
+.aperture-loader__window,
+.museum-screen-aperture {
   left: calc(50vw - 23.4909vh);
   top: 37.94vh;
   width: 47.0861vh;
   height: 25.82vh;
+}
+
+.aperture-loader__window {
+  position: absolute;
   overflow: hidden;
   transform-origin: left top;
   background: var(--lab-air);
+  will-change: transform;
+}
+
+.museum-screen-aperture {
+  position: absolute;
+  overflow: hidden;
   will-change: transform;
 }
 
@@ -521,7 +531,8 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 /* If the viewport is wider than the wide render, the image is width-bound. */
 @media (min-aspect-ratio: 1672/941) {
-  .aperture-loader__window {
+  .aperture-loader__window,
+  .museum-screen-aperture {
     left: 36.78vw;
     top: calc(50vh - 6.786vw);
     width: 26.5vw;
@@ -534,16 +545,19 @@ html[data-aperture-seen="true"] #aperture-loader {
  * 1122x1402 source. The cover-crop formula preserves the 1.37 ratio.
  */
 @media (orientation: portrait) {
-  .aperture-loader__window {
+  .aperture-loader__window,
+  .museum-screen-aperture {
     left: calc(50vw - 16.191vh);
     top: 34.5934vh;
     width: 32.3818vh;
     height: 23.6091vh;
   }
+
 }
 
 @media (orientation: portrait) and (min-aspect-ratio: 1122/1402) {
-  .aperture-loader__window {
+  .aperture-loader__window,
+  .museum-screen-aperture {
     left: 29.7683vw;
     top: calc(50vh - 19.251vw);
     width: 40.4635vw;

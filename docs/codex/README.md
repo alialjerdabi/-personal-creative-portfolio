@@ -1,7 +1,15 @@
 # Codex task specs
 
-One file per task. Build them **in order, one at a time** — `task-01`, then
-`task-02`, then `task-03` — and stop after each for Ali's review.
+One file per task. Build them **in order, one at a time**, and stop after
+each for Ali's review.
+
+| | | |
+|---|---|---|
+| `task-01` | aperture loading screen | done, reviewed, committed `6171ce0` |
+| `task-02` | museum scroll + morph, and the board | ready |
+| `task-03` | /studio becomes /about | Part A ready, Part B needs one number |
+| `task-04` | drag the testimonial rail | ready |
+| `task-05` | replace the films | blocked — one of three files missing |
 
 That gating is not ceremony. Shipping several things and reviewing them
 together is what produced six rounds of rework on the predecessor project,

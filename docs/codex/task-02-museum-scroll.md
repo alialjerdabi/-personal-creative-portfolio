@@ -86,10 +86,39 @@ unmounts. Keep that property.
 - The homepage already carries 6.51MB of video across three films. Two
   more full-bleed images is real weight — state what you added.
 
+## AMENDMENT — the board, added 2026-08-16
+
+Ali's request: **give the video card a board**, matching a reference frame
+he marked up. What he circled is the bottom-left corner of the screen in
+that reference, where the panel's edge catches the room light and shows
+its thickness.
+
+So the exhibit is not a flat rectangle cut into the wall. It is a panel
+mounted on the wall, with a visible frame and apparent depth — an edge
+that reads as a physical object in the room.
+
+**Both hall renders already contain such a frame.** `wide.jpg` and
+`tall.jpg` show the screen recessed in a bezel. The board you draw has to
+line up with the one in the render, or the exhibit will sit inside a
+frame-within-a-frame. Measure it, do not eyeball it.
+
+**This affects the loader.** `ApertureLoader` opens from the aperture at
+36.78% / 37.94% / 26.50% x 25.82% on `wide.jpg` (portrait values in
+`globals.css`). Those coordinates are the **screen**, not the board. If
+adding the board moves where the video sits, the loader hands off to a
+screen that has moved. Either keep the video in the measured aperture and
+draw the board around it, or update the loader's coordinates to match —
+and say which you did.
+
 ## Done means
 
 `npx tsc --noEmit` clean, `npx eslint src --max-warnings=0` clean,
 `node scripts/shots.mjs` from PowerShell, and **the PNGs opened** at
 390 / 1024 / 1600. A pinned scroll effect cannot be verified from a single
-frame — capture the room at rest and mid-push and look at both. Report the
-bundle cost of any library you installed.
+frame — capture the room at rest and mid-push and look at both.
+
+Also verify the handoff: load the homepage in a fresh session so the
+loader runs, and confirm the aperture expands from exactly where the
+room's screen sits. A visible jump between the two is a failure.
+
+Report the bundle cost of any library you installed.
