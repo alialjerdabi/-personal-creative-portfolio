@@ -1234,9 +1234,11 @@ export const labContent: LabContent = {
 
   contact: {
     label: "Contact",
-    heading: "Tell me what you're building.",
+    /* Curly apostrophe. This line is now set at 3.75rem uppercase in the
+       close, where a straight quote is unmissable. */
+    heading: "Tell me what you’re building.",
     email: "alialjardabi@gmail.com",
-    body: "A first conversation is a conversation — what the business is, where it's going, and whether the way it looks is keeping up.",
+    body: "A first conversation is a conversation — what the business is, where it’s going, and whether the way it looks is keeping up.",
     /* +973 35665422, Bahrain. Digits only for wa.me. */
     whatsapp: "97335665422",
     /* Ali's brand account (2026-08-10). If this handle changes, every

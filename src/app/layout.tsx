@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk, Geist_Mono, Nunito } from "next/font/google";
 import { siteUrl } from "@/lib/site";
+import WhatsAppButton from "@/components/lab/WhatsAppButton";
+import { labContent } from "@/data/lab";
 import "./globals.css";
 
 const schibstedGrotesk = Schibsted_Grotesk({
@@ -92,6 +94,10 @@ export default function RootLayout({
           Skip to content
         </a>
         {children}
+        {/* Every page, every scroll position. Last in the body so it is
+            last in the tab order — a button fixed over the whole site
+            must not be the first thing a keyboard user meets. */}
+        <WhatsAppButton number={labContent.contact.whatsapp} />
       </body>
     </html>
   );

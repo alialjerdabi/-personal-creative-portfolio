@@ -841,3 +841,592 @@ html[data-aperture-seen="true"] #aperture-loader {
     opacity: 1;
   }
 }
+
+/*
+ * ---------------------------------------------------------------------
+ * The persistent WhatsApp button (Ali, 2026-08-16)
+ * ---------------------------------------------------------------------
+ *
+ * Dark, not WhatsApp green. The green is instantly recognisable and
+ * instantly someone else's — a green pill fixed over every page of a
+ * portfolio reads as an embedded widget rather than as part of the site.
+ * The glyph carries the recognition on its own.
+ *
+ * It expands on hover and on focus to name what it does, because an
+ * unlabelled floating circle is a guess.
+ */
+.wa-fab {
+  position: fixed;
+  right: clamp(1rem, 2.5vw, 2rem);
+  bottom: clamp(1rem, 2.5vw, 2rem);
+  z-index: 60;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+
+  height: 3.5rem;
+  padding: 0 1.15rem;
+  border-radius: 999px;
+
+  background: var(--lab-ink-warm);
+  color: #fff;
+  box-shadow: 0 10px 30px -10px rgb(19 23 30 / 0.55);
+
+  /* Held back until the script releases it, so it does not fly in over a
+     page that is still assembling. No JS, no animation — it is simply
+     there, which is the correct fallback for the site's main CTA. */
+  opacity: 0;
+  transform: translateY(0.75rem) scale(0.92);
+  transition:
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 220ms ease;
+}
+
+.wa-fab[data-shown] {
+  opacity: 1;
+  transform: none;
+}
+
+.wa-fab__mark {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+}
+
+/*
+ * Always visible from tablet up, hidden entirely on a phone.
+ *
+ * It used to collapse to max-width:0 and open on hover. Two problems:
+ * hover does not exist on touch, where this button matters most, and a
+ * permanently clipped label is a real defect rather than an effect —
+ * scripts/shots.mjs flagged it as 129px of text in a 61px box on every
+ * route. An icon-only circle on a phone is at least honest about being
+ * an icon, and it still carries its accessible name.
+ */
+.wa-fab__label {
+  display: none;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .wa-fab {
+    gap: 0.6rem;
+  }
+
+  .wa-fab__label {
+    display: inline;
+  }
+}
+
+.wa-fab:hover,
+.wa-fab:focus-visible {
+  background: var(--lab-orange);
+}
+
+
+.wa-fab:focus-visible {
+  outline: 2px solid var(--lab-ink-warm);
+  outline-offset: 3px;
+}
+
+.wa-fab:active {
+  transform: scale(0.96);
+}
+
+/*
+ * A slow breath, so a page nobody is scrolling still offers the door.
+ *
+ * Drawn with box-shadow, NOT a scaled element. A transformed descendant
+ * contributes to its ancestor's scrollable overflow, so the earlier
+ * scale(1.28) ring made the anchor report 179px of content in a 157px
+ * box — scripts/shots.mjs flagged it as clipped text on every route, and
+ * it was right to. A shadow costs no layout.
+ */
+.wa-fab__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wa-fab[data-shown] .wa-fab__ring {
+    animation: wa-fab-breath 3.8s ease-out infinite;
+  }
+}
+
+@keyframes wa-fab-breath {
+  0% {
+    box-shadow: 0 0 0 0 rgb(255 90 31 / 0.55);
+  }
+  55%,
+  100% {
+    box-shadow: 0 0 0 0.75rem rgb(255 90 31 / 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-fab {
+    transition: background-color 220ms ease;
+  }
+}
+
+/*
+ * ---------------------------------------------------------------------
+ * The placard — the site's one shared label
+ * ---------------------------------------------------------------------
+ *
+ * The hall already captions its exhibits this way, and the site had four
+ * other eyebrow treatments doing the same job differently. One device,
+ * used everywhere a section names itself, is most of what "unified"
+ * means in practice.
+ */
+.lab-placard {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lab-ink-soft);
+}
+
+/* ------------------------------- services ------------------------------ */
+
+.lab-service-statement {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(2.1rem, 6vw, 4.25rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--lab-ink-warm);
+}
+
+.lab-service-link {
+  /* inline-flex, not flex: a block-level link stretches to the column,
+     so the active state's 0.3rem shift pushed it past its own parent at
+     every column width. Sized to its content, the shift has room. */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.9375rem;
+  color: var(--lab-ink-soft);
+  transition: color 260ms ease, transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-service-link__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  flex: none;
+  opacity: 0.35;
+  transform: scale(0.8);
+  transition: opacity 300ms ease, transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-service-link__num {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.55;
+}
+
+.lab-service-link[data-active] {
+  color: var(--lab-ink-warm);
+  font-weight: 700;
+  transform: translateX(0.3rem);
+}
+
+.lab-service-link[data-active] .lab-service-link__dot {
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+.lab-service-link:hover {
+  color: var(--lab-ink-warm);
+}
+
+.lab-service-link:focus-visible {
+  outline: 2px solid var(--lab-orange);
+  outline-offset: 3px;
+  border-radius: 0.35rem;
+}
+
+/*
+ * The stack. Each panel pins lower than the last, so scrolling gathers
+ * them rather than passing them. The card needs an opaque field or the
+ * panel underneath shows through the moment they overlap.
+ */
+.lab-service-panel {
+  position: sticky;
+  list-style: none;
+}
+
+.lab-service-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.6rem;
+  border: 1px solid var(--lab-hairline);
+  background: var(--lab-card);
+  padding: clamp(1.6rem, 3.5vw, 2.75rem);
+  box-shadow: 0 18px 50px -30px rgb(19 23 30 / 0.5);
+  transition: box-shadow 420ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-service-panel:hover .lab-service-card {
+  box-shadow: 0 26px 70px -34px rgb(19 23 30 / 0.6);
+}
+
+/* The project's colour, as an edge rather than a dot — the same idea as
+   the board in the hall: a lit edge is what gives a flat panel depth. */
+.lab-service-card__edge {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.3rem;
+  transform: scaleY(0.35);
+  transform-origin: top;
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-service-panel:hover .lab-service-card__edge,
+.lab-service-card:focus-within .lab-service-card__edge {
+  transform: scaleY(1);
+}
+
+.lab-service-card__num {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--lab-ink-warm);
+  opacity: 0.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.lab-service-card__price {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--lab-ink-warm);
+}
+
+.lab-service-card__name {
+  margin-top: 0.6rem;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--lab-ink-warm);
+}
+
+.lab-service-card__outcome {
+  margin-top: 0.9rem;
+  max-width: 34ch;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--lab-ink-soft);
+}
+
+/*
+ * Scope lines arrive in sequence when the panel does. `--i` is set per
+ * item in the component; the delay is a plain multiplication rather than
+ * a script, so this costs nothing at runtime.
+ */
+.lab-service-scope {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--lab-ink-soft);
+}
+
+.lab-service-scope__tick {
+  width: 0.75rem;
+  height: 1px;
+  flex: none;
+  background: var(--lab-ink-warm);
+  opacity: 0.35;
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lab-service-panel .lab-service-scope {
+    opacity: 0;
+    transform: translateY(0.4rem);
+    animation: lab-scope-in 560ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--i) * 60ms);
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+}
+
+@keyframes lab-scope-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lab-service-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2.25rem;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--lab-ink-warm);
+  transition: color 240ms ease;
+}
+
+.lab-service-cta:hover,
+.lab-service-cta:focus-visible {
+  color: var(--lab-orange);
+}
+
+.lab-service-cta:focus-visible {
+  outline: 2px solid var(--lab-orange);
+  outline-offset: 4px;
+  border-radius: 0.4rem;
+}
+
+/* -------------------------------- close -------------------------------- */
+
+.lab-placard--inverted {
+  color: rgb(255 255 255 / 0.6);
+}
+
+.lab-close {
+  border-radius: 2rem;
+  background: var(--lab-ink-warm);
+  color: #fff;
+  padding: clamp(1.75rem, 5vw, 3.5rem) clamp(1.75rem, 5vw, 3.5rem)
+    clamp(2rem, 5vw, 4rem);
+}
+
+.lab-close__pulse {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--lab-lime);
+  flex: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lab-close__pulse {
+    animation: lab-close-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes lab-close-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgb(198 242 78 / 0.5);
+  }
+  55% {
+    opacity: 0.75;
+    box-shadow: 0 0 0 0.35rem rgb(198 242 78 / 0);
+  }
+}
+
+.lab-close__heading {
+  margin-top: 1.75rem;
+  max-width: 18ch;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(2rem, 5.2vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.lab-close__body {
+  margin-top: 1.25rem;
+  max-width: 46ch;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.7);
+}
+
+/*
+ * Three channels, one shape. Equal size is the point: the page does not
+ * get to decide which one a business replies on.
+ */
+.lab-channels {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 2.75rem;
+}
+
+@media (min-width: 640px) {
+  .lab-channels {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.lab-channel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  background: rgb(255 255 255 / 0.04);
+  padding: 1.35rem 1.35rem 1.2rem;
+  transition:
+    background-color 320ms ease,
+    border-color 320ms ease,
+    transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-channel:hover,
+.lab-channel:focus-visible {
+  background: rgb(255 255 255 / 0.08);
+  border-color: rgb(255 255 255 / 0.3);
+  transform: translateY(-0.25rem);
+}
+
+.lab-channel:focus-visible {
+  outline: 2px solid var(--lab-orange);
+  outline-offset: 3px;
+}
+
+/* The lit edge again — the board's device, at panel scale. */
+.lab-channel__edge {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
+  background: var(--lab-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-channel:hover .lab-channel__edge,
+.lab-channel:focus-visible .lab-channel__edge {
+  transform: scaleX(1);
+}
+
+.lab-channel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: rgb(255 255 255 / 0.45);
+}
+
+.lab-channel__num {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+}
+
+.lab-channel__mark {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.lab-channel__label {
+  margin-top: 1.6rem;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.lab-channel__value {
+  margin-top: 0.3rem;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.9375rem;
+  color: rgb(255 255 255 / 0.72);
+  word-break: break-word;
+}
+
+.lab-channel__note {
+  margin-top: 0.9rem;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.8125rem;
+  color: rgb(255 255 255 / 0.42);
+}
+
+.lab-channel__arrow {
+  margin-top: 1.1rem;
+  font-size: 1.1rem;
+  color: rgb(255 255 255 / 0.5);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), color 320ms ease;
+}
+
+.lab-channel:hover .lab-channel__arrow,
+.lab-channel:focus-visible .lab-channel__arrow {
+  transform: translateX(0.4rem);
+  color: #fff;
+}
+
+.lab-footer-link {
+  position: relative;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.9375rem;
+  color: var(--lab-ink-soft);
+  transition: color 240ms ease;
+}
+
+.lab-footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.2rem;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-footer-link:hover,
+.lab-footer-link:focus-visible {
+  color: var(--lab-ink-warm);
+}
+
+.lab-footer-link:hover::after,
+.lab-footer-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/*
+ * A covered panel settles back rather than being cropped. The stack is
+ * meant to read as cards gathering in depth; without this, the card
+ * underneath simply gets its last line cut off by the one arriving,
+ * which looks like a layout fault rather than an effect.
+ */
+.lab-service-card {
+  /* --covered is written per frame by ServiceIndex: 0 when the panel is
+     clear, 1 when the next card has fully buried it. Scale and opacity
+     ride it continuously, so a card recedes exactly as much as it is
+     covered instead of snapping at a threshold. */
+  transform: scale(calc(1 - (var(--covered, 0) * 0.045)));
+  /* Brightness, NOT opacity. These cards overlap by design and each one
+     is an opaque field; fading a covered card makes it translucent and
+     the card beneath ghosts straight through its headline. Darkening
+     reads as the shadow it would actually be under, and keeps the field
+     solid. */
+  filter: brightness(calc(1 - (var(--covered, 0) * 0.16)));
+}
