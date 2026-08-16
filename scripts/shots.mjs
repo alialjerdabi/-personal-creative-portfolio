@@ -23,7 +23,7 @@ const OUT = ".shots";
 const ROUTES = [
   "/",
   "/work",
-  "/studio",
+  "/about",
   "/services",
   "/contact",
   "/work/petrolas",

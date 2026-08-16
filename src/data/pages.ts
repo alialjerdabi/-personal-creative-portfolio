@@ -238,3 +238,108 @@ export const contactPage = {
     },
   ] as FaqEntry[],
 };
+
+/**
+ * /about — the person, and the honest case against hiring him.
+ *
+ * Every fact below came from Ali directly on 2026-08-14. Two things are
+ * deliberately held back, both on his instruction:
+ *
+ * - THE FAMILY BUSINESS IS NOT NAMED. It is a client on this site, and he
+ *   chose to tell the story without connecting the two.
+ * - NO YEARS FIGURE. He said 7+ years and, separately, gave an anchor of
+ *   mid-2020 — six years and change. Unresolved, so it is absent rather
+ *   than rounded. See docs/codex/task-03-about-page.md §8.
+ *
+ * The client in the "expensive lesson" is not one of the six named on
+ * this site (confirmed), so the story runs — with nothing that could
+ * identify them.
+ */
+export const aboutPage = {
+  metaTitle: "About Ali Aljardabi — Independent Designer in Manama, Bahrain",
+  metaDescription:
+    "I build brands, websites and advertising for small and growing businesses in Bahrain — research, design and build, all by one person. Here is how I work, and when you should hire an agency instead.",
+  keywords: [
+    "Ali Aljardabi",
+    "independent designer Bahrain",
+    "freelance brand designer Manama",
+    "solo designer Bahrain",
+    "brand strategist Bahrain",
+    "designer and developer Bahrain",
+  ],
+
+  placard: "About",
+
+  /* Sections, in the order a stranger needs them: who, where it came
+     from, why him, when NOT him, and what he refuses. */
+  origin: {
+    placard: "Where it started",
+    heading: "It started as a side hustle, in a family that had them.",
+    body: [
+      "My mother painted walls as a side hustle. My father performed magic shows as one. I went along with him from the age of eight, and I have been around people making things for an audience for as long as I can remember.",
+      "The work itself started at a family business. I was a part-time store manager and an IT student when my father moved on to other ventures, and I stepped in to market the store. It began as graphic design and social coverage.",
+      "It grew the moment I understood what marketing actually does — that it is the difference between a good business and a busy one, and that the same thinking works on selling yourself as a service. I have been doing it for other people ever since.",
+    ],
+  },
+
+  approach: {
+    placard: "How I think",
+    heading: "Creative and strategic first. Technical second.",
+    body: [
+      "I am a jack of all trades whose specialty is the creative and strategic side rather than the technical one. That is not a hedge — it is the reason one person can carry a project from research through to a built website without it falling apart in the middle.",
+      "It also means I pick things up quickly. Being around real businesses since childhood, and putting myself into every kind of project since, means I can usually work out what a business actually needs faster than a process designed to work it out for me.",
+      "I am a perfectionist, and I am always trying new approaches rather than repeating the one that worked last time.",
+    ],
+  },
+
+  /*
+   * THE COUNTER-CASE. Ali's own answer, unprompted, to "when should
+   * someone hire an agency instead" — and the single most valuable thing
+   * on this page.
+   *
+   * A solo designer naming the case against himself is worth more than
+   * any superlative, and it disqualifies the wrong enquiries before they
+   * reach his inbox, which is the whole job of the convert stage.
+   */
+  agency: {
+    placard: "When not to hire me",
+    heading: "Hire an agency when you need a team.",
+    body: [
+      "If what you need is a full team of specialists — several people, each deep in their own discipline, all learning fast and properly equipped with current tooling — an agency will serve you better than I will. That is a real advantage and I am not going to pretend otherwise.",
+      "What I have not seen, in the years I have been doing this in Bahrain, is an agency delivering this range at this speed and this level of accuracy for what I charge. Research through to build, by the person you briefed. That is the trade: fewer hands, no translation losses, one person accountable.",
+    ],
+  },
+
+  line: {
+    placard: "Where I draw the line",
+    heading: "I will tell you if I think it will not work.",
+    body: [
+      "I do not do poor work, and I will not take a client who wants to pay me to make a decision I already know will not get a result. Every creative decision has to be pointed at an outcome, or it is decoration someone is paying for.",
+      "I learned that expensively. Early on I took a client and did whatever they asked, exactly as they asked it. It damaged my reputation and it burned their money, and both of those were my fault for not saying so at the start.",
+      "Now the limits get set during exploration and research, in writing, before anything is designed. If I think an idea will not work, I say it then — rather than waste your budget and my time finding out slowly.",
+    ],
+  },
+
+  faq: [
+    {
+      q: "Do you actually work alone?",
+      a: "Yes. Research, strategy, design and build are all mine. The person you brief is the person who designs it and the person who builds it, and there is one person accountable for whether it works.",
+    },
+    {
+      q: "When should I hire an agency instead of you?",
+      a: "When you need a full team of specialists working in parallel — several people, each deep in their own discipline. That is a genuine advantage an agency has and I will tell you so rather than take the brief anyway.",
+    },
+    {
+      q: "Where are you based, and who do you work with?",
+      a: "Manama, Bahrain. Small and growing businesses — the clients on this site run across logistics, energy, fabrication, family entertainment, food and beverage, and creative services.",
+    },
+    {
+      q: "Will you tell me if you disagree with my idea?",
+      a: "Yes, during exploration and before anything is designed. I would rather lose the argument early than spend your budget proving the point slowly.",
+    },
+    {
+      q: "What do I end up owning?",
+      a: "Everything. Every asset is handed over at the end, with a meeting to make sure you can carry it on without me, plus templates and extra assets.",
+    },
+  ] as FaqEntry[],
+};

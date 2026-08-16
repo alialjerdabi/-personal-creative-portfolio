@@ -437,7 +437,7 @@ export const labContent: LabContent = {
        rather than the two-card sample of it. */
     { label: "Work", href: "/work" },
     { label: "Services", href: "/services" },
-    { label: "Studio", href: "/studio" },
+    { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ],
   navCta: { label: "Start a project", href: "/#contact" },

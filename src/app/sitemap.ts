@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      /* The work index. Higher priority than /studio: it is the page
+      /* The work index. Higher priority than /about: it is the page
          the homepage now hands most visitors, since only the projects
          with finished imagery are featured there. */
       url: `${siteUrl}/work`,
@@ -38,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       /* The two search-facing pages. `/services` carries the money
          keywords and the prices, so it ranks above the work index; both
-         sit above /studio, which is read after someone is interested
+         sit above /about, which is read after someone is interested
          rather than before. */
       url: `${siteUrl}/services`,
       lastModified: new Date(),
@@ -52,7 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${siteUrl}/studio`,
+      url: `${siteUrl}/about`,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.7,

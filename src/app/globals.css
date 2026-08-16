@@ -1585,3 +1585,31 @@ html[data-aperture-seen="true"] #aperture-loader {
     transform: translateY(-0.4rem);
   }
 }
+
+.lab-stat {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(1.5rem, 2.6vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--lab-ink-warm);
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Inverted variants for the dark chapters.
+ *
+ * NOT Tailwind's `text-white`. These component classes are appended after
+ * Tailwind's utility layer, so on equal specificity source order decides
+ * and the class wins — which put --lab-ink-warm on a --lab-ink-warm
+ * ground and made the /about "when not to hire me" heading completely
+ * invisible. The body text under it was #6b6459 on near-black, which is
+ * legible in the sense that it is technically there.
+ */
+.lab-page-heading--inverted {
+  color: #fff;
+}
+
+.lab-prose--inverted {
+  color: rgb(255 255 255 / 0.72);
+}

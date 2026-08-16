@@ -40,6 +40,18 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: SECURITY_HEADERS }];
   },
+  /**
+   * /studio became /about on 2026-08-16.
+   *
+   * PERMANENT, and not optional. That URL has already gone out in DMs and
+   * proposals, and a 404 on a link a prospect was personally sent is a
+   * lost enquiry — the most expensive kind of broken link there is. A 308
+   * also hands the accumulated ranking to the new URL instead of
+   * discarding it.
+   */
+  async redirects() {
+    return [{ source: "/studio", destination: "/about", permanent: true }];
+  },
 };
 
 export default nextConfig;
