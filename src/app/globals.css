@@ -494,8 +494,23 @@ html[data-aperture-seen="true"] #aperture-loader {
   display: none;
 }
 
-.aperture-loader__window,
-.museum-screen-aperture {
+/*
+ * Where the hall's screen is.
+ *
+ * ONE definition, three users: the loader opens from it, the museum's
+ * exhibit comes to rest in it, and the board frames it. They were three
+ * copies of the same four numbers until 2026-08-16, which is three
+ * chances for a silent half-pixel disagreement that reads as a jump on
+ * every first visit.
+ *
+ * Measured from the renders themselves, not chosen. The screen is a
+ * fixed rectangle inside an image that is object-fit: cover, so the units
+ * have to follow whichever axis the cover crop binds — vh while the
+ * viewport is narrower than the render, vw once it is wider. Each media
+ * query below is one of those two cases, per render.
+ */
+.hall-aperture {
+  position: absolute;
   left: calc(50vw - 23.4909vh);
   top: 37.94vh;
   width: 47.0861vh;
@@ -503,7 +518,6 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .aperture-loader__window {
-  position: absolute;
   overflow: hidden;
   transform-origin: left top;
   background: var(--lab-air);
@@ -511,9 +525,31 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .museum-screen-aperture {
-  position: absolute;
   overflow: hidden;
   will-change: transform;
+}
+
+/*
+ * The board — Ali's request, 2026-08-16, from a marked-up reference.
+ *
+ * What he circled was the bottom-left corner of the screen in that
+ * reference, where the panel's edge catches the room light and shows its
+ * thickness. So this is not a border: it is a panel with a face, a lit
+ * lower edge, and a shadow that seats it against the wall.
+ *
+ * It sits BELOW the exhibit in the DOM on purpose. While the film is at
+ * cover scale it is completely covered and cannot be seen; the ring only
+ * emerges as the film shrinks back into its frame. It never scales, so
+ * the frame does not inflate along with the picture.
+ */
+.museum-board {
+  border-radius: 0.15vmin;
+  background: #0b0a09;
+  box-shadow:
+    0 0 0 0.62vmin #17140f,
+    0 0.16vmin 0 0.62vmin rgb(255 255 255 / 0.11),
+    0 1.1vmin 2.4vmin rgb(0 0 0 / 0.5),
+    0 3.2vmin 7vmin rgb(0 0 0 / 0.45);
 }
 
 .aperture-loader__counter {
@@ -531,8 +567,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 /* If the viewport is wider than the wide render, the image is width-bound. */
 @media (min-aspect-ratio: 1672/941) {
-  .aperture-loader__window,
-  .museum-screen-aperture {
+  .hall-aperture {
     left: 36.78vw;
     top: calc(50vh - 6.786vw);
     width: 26.5vw;
@@ -545,8 +580,7 @@ html[data-aperture-seen="true"] #aperture-loader {
  * 1122x1402 source. The cover-crop formula preserves the 1.37 ratio.
  */
 @media (orientation: portrait) {
-  .aperture-loader__window,
-  .museum-screen-aperture {
+  .hall-aperture {
     left: calc(50vw - 16.191vh);
     top: 34.5934vh;
     width: 32.3818vh;
@@ -556,8 +590,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 @media (orientation: portrait) and (min-aspect-ratio: 1122/1402) {
-  .aperture-loader__window,
-  .museum-screen-aperture {
+  .hall-aperture {
     left: 29.7683vw;
     top: calc(50vh - 19.251vw);
     width: 40.4635vw;
@@ -667,9 +700,40 @@ html[data-aperture-seen="true"] #aperture-loader {
  * anyone without CSS animation get something they can still read and
  * operate, rather than a broken marquee.
  */
+/*
+ * The rail is ALWAYS a real scroller. Rewritten 2026-08-16 so it can be
+ * grabbed (Ali's request).
+ *
+ * It used to be two different things: a scroller under reduced motion,
+ * and an `overflow: hidden` box with a transform-animated track
+ * otherwise. Drag moves `scrollLeft`, and the second arrangement has no
+ * scroll position to move — so the drift and the drag would have been
+ * fighting over the same pixels, with the drag losing silently.
+ *
+ * Now one mechanism moves it, whatever is doing the moving: the drift,
+ * a dragged pointer, a trackpad, or focus entering a panel. See
+ * lab/DragRail.tsx. The seam stays invisible because the track is still
+ * doubled and the scroll position wraps at the halfway mark.
+ *
+ * `overscroll-behavior-x: contain` stops a horizontal throw at the end of
+ * the rail from turning into a browser back-swipe.
+ */
 .lab-rail {
   overflow-x: auto;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+}
+
+.lab-rail[data-dragging] {
+  cursor: grabbing;
+  /* Stop the drag from selecting the quotes it passes over. */
+  user-select: none;
+}
+
+.lab-rail:focus-visible {
+  outline: 2px solid var(--lab-orange);
+  outline-offset: 4px;
 }
 
 .lab-rail::-webkit-scrollbar {
@@ -680,33 +744,6 @@ html[data-aperture-seen="true"] #aperture-loader {
   display: flex;
   width: max-content;
   align-items: stretch;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .lab-rail {
-    overflow-x: hidden;
-  }
-
-  .lab-rail-track {
-    animation: lab-rail-drift 64s linear infinite;
-  }
-
-  /* A marquee nobody can stop is unreadable. Hover pauses it; focus-within
-     pauses it for keyboard users, who would otherwise be tabbing into a
-     moving target. */
-  .lab-rail:hover .lab-rail-track,
-  .lab-rail:focus-within .lab-rail-track {
-    animation-play-state: paused;
-  }
-}
-
-@keyframes lab-rail-drift {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
 }
 
 /*

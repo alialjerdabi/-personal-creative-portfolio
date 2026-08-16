@@ -202,7 +202,7 @@ export default function ApertureLoader({
       <script dangerouslySetInnerHTML={{ __html: SESSION_BOOTSTRAP }} />
       {visible ? (
         <div ref={overlayRef} id="aperture-loader" aria-hidden="true" inert={true}>
-          <div ref={apertureRef} className="aperture-loader__window">
+          <div ref={apertureRef} className="hall-aperture aperture-loader__window">
             <span ref={counterRef} className="aperture-loader__counter">
               00%
             </span>

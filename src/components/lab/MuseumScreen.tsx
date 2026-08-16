@@ -1,9 +1,28 @@
 "use client";
 
 import Image, { getImageProps } from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import type { LabContent, LabMedia } from "@/data/lab";
+
+/*
+ * Ali's numbers, kept exactly: 260svh of section, and the pull-back
+ * finished by 68% of the travel so the last third is a hold on the
+ * completed room.
+ *
+ * An earlier pass grew the section so three films could cycle across the
+ * hold. That is gone — the reel is no longer scroll-driven (Ali,
+ * 2026-08-16), so the section does not have to be long enough to contain
+ * it and the spec's proportions stand as written.
+ */
+const SECTION_SVH = 260;
+const REVEAL_FRACTION = 0.68;
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
+/** Ali's spec: p * p * (3 - 2p). Accelerates in, decelerates out. */
+const smoothstep = (p: number) => p * p * (3 - 2 * p);
 
 function HallRender() {
   const shared = {
@@ -23,41 +42,44 @@ function HallRender() {
     <picture>
       <source media="(orientation: portrait)" srcSet={tallSrcSet} />
       <source media="(orientation: landscape)" srcSet={wideSrcSet} />
-      <img
-        {...wideProps}
-        alt=""
-        aria-hidden="true"
-        className="object-cover"
-      />
+      <img {...wideProps} alt="" aria-hidden="true" className="object-cover" />
     </picture>
   );
 }
 
-/**
- * One screen, in a dark room, pinned while the page scrolls past it.
- *
- * The pin stays in CSS. The section is tall and its sticky child is one
- * viewport high, so late image decoding above this section cannot invalidate a
- * cached JavaScript pin position. Exhibit selection likewise stays on the
- * IntersectionObserver markers below the room. Every exhibit remains mounted
- * and cross-fades in one grid cell; the visible caption list after the room is
- * the same content in a linear, non-pinned form.
- */
-function Exhibit({ media, active }: { media: LabMedia; active: boolean }) {
+function Exhibit({
+  media,
+  active,
+  onFinished,
+}: {
+  media: LabMedia;
+  active: boolean;
+  onFinished: () => void;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    if (active) {
-      video.play().catch(() => {
-        // Autoplay can be refused; the required poster remains visible.
-      });
-    } else {
+    if (!active) {
       video.pause();
+      return;
     }
-  }, [active]);
+
+    /*
+     * If autoplay is refused the film never ends, so nothing would ever
+     * advance and the reel would stop on its first exhibit forever. The
+     * fallback moves on after roughly a film's length instead. It is
+     * cleared the moment playback actually starts.
+     */
+    let fallback = 0;
+    video.play().catch(() => {
+      fallback = window.setTimeout(onFinished, 12_000);
+    });
+
+    return () => window.clearTimeout(fallback);
+  }, [active, onFinished]);
 
   const shared = `absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
     active ? "opacity-100" : "opacity-0"
@@ -71,10 +93,12 @@ function Exhibit({ media, active }: { media: LabMedia; active: boolean }) {
         src={media.src}
         poster={media.poster}
         muted
-        loop
+        /* NOT looped: the reel advances when a film finishes, so `ended`
+           has to be allowed to fire. */
         playsInline
         preload="metadata"
         aria-label={media.alt}
+        onEnded={onFinished}
       />
     );
   }
@@ -91,103 +115,128 @@ function Exhibit({ media, active }: { media: LabMedia; active: boolean }) {
   );
 }
 
+/**
+ * The museum reveal.
+ *
+ * The film opens filling the whole viewport — no room, no frame, nothing
+ * but the work. Scrolling pulls the camera back: the film shrinks toward
+ * its resting box while the hall fades up behind it, and it lands as a
+ * screen mounted on the far wall of a room that was there all along.
+ * Then everything holds, and the reel plays through in place.
+ *
+ * THE PIN IS CSS. A tall section with a `sticky` child one viewport high.
+ * There is no measured pin position to go stale, which matters here
+ * because the images above this section finish decoding after first
+ * paint and move everything below them. ScrollTrigger has been tried
+ * twice in this codebase and failed for exactly that reason both times.
+ *
+ * EVERY FRAME IS A LIVE READ. `getBoundingClientRect` each tick, nothing
+ * cached, so late decode above cannot desynchronise the sequence. The
+ * only per-frame writes are a transform and two custom properties, both
+ * composited.
+ *
+ * EVERY EXHIBIT STAYS MOUNTED and cross-fades in one box, so the
+ * captions are real text in source order — and the list beneath the room
+ * repeats all of it linearly for anyone who never sees the pin at all.
+ */
 export default function MuseumScreen({ content }: { content: LabContent }) {
   const rootRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const roomRef = useRef<HTMLDivElement>(null);
   const apertureRef = useRef<HTMLDivElement>(null);
   const { showcase } = content;
   const [active, setActive] = useState(0);
 
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
+  const count = showcase.frames.length;
 
-    const markers = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-museum-marker]")
-    );
-    if (markers.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const index = markers.indexOf(entry.target as HTMLElement);
-          if (index >= 0) setActive(index);
-        }
-      },
-      { rootMargin: "-50% 0px -50% 0px" }
-    );
-
-    markers.forEach((marker) => observer.observe(marker));
-    return () => observer.disconnect();
-  }, [showcase.frames.length]);
-
-  /**
-   * The dolly is a FLIP-style transform over the render's measured screen.
-   * Its resting box is the same responsive aperture used by the loader. A
-   * uniform scale then grows that box until it covers the viewport, while the
-   * centre translates to the viewport centre. Uniform scale matters on the
-   * portrait hall: it preserves the film instead of stretching a 1.37:1
-   * screen into a tall phone.
-   *
-   * The room fade and text fade are CSS responses to --push. The only
-   * per-frame layout reads are the aperture's untransformed offset geometry;
-   * the only per-frame element write is a composited transform.
+  /*
+   * The reel runs on its own clock. Ali's call, 2026-08-16: scrolling
+   * must not interfere with a film that is playing, so which exhibit is
+   * showing is decided by the film ending — never by the scroll position.
+   * Scroll drives the room and nothing else.
    */
+  const advance = useCallback(() => {
+    setActive((index) => (index + 1) % count);
+  }, [count]);
+
   useEffect(() => {
     const root = rootRef.current;
     const track = trackRef.current;
+    const room = roomRef.current;
     const aperture = apertureRef.current;
-    if (!root || !track || !aperture) return;
+    if (!root || !track || !room || !aperture || count === 0) return;
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reducedMotion.matches) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
 
-    let animationFrame = 0;
     const update = () => {
-      animationFrame = 0;
+      frame = 0;
 
-      const trackRect = track.getBoundingClientRect();
-      const travel = trackRect.height - window.innerHeight;
+      const rect = track.getBoundingClientRect();
+      const travel = rect.height - window.innerHeight;
       if (travel <= 0) return;
 
-      const rawProgress = Math.min(1, Math.max(0, -trackRect.top / travel));
-      const progress = rawProgress * rawProgress * (3 - 2 * rawProgress);
-      const apertureWidth = aperture.offsetWidth;
-      const apertureHeight = aperture.offsetHeight;
-      if (apertureWidth <= 0 || apertureHeight <= 0) return;
+      const raw = clamp(-rect.top / travel, 0, 1);
 
-      const apertureCentreX = aperture.offsetLeft + apertureWidth / 2;
-      const apertureCentreY = aperture.offsetTop + apertureHeight / 2;
-      const translateX = (window.innerWidth / 2 - apertureCentreX) * progress;
-      const translateY = (window.innerHeight / 2 - apertureCentreY) * progress;
-      const coverScale = Math.max(
-        window.innerWidth / apertureWidth,
-        window.innerHeight / apertureHeight
-      );
-      const scale = 1 + (coverScale - 1) * progress;
+      if (reduced.matches) {
+        /* Land on the finished composition and never animate toward it. */
+        root.style.setProperty("--room", "1");
+        room.style.opacity = "1";
+        room.style.transform = "none";
+        aperture.style.transform = "none";
+        return;
+      }
 
-      root.style.setProperty("--push", String(progress));
-      aperture.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`;
+      const progress = Math.min(1, raw / REVEAL_FRACTION);
+      const eased = smoothstep(progress);
+
+      const width = aperture.offsetWidth;
+      const height = aperture.offsetHeight;
+      if (width <= 0 || height <= 0) return;
+
+      /*
+       * Start big enough to cover, then come home. The 1.025 is Ali's,
+       * and it is not decoration: without a margin the film's edge can
+       * expose a hairline of room at the extremes of a scale animation.
+       */
+      const coverScale =
+        Math.max(window.innerWidth / width, window.innerHeight / height) * 1.025;
+      const scale = coverScale + (1 - coverScale) * eased;
+
+      /* Uniform scale about the centre, so the centre is all that travels. */
+      const centreX = aperture.offsetLeft + width / 2;
+      const centreY = aperture.offsetTop + height / 2;
+      const x = (window.innerWidth / 2 - centreX) * (1 - eased);
+      const y = (window.innerHeight / 2 - centreY) * (1 - eased);
+
+      /* The architecture arrives just after the pull-back begins. */
+      const roomReveal = clamp((progress - 0.04) / 0.82, 0, 1);
+
+      aperture.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+      room.style.opacity = String(roomReveal);
+      room.style.transform = `scale(${1.035 - roomReveal * 0.035})`;
+      root.style.setProperty("--room", String(roomReveal));
     };
 
-    const requestUpdate = () => {
-      if (animationFrame) return;
-      animationFrame = requestAnimationFrame(update);
+    const request = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(update);
     };
 
     update();
-    window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate, { passive: true });
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request, { passive: true });
+    reduced.addEventListener("change", request);
 
     return () => {
-      if (animationFrame) cancelAnimationFrame(animationFrame);
-      window.removeEventListener("scroll", requestUpdate);
-      window.removeEventListener("resize", requestUpdate);
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", request);
+      window.removeEventListener("resize", request);
+      reduced.removeEventListener("change", request);
     };
-  }, []);
+  }, [count]);
 
-  if (showcase.frames.length === 0) return null;
+  if (count === 0) return null;
 
   const current = showcase.frames[active];
 
@@ -197,73 +246,82 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
       data-museum-root
       aria-labelledby="lab-museum-heading"
       className="relative bg-black text-white"
-      style={{ "--push": 0 } as CSSProperties}
+      style={{ "--room": 0 } as CSSProperties}
     >
-      <div ref={trackRef} data-museum-track className="relative">
+      {/* The scroll length. The sticky stage releases at this element's
+          bottom edge, so the caption list below it must be OUTSIDE. */}
+      <div
+        ref={trackRef}
+        data-museum-track
+        className="relative"
+        style={{ height: `${SECTION_SVH}svh` }}
+      >
         <div className="sticky top-0 h-[100svh] overflow-hidden bg-black">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-            style={{ opacity: "calc(1 - (var(--push) * 1.25))" }}
-          >
-            <HallRender />
-          </div>
-
-          <div
-            ref={apertureRef}
-            data-museum-aperture
-            className="museum-screen-aperture z-10 bg-black"
-            style={{
-              transform: "translate3d(0, 0, 0) scale(1)",
-              transformOrigin: "center",
-            }}
-          >
-            {showcase.frames.map((frame, index) => (
-              <Exhibit
-                key={frame.media.src}
-                media={frame.media}
-                active={index === active}
-              />
-            ))}
-          </div>
-
-          <div
-            className="pointer-events-none absolute inset-x-5 top-[6.5rem] z-20 flex items-center justify-between gap-5 sm:inset-x-8"
-            style={{ opacity: "calc(1 - (var(--push) * 4))" }}
-          >
-            <h2
-              id="lab-museum-heading"
-              className="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-white/60 [text-shadow:0_1px_12px_rgb(0_0_0/0.9)] sm:text-[13px]"
-            >
-              {showcase.label}
-            </h2>
-            <p aria-hidden="true" className="flex items-center gap-1.5">
-              {showcase.frames.map((frame, index) => (
-                <span
-                  key={frame.media.src}
-                  className={`block h-1 rounded-full transition-all duration-500 ${
-                    index === active ? "w-7 bg-white" : "w-2.5 bg-white/35"
-                  }`}
-                />
-              ))}
-            </p>
-          </div>
-
-          <div
-            className="pointer-events-none absolute bottom-7 left-16 right-5 z-20 sm:bottom-9 sm:left-20 sm:right-8"
-            style={{ opacity: "calc(1 - (var(--push) * 4))" }}
-          >
-            <p className="font-display text-[clamp(0.875rem,1.6vw,1.25rem)] font-bold tracking-[-0.02em] [text-shadow:0_1px_16px_rgb(0_0_0/0.95)]">
-              {current.project}
-              <span className="font-normal text-white/65"> — {current.caption}</span>
-            </p>
-          </div>
+        <div
+          ref={roomRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-0"
+          style={{ transform: "scale(1.035)", willChange: "transform, opacity" }}
+        >
+          <HallRender />
         </div>
 
-        <div aria-hidden="true">
-          {showcase.frames.map((frame) => (
-            <div key={frame.media.src} data-museum-marker className="h-[62svh]" />
+        {/* The panel the screen is mounted on. Never scaled — see globals.css. */}
+        <div
+          aria-hidden="true"
+          className="hall-aperture museum-board pointer-events-none"
+          style={{ opacity: "var(--room)" }}
+        />
+
+        <div
+          ref={apertureRef}
+          data-museum-aperture
+          className="hall-aperture museum-screen-aperture z-10 bg-black"
+          style={{ transformOrigin: "center" }}
+        >
+          {showcase.frames.map((frame, index) => (
+            <Exhibit
+              key={frame.media.src}
+              media={frame.media}
+              active={index === active}
+              onFinished={advance}
+            />
           ))}
+        </div>
+
+        {/* Chrome arrives with the room. Over a full-bleed film it would be
+            furniture on top of the work; against the wall it is a label. */}
+        <div
+          className="pointer-events-none absolute inset-x-5 top-[6.5rem] z-20 flex items-center justify-between gap-5 sm:inset-x-8"
+          style={{ opacity: "var(--room)" }}
+        >
+          <h2
+            id="lab-museum-heading"
+            className="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-white/60 [text-shadow:0_1px_12px_rgb(0_0_0/0.9)] sm:text-[13px]"
+          >
+            {showcase.label}
+          </h2>
+          <p aria-hidden="true" className="flex items-center gap-1.5">
+            {showcase.frames.map((frame, index) => (
+              <span
+                key={frame.media.src}
+                className={`block h-1 rounded-full transition-all duration-500 ${
+                  index === active ? "w-7 bg-white" : "w-2.5 bg-white/35"
+                }`}
+              />
+            ))}
+          </p>
+        </div>
+
+        <div
+          className="pointer-events-none absolute bottom-7 left-16 right-5 z-20 sm:bottom-9 sm:left-20 sm:right-8"
+          style={{ opacity: "var(--room)" }}
+        >
+          <p className="font-display text-[clamp(0.875rem,1.6vw,1.25rem)] font-bold tracking-[-0.02em] [text-shadow:0_1px_16px_rgb(0_0_0/0.95)]">
+            {current.project}
+            <span className="font-normal text-white/65"> — {current.caption}</span>
+          </p>
+        </div>
         </div>
       </div>
 

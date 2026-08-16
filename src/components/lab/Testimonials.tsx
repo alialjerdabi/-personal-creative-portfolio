@@ -1,4 +1,5 @@
 import Image from "next/image";
+import DragRail from "@/components/lab/DragRail";
 import Reveal from "@/components/ui/Reveal";
 import type { LabAsset, LabContent, LabPalette, LabProject } from "@/data/lab";
 
@@ -197,7 +198,7 @@ export default function Testimonials({ content }: { content: LabContent }) {
         </Reveal>
       </div>
 
-      <div className="lab-rail mt-12 sm:mt-16">
+      <DragRail className="mt-12 sm:mt-16" label="Client quotes">
         <div className="lab-rail-track">
           {[0, 1].map((copy) => (
             <div
@@ -220,7 +221,7 @@ export default function Testimonials({ content }: { content: LabContent }) {
             </div>
           ))}
         </div>
-      </div>
+      </DragRail>
     </section>
   );
 }
