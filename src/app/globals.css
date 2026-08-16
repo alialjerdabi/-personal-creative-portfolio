@@ -1415,3 +1415,173 @@ html[data-aperture-seen="true"] #aperture-loader {
      solid. */
   filter: brightness(calc(1 - (var(--covered, 0) * 0.16)));
 }
+
+/* --------------------------- standalone pages -------------------------- */
+
+.lab-page-heading {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(2rem, 5.2vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--lab-ink-warm);
+}
+
+.lab-page-lede {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.6;
+  color: var(--lab-ink-soft);
+}
+
+.lab-prose {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--lab-ink-soft);
+}
+
+.lab-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--lab-hairline);
+  background: var(--lab-card);
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--lab-ink-warm);
+  transition:
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 260ms ease;
+}
+
+.lab-chip:hover,
+.lab-chip:focus-visible {
+  transform: translateY(-0.15rem);
+  border-color: var(--lab-ink-warm);
+}
+
+.lab-chip:focus-visible {
+  outline: 2px solid var(--lab-orange);
+  outline-offset: 3px;
+}
+
+.lab-chip__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  flex: none;
+}
+
+.lab-step-num {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--lab-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.lab-step-title {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lab-ink-warm);
+}
+
+/* ---------------------------------- FAQ -------------------------------- */
+
+.lab-faq {
+  border-top: 1px solid var(--lab-hairline);
+}
+
+.lab-faq__item {
+  border-bottom: 1px solid var(--lab-hairline);
+}
+
+.lab-faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--lab-ink-warm);
+  transition: color 240ms ease;
+}
+
+/* Safari draws its own disclosure triangle unless this is removed. */
+.lab-faq__q::-webkit-details-marker {
+  display: none;
+}
+
+.lab-faq__q:hover {
+  color: var(--lab-orange);
+}
+
+.lab-faq__q:focus-visible {
+  outline: 2px solid var(--lab-orange);
+  outline-offset: 4px;
+  border-radius: 0.4rem;
+}
+
+/* A plus that becomes a minus. Two bars, one of which rotates away. */
+.lab-faq__sign {
+  position: relative;
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: none;
+}
+
+.lab-faq__sign::before,
+.lab-faq__sign::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-faq__sign::after {
+  transform: rotate(90deg);
+}
+
+.lab-faq__item[open] .lab-faq__sign::after {
+  transform: rotate(0deg);
+}
+
+.lab-faq__a {
+  padding-bottom: 1.5rem;
+  max-width: 62ch;
+}
+
+.lab-faq__a p {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--lab-ink-soft);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lab-faq__item[open] .lab-faq__a {
+    animation: lab-faq-open 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes lab-faq-open {
+  from {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+}

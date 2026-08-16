@@ -24,6 +24,8 @@ const ROUTES = [
   "/",
   "/work",
   "/studio",
+  "/services",
+  "/contact",
   "/work/petrolas",
   "/work/qobban",
   "/work/delivery-point",

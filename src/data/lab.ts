@@ -436,9 +436,9 @@ export const labContent: LabContent = {
        finished imagery, so "Work" in the nav has to reach the index
        rather than the two-card sample of it. */
     { label: "Work", href: "/work" },
-    { label: "Services", href: "/#services" },
+    { label: "Services", href: "/services" },
     { label: "Studio", href: "/studio" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Contact", href: "/contact" },
   ],
   navCta: { label: "Start a project", href: "/#contact" },
 
