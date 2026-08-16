@@ -266,12 +266,6 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
           <HallRender />
         </div>
 
-        {/* The panel the screen is mounted on. Never scaled — see globals.css. */}
-        <div
-          aria-hidden="true"
-          className="hall-aperture museum-board pointer-events-none"
-          style={{ opacity: "var(--room)" }}
-        />
 
         <div
           ref={apertureRef}

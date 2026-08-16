@@ -527,50 +527,34 @@ html[data-aperture-seen="true"] #aperture-loader {
 .museum-screen-aperture {
   overflow: hidden;
   will-change: transform;
-}
 
-/*
- * The board — Ali's request, 2026-08-16, from a marked-up reference.
- *
- * What he circled was the bottom-left corner of the screen in that
- * reference, where the panel's edge catches the room light and shows its
- * thickness. So this is not a border: it is a panel with a face, a lit
- * lower edge, and a shadow that seats it against the wall.
- *
- * It sits BELOW the exhibit in the DOM on purpose. While the film is at
- * cover scale it is completely covered and cannot be seen; the ring only
- * emerges as the film shrinks back into its frame. It never scales, so
- * the frame does not inflate along with the picture.
- */
-.museum-board {
   /*
-   * content-box so the border is drawn OUTSIDE the measured aperture.
-   * The exhibit has to keep that box exactly — it is the same rectangle
-   * the loader expands from — so the frame grows away from it rather
-   * than eating into it.
+   * THE BOARD IS PART OF THE FILM, not a plate behind it.
+   *
+   * It was a separate element that never scaled, on the reasoning that a
+   * frame should not inflate with the picture. That was wrong, and Ali
+   * caught it twice: an unscaled frame is completely buried at every
+   * size during the pull-back and only appears at the very end, so for
+   * the whole length of the move the film is a rectangle floating in a
+   * dark room with no edge at all.
+   *
+   * Bordering the aperture fixes it in both directions. The frame is
+   * always proportional to the film, and at cover scale it sits outside
+   * the viewport entirely — so the opening shot is still edge-to-edge
+   * picture with nothing framing it.
+   *
+   * content-box with a negative margin of the same width: the hole stays
+   * exactly on the measured aperture (the rectangle the loader expands
+   * from) and the frame grows outward, evenly, on all four sides.
    */
   box-sizing: content-box;
+  margin: -1vmin;
   border-style: solid;
   border-width: 1vmin;
-  /* Pull the border box back by its own width so the frame grows evenly
-     on all four sides. Without this, `left`/`top` position the BORDER
-     edge and the hole ends up a border-width down and to the right of
-     the film it is supposed to be framing. */
-  margin: -1vmin;
-  background: #0b0a09;
 
-  /*
-   * Lit per edge, not uniformly. The room's light comes from two ceiling
-   * strips, and its floor is polished — so the top edge takes the direct
-   * light, the sides fall off, and the bottom edge picks up the bounce
-   * off the floor. That bottom edge is the one Ali circled in the
-   * reference: it is what tells you the panel has thickness and is
-   * standing in a room rather than printed on the wall.
-   *
-   * A first pass used a uniform dark ring and was invisible — it was
-   * darker than the wall behind it, so it read as more shadow instead of
-   * as an edge.
-   */
+  /* Lit per edge, because the room is: two ceiling strips above and a
+     polished floor below. The bottom edge takes the floor bounce — it is
+     the one that tells you the panel has thickness. */
   border-top-color: #4c473f;
   border-right-color: #383430;
   border-left-color: #383430;
@@ -580,6 +564,7 @@ html[data-aperture-seen="true"] #aperture-loader {
     0 0.9vmin 2vmin rgb(0 0 0 / 0.55),
     0 2.6vmin 6vmin rgb(0 0 0 / 0.4);
 }
+
 
 .aperture-loader__counter {
   position: absolute;
