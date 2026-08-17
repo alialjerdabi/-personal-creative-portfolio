@@ -168,12 +168,15 @@
   --color-lab-hairline: var(--lab-hairline);
   --color-lab-card: var(--lab-card);
   --color-lab-gold: var(--lab-gold);
-  --font-display: var(--font-rounded);
+  /* Tailwind's font-display utility is used across older components for
+     body copy as well as headings, so it maps to the workhorse. The serif
+     is opt-in via the display classes below — see layout.tsx. */
+  --font-display: var(--font-text);
   --color-lab-paper: var(--lab-paper);
   --color-lab-paper-ink: var(--lab-paper-ink);
   --color-lab-paper-muted: var(--lab-paper-muted);
   --color-lab-paper-rule: var(--lab-paper-rule);
-  --font-sans: var(--font-schibsted);
+  --font-sans: var(--font-text);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -237,7 +240,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-schibsted), Arial, Helvetica, sans-serif;
+  font-family: var(--font-text), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
 }
 
@@ -687,8 +690,8 @@ html[data-aperture-seen="true"] #aperture-loader {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    /* Nunito, matching the rest of the interface. */
-    font-family: var(--font-rounded), system-ui, sans-serif;
+    /* The interface face, matching the rest of the site. */
+    font-family: var(--font-text), system-ui, sans-serif;
     font-size: 0.8125rem;
     font-weight: 700;
     white-space: nowrap;
@@ -892,7 +895,7 @@ html[data-aperture-seen="true"] #aperture-loader {
  */
 .wa-fab__label {
   display: none;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.9375rem;
   font-weight: 700;
   white-space: nowrap;
@@ -972,7 +975,7 @@ html[data-aperture-seen="true"] #aperture-loader {
  * means in practice.
  */
 .lab-placard {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -983,8 +986,8 @@ html[data-aperture-seen="true"] #aperture-loader {
 /* ------------------------------- services ------------------------------ */
 
 .lab-service-statement {
-  font-family: var(--font-rounded), sans-serif;
-  font-size: clamp(2.1rem, 6vw, 4.25rem);
+  font-family: var(--font-text), sans-serif;
+  font-size: clamp(2.35rem, 6.8vw, 5rem);
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -0.04em;
@@ -1000,7 +1003,7 @@ html[data-aperture-seen="true"] #aperture-loader {
   align-items: center;
   gap: 0.7rem;
   padding: 0.55rem 0;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.9375rem;
   color: var(--lab-ink-soft);
   transition: color 260ms ease, transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -1084,7 +1087,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-service-card__num {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   font-weight: 700;
   line-height: 1;
@@ -1095,7 +1098,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-service-card__price {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.9375rem;
   font-weight: 700;
   color: var(--lab-ink-warm);
@@ -1103,8 +1106,8 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .lab-service-card__name {
   margin-top: 0.6rem;
-  font-family: var(--font-rounded), sans-serif;
-  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  font-family: var(--font-text), sans-serif;
+  font-size: clamp(1.75rem, 3.8vw, 2.9rem);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.035em;
@@ -1115,7 +1118,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-service-card__outcome {
   margin-top: 0.9rem;
   max-width: 34ch;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: clamp(1.05rem, 1.5vw, 1.2rem);
   line-height: 1.55;
   color: var(--lab-ink-soft);
@@ -1130,7 +1133,7 @@ html[data-aperture-seen="true"] #aperture-loader {
   display: flex;
   align-items: baseline;
   gap: 0.6rem;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--lab-ink-soft);
@@ -1168,7 +1171,7 @@ html[data-aperture-seen="true"] #aperture-loader {
   align-items: center;
   gap: 0.5rem;
   margin-top: 2.25rem;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.9375rem;
   font-weight: 700;
   color: var(--lab-ink-warm);
@@ -1229,8 +1232,8 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-close__heading {
   margin-top: 1.75rem;
   max-width: 18ch;
-  font-family: var(--font-rounded), sans-serif;
-  font-size: clamp(2rem, 5.2vw, 3.75rem);
+  font-family: var(--font-text), sans-serif;
+  font-size: clamp(2.15rem, 5.9vw, 4.4rem);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.04em;
@@ -1240,7 +1243,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-close__body {
   margin-top: 1.25rem;
   max-width: 46ch;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 1.0625rem;
   line-height: 1.6;
   color: rgb(255 255 255 / 0.7);
@@ -1315,7 +1318,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-channel__num {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -1329,7 +1332,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .lab-channel__label {
   margin-top: 1.6rem;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -1338,7 +1341,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .lab-channel__value {
   margin-top: 0.3rem;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.9375rem;
   color: rgb(255 255 255 / 0.72);
   word-break: break-word;
@@ -1346,7 +1349,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .lab-channel__note {
   margin-top: 0.9rem;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.8125rem;
   color: rgb(255 255 255 / 0.42);
 }
@@ -1366,7 +1369,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .lab-footer-link {
   position: relative;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.9375rem;
   color: var(--lab-ink-soft);
   transition: color 240ms ease;
@@ -1419,8 +1422,8 @@ html[data-aperture-seen="true"] #aperture-loader {
 /* --------------------------- standalone pages -------------------------- */
 
 .lab-page-heading {
-  font-family: var(--font-rounded), sans-serif;
-  font-size: clamp(2rem, 5.2vw, 3.75rem);
+  font-family: var(--font-text), sans-serif;
+  font-size: clamp(2.15rem, 5.9vw, 4.4rem);
   font-weight: 700;
   line-height: 1.04;
   letter-spacing: -0.04em;
@@ -1429,14 +1432,14 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-page-lede {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: clamp(1.05rem, 1.6vw, 1.3rem);
   line-height: 1.6;
   color: var(--lab-ink-soft);
 }
 
 .lab-prose {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 1rem;
   line-height: 1.7;
   color: var(--lab-ink-soft);
@@ -1450,7 +1453,7 @@ html[data-aperture-seen="true"] #aperture-loader {
   border-radius: 999px;
   border: 1px solid var(--lab-hairline);
   background: var(--lab-card);
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   color: var(--lab-ink-warm);
@@ -1478,7 +1481,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-step-num {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -1487,7 +1490,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-step-title {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -1512,7 +1515,7 @@ html[data-aperture-seen="true"] #aperture-loader {
   padding: 1.35rem 0;
   cursor: pointer;
   list-style: none;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: clamp(1rem, 1.6vw, 1.15rem);
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -1567,7 +1570,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-faq__a p {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 1rem;
   line-height: 1.7;
   color: var(--lab-ink-soft);
@@ -1587,7 +1590,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-stat {
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: clamp(1.5rem, 2.6vw, 2.15rem);
   font-weight: 700;
   line-height: 1;
@@ -1679,7 +1682,11 @@ html[data-aperture-seen="true"] #aperture-loader {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 72rem;
+  /* Wider than the 72rem the rest of the site uses. At 800 weight and
+     6.5rem the third authored line re-wrapped inside 72rem, so the data
+     said three lines and the page showed four. The statement is the one
+     element allowed to use the whole room. */
+  max-width: 88rem;
   margin: 0 auto;
 }
 
@@ -1728,8 +1735,8 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 .lab-threshold__statement {
-  font-family: var(--font-rounded), sans-serif;
-  font-size: clamp(2.3rem, 6.4vw, 5.5rem);
+  font-family: var(--font-text), sans-serif;
+  font-size: clamp(2.5rem, 7.2vw, 6.5rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.045em;
@@ -1744,7 +1751,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-threshold__sub {
   margin-top: clamp(1.5rem, 3vh, 2.25rem);
   max-width: 44ch;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: clamp(1rem, 1.4vw, 1.15rem);
   line-height: 1.6;
   color: rgb(255 255 255 / 0.68);
@@ -1765,7 +1772,7 @@ html[data-aperture-seen="true"] #aperture-loader {
   height: 3.25rem;
   padding: 0 1.6rem;
   border-radius: 999px;
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.9375rem;
   font-weight: 700;
   transition:
@@ -1808,7 +1815,7 @@ html[data-aperture-seen="true"] #aperture-loader {
   align-items: center;
   gap: 0.6rem;
   margin-top: clamp(1.5rem, 3vh, 2.25rem);
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.875rem;
   color: rgb(255 255 255 / 0.55);
 }
@@ -1830,7 +1837,7 @@ html[data-aperture-seen="true"] #aperture-loader {
   z-index: 2;
   align-self: center;
   margin-top: clamp(2rem, 5vh, 3.5rem);
-  font-family: var(--font-rounded), sans-serif;
+  font-family: var(--font-text), sans-serif;
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -1850,4 +1857,64 @@ html[data-aperture-seen="true"] #aperture-loader {
   pointer-events: none;
   background: #000;
   opacity: calc(var(--exit, 0) * 1.15);
+}
+
+/*
+ * ---------------------------------------------------------------------
+ * The statement face (2026-08-17)
+ * ---------------------------------------------------------------------
+ *
+ * Instrument Serif, and ONLY here. Six kinds of line get it — the hero
+ * statement, page headings, the services statement, the close, service
+ * names and channel labels. Everything else on the site is Geist.
+ *
+ * The restraint is the whole effect. A serif on every element is a
+ * magazine; a serif on the half-dozen lines that carry the argument is a
+ * gallery placard, which is what this site is trying to be.
+ *
+ * TWO CORRECTIONS THE SWAP FORCES, both invisible in code review and
+ * obvious at 90px:
+ *
+ * 1. WEIGHT 400, always. Instrument Serif ships one weight. Every rule
+ *    above asked for 700, and a browser given 700 for a face that has
+ *    none synthesises it by smearing the outline — which turns a fine
+ *    display serif into a muddy one at exactly the size it is used.
+ *
+ * 2. TRACKING OPENS UP. The grotesque wanted -0.04em; a serif at that
+ *    setting collides its own serifs in uppercase. These sit near zero.
+ */
+.lab-threshold__statement,
+.lab-page-heading,
+.lab-service-statement,
+.lab-close__heading,
+.lab-service-card__name,
+.lab-channel__label,
+.lab-stat {
+  font-family: var(--font-statement), Georgia, serif;
+  /* A REAL 800. Fraunces is variable 100-900, which is the whole reason
+     it replaced Instrument Serif — that one ships a single weight, and a
+     browser asked for bold on a face without one smears the outline at
+     exactly the size these rules use. */
+  font-weight: 800;
+}
+
+.lab-threshold__statement {
+  letter-spacing: -0.012em;
+  line-height: 0.98;
+}
+
+.lab-page-heading,
+.lab-service-statement,
+.lab-close__heading {
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+
+.lab-service-card__name,
+.lab-channel__label {
+  letter-spacing: -0.005em;
+}
+
+.lab-stat {
+  letter-spacing: -0.01em;
 }

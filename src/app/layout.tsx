@@ -1,24 +1,37 @@
 import type { Metadata } from "next";
-import { Schibsted_Grotesk, Geist_Mono, Nunito } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { siteUrl } from "@/lib/site";
 import WhatsAppButton from "@/components/lab/WhatsAppButton";
 import { labContent } from "@/data/lab";
 import "./globals.css";
 
-const schibstedGrotesk = Schibsted_Grotesk({
-  variable: "--font-schibsted",
+/*
+ * TWO FACES, ONE JOB EACH (Ali's call, 2026-08-17).
+ *
+ * Replaces Nunito + Schibsted Grotesk. Nunito's rounded terminals were
+ * chosen for a warm, approachable register that the site no longer has —
+ * set beside the concrete room it reads soft where it needs to read
+ * authoritative, which is what Ali saw.
+ *
+ * `text` is the workhorse: body, UI, placards, buttons, captions, every
+ * label. Geist is a sharp modern grotesque and it stays out of the way.
+ *
+ * `statement` is reserved for display — the big uppercase lines only.
+ * The reservation IS the effect: a serif everywhere is a magazine, a
+ * serif used for six lines on a site is a gallery.
+ *
+ * FRAUNCES IS VARIABLE (100-900), so the bold is a real cut rather than
+ * a browser-synthesised smear. It replaced Instrument Serif on 2026-08-17
+ * when Ali asked for bolder: Instrument ships one weight, and there is no
+ * honest way to make a single-weight face heavier at 100px.
+ */
+const geist = Geist({
+  variable: "--font-text",
   subsets: ["latin"],
 });
 
-/*
- * The display face. Nunito's rounded terminals are the closest usable
- * match to the SF Pro Rounded the reference site leans on, and it carries
- * a full weight range where most rounded faces on Google Fonts ship one
- * or two. On a site whose brief is "personality" the typeface does most
- * of that work.
- */
-const nunito = Nunito({
-  variable: "--font-rounded",
+const fraunces = Fraunces({
+  variable: "--font-statement",
   subsets: ["latin"],
 });
 
@@ -84,7 +97,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${schibstedGrotesk.variable} ${geistMono.variable} ${nunito.variable} h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-lab-air">
         <a

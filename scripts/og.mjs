@@ -8,11 +8,11 @@
  * by file convention.
  *
  * WHY A SCREENSHOT AND NOT `ImageResponse`:
- * `next/og` renders through satori, which needs a font buffer. Nunito is
+ * `next/og` renders through satori, which needs a font buffer. The site's
  * loaded by `next/font/google` at build time and is not on disk anywhere
- * we can point at, so using ImageResponse would mean either committing a
- * font file or fetching one during the build. Both are more moving parts
- * than this, and the fallback face would not be Nunito — an off-typeface
+ * anywhere we can point at, so ImageResponse would mean either committing
+ * a font file or fetching one during the build. Both are more moving parts
+ * than this, and the fallback would not be the real face — an off-typeface
  * share card on a designer's own site is exactly the detail a prospect
  * would notice.
  *
@@ -45,18 +45,15 @@ await page.evaluate(() => document.fonts.ready);
 const { headline, sub, name } = await page.evaluate(() => ({
   headline: document.querySelector("h1")?.innerText.replace(/\s+/g, " ").trim() ?? "",
   /*
-   * The LONGEST hero-tail line, not the first.
+   * The hero's one sub line.
    *
-   * There are two now — the availability/location marker and the line
-   * that says what Ali actually does — and the marker comes first in the
-   * document. Taking [0] put "Taking on new work · Manama, Bahrain" on
-   * the share card, which is true and says nothing about the business.
-   * Length is the cheap discriminator and survives either being reworded.
+   * This used to read [data-hero-tail] and pick the longest of two, to
+   * avoid putting "Taking on new work · Manama, Bahrain" on the card.
+   * The threshold hero (2026-08-17) has a single, unambiguous sub, and
+   * that attribute no longer exists — so the selector silently matched
+   * nothing and the card shipped with no sub at all until it was caught.
    */
-  sub:
-    [...document.querySelectorAll("[data-hero-tail]")]
-      .map((el) => el.innerText.trim())
-      .sort((a, b) => b.length - a.length)[0] ?? "",
+  sub: document.querySelector(".lab-threshold__sub")?.innerText.trim() ?? "",
   name: document.querySelector("header a span")?.innerText.trim() ?? "",
 }));
 
@@ -66,7 +63,7 @@ await page.evaluate(
       <div id="og" style="
         width:1200px;height:630px;box-sizing:border-box;
         background:var(--lab-air);color:var(--lab-ink-warm);
-        font-family:var(--font-rounded),sans-serif;
+        font-family:var(--font-text),sans-serif;
         padding:78px 84px;display:flex;flex-direction:column;
         justify-content:space-between;
       ">
@@ -88,8 +85,9 @@ await page.evaluate(
           survives a change of copy — unlike a hand-placed <br>.
         -->
         <h1 style="
-          margin:0;font-size:82px;font-weight:700;line-height:1.02;
-          letter-spacing:-0.045em;max-width:1010px;text-wrap:balance;
+          margin:0;font-size:78px;font-weight:800;line-height:1.02;
+          font-family:var(--font-statement),Georgia,serif;text-transform:uppercase;
+          letter-spacing:-0.018em;max-width:1010px;text-wrap:balance;
         ">${headline}</h1>
 
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;">
