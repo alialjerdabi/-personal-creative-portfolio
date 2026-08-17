@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { LabContent } from "@/data/lab";
 import MobileMenu from "./MobileMenu";
+import ThemeToggle from "./ThemeToggle";
 
 /**
  * A nav that floats as an object on the page rather than sitting as a
@@ -40,6 +41,7 @@ export default function FloatingNav({ content }: { content: LabContent }) {
             instead of the placeholder they still use.
           */}
           <Image
+            data-brand-mark
             src="/brand/mark.png"
             alt=""
             aria-hidden="true"
@@ -76,6 +78,8 @@ export default function FloatingNav({ content }: { content: LabContent }) {
         >
           {content.navCta.label}
         </a>
+
+        <ThemeToggle />
 
         <MobileMenu content={content} />
       </header>

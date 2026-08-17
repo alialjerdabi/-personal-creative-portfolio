@@ -68,20 +68,32 @@ export const metadata: Metadata = {
   },
 };
 
+/*
+ * Sets `data-theme` before the first paint.
+ *
+ * This has to be an inline script in <head>. Any React-side solution
+ * runs after hydration, by which point the page has already painted the
+ * default ground — so a visitor whose OS prefers dark gets a white flash
+ * on every single navigation. There is no way around it that is not a
+ * blocking script.
+ *
+ * A stored choice outranks the OS: pressing the button is a decision,
+ * and a system change afterwards should not silently overrule it.
+ * Wrapped in try/catch because localStorage throws outright in some
+ * hardened browsing modes, and a theme preference is not worth taking
+ * the page down for.
+ */
+const THEME_BOOTSTRAP = `try{var s=localStorage.getItem("lab-theme");var d=s==="dark"||(!s&&matchMedia("(prefers-color-scheme: dark)").matches);if(d)document.documentElement.dataset.theme="dark"}catch(e){}`;
+
 /**
  * Root layout.
  *
- * NO THEME BOOTSTRAP. The version this was extracted from carried an
- * inline script that set `data-theme` from localStorage or the OS
- * preference before paint — it existed for the other product in that
- * repo, which had a true dark mode.
- *
- * This site is light by design: the warm ground IS the brand, and every
- * page sets its own `bg-lab-*` surface. Keeping the script would have
- * meant a visitor whose OS prefers dark got a dark <body> behind light
- * pages — visible in the overscroll gutter and nowhere else, which is the
- * worst kind of bug to find later. Dark mode here would be a real design
- * exercise, not a token flip, so it is absent rather than half-present.
+ * DARK MODE ARRIVED 2026-08-17 (Ali). The note that used to sit here said
+ * this site was light by design and that dark mode would be a real design
+ * exercise rather than a token flip. Both halves were right, so it was
+ * built as the exercise: only the light grounds have dark values, and the
+ * art-directed dark surfaces — the hall, the museum, the close — stay
+ * dark in both themes. See the `[data-theme="dark"]` block in globals.css.
  */
 export default function RootLayout({
   children,
@@ -94,6 +106,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
+      </head>
       <body className="min-h-full flex flex-col bg-lab-air">
         <a
           href="#main"

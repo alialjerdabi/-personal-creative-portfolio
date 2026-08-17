@@ -115,12 +115,79 @@
   --lab-ink-warm: #1a1713;
   --lab-ink-soft: #6b6459;
   --lab-hairline: rgb(26 23 19 / 0.10);
+
+  /*
+   * Two tokens dark mode made necessary (2026-08-17).
+   *
+   * --lab-on-ink is whatever sits ON --lab-ink-warm. Buttons painted in
+   * the ink colour used a hardcoded white, which was right until the ink
+   * token started flipping — in dark mode that made "Start a project"
+   * and the WhatsApp pill white on near-white.
+   *
+   * --lab-ink-fixed is the ink colour that NEVER themes, for the
+   * art-directed dark surfaces: the close card and the "when not to hire
+   * me" chapter. Those are dark because the composition needs them dark,
+   * not because the page happens to be light, so they cannot ride a
+   * token that inverts underneath them.
+   */
+  --lab-on-ink: #ffffff;
+  --lab-ink-fixed: #1a1713;
   /* Rich brown-gold for the cursor field — reads against cream where the
      orange accent would compete with it. */
   --lab-gold: #945d00;
 }
 
+/*
+ * DARK MODE (Ali, 2026-08-17).
+ *
+ * A real second theme, not an inversion. This site's identity IS a
+ * light/dark rhythm — you stand outside a dark hall, walk through it,
+ * come out into light rooms, and end on a dark close. Flipping
+ * everything would destroy the one composition the whole page is built
+ * on.
+ *
+ * So ONLY THE LIGHT GROUNDS get dark values here. The art-directed dark
+ * surfaces — the hall, the museum, the close card, the "when not to hire
+ * me" chapter — are already dark and stay exactly as they are in both
+ * themes. Dark mode changes the rooms, never the hall.
+ *
+ * CHARCOAL AND GREY, NOT WARM (Ali, 2026-08-17). The first pass carried
+ * the light theme's warmth across — a few points of red over blue on
+ * every ground — on the reasoning that a neutral dark mode on a warm
+ * site reads as a different brand. At full size it just read brown.
+ * Neutral is the right answer here: the concrete hall the whole site is
+ * built around is grey, so a grey dark mode agrees with the imagery
+ * instead of fighting it.
+ */
 :root[data-theme="dark"] {
+  /* The three light grounds, inverted. --lab-air is the page, --lab-haze
+     the recessed sections, --lab-card the raised ones — the same
+     three-step relationship, so every section keeps its position in the
+     stack rather than flattening into one shade. */
+  --lab-air: #131313;
+  --lab-haze: #0e0e0e;
+  --lab-card: #1c1c1c;
+  --lab-sky: #0e0e0e;
+
+  /* Ink flips with the ground. Off-white rather than #fff, which buzzes
+     against charcoal at body size, and a true grey for the soft ink. */
+  --lab-ink-warm: #f4f4f4;
+  --lab-ink-soft: #a3a3a3;
+  --lab-hairline: rgb(255 255 255 / 0.13);
+
+  /* Text on the ink colour flips with it. */
+  --lab-on-ink: #131313;
+
+  /*
+   * The art-directed dark surfaces go DEEPER than the page rather than
+   * staying put. In light mode they are a dark beat against paper; in
+   * dark mode a #1a1713 card on a #131313 page is neither a beat nor a
+   * surface, just a smudge. Black gives the close and the "when not to
+   * hire me" chapter the same job they had — a step down from whatever
+   * surrounds them.
+   */
+  --lab-ink-fixed: #000000;
+
   --background: #0a0a0a;
   --surface: #141414;
   --surface-hover: #1c1c1c;
@@ -1922,4 +1989,116 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .lab-stat {
   letter-spacing: -0.035em;
+}
+
+/* ------------------------------ theme switch ---------------------------- */
+
+.lab-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  border-radius: 999px;
+  color: var(--lab-ink-soft);
+  transition: color 220ms ease, background-color 220ms ease;
+}
+
+.lab-theme-toggle:hover {
+  color: var(--lab-ink-warm);
+  background: var(--lab-hairline);
+}
+
+.lab-theme-toggle:focus-visible {
+  outline: 2px solid var(--lab-orange);
+  outline-offset: 2px;
+}
+
+/*
+ * Both glyphs occupy the same cell and cross-fade, so the button never
+ * changes size and the nav beside it never shifts. Neither shows until
+ * the component knows the applied theme — see ThemeToggle.tsx.
+ */
+.lab-theme-toggle__glyphs {
+  position: relative;
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.lab-theme-toggle__glyphs svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(0.6) rotate(-45deg);
+  transition:
+    opacity 260ms ease,
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Light theme: offer the moon. Dark theme: offer the sun. The button
+   shows what pressing it DOES, not what is currently applied. */
+[aria-pressed="false"] .lab-theme-toggle__glyphs [data-glyph="moon"],
+[aria-pressed="true"] .lab-theme-toggle__glyphs [data-glyph="sun"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------- dark-mode corrections ------------------------ */
+
+/*
+ * Anything painted in the ink colour with hardcoded white text.
+ *
+ * One rule instead of edits in seven components: Tailwind emits
+ * `.bg-lab-ink-warm` and `.text-white` as real classes, so the pairing
+ * is addressable. In dark mode the ink token is a light warm off-white,
+ * and white-on-that is invisible — this was "Start a project" and the
+ * WhatsApp pill disappearing the moment the theme flipped.
+ */
+:root[data-theme="dark"] .bg-lab-ink-warm.text-white {
+  color: var(--lab-on-ink);
+}
+
+/* The WhatsApp pill and the hero's primary button, same problem, both
+   declared in CSS rather than in Tailwind classes. */
+.wa-fab {
+  color: var(--lab-on-ink);
+}
+
+/*
+ * The hero's buttons sit on the hall, which is dark in BOTH themes, so
+ * they are fixed rather than themed. Riding --lab-ink-warm here would
+ * put light text on a white button on exactly the screen a visitor sees
+ * first.
+ */
+.lab-threshold__cta {
+  color: var(--lab-ink-fixed);
+}
+
+/*
+ * The close card is art direction, not a surface. It is dark because the
+ * page ends on a dark beat, and it stays dark when the rest of the site
+ * turns dark — so it takes the fixed ink rather than the themed one.
+ */
+.lab-close {
+  background: var(--lab-ink-fixed);
+}
+
+/*
+ * The mark is a flat black PNG, so it vanishes on a dark nav. Inverting
+ * gives white, which is correct for a single-colour logo and costs
+ * nothing. THE REAL FIX IS AN SVG — flagged in FloatingNav.tsx since the
+ * logo landed. Until one exists this is the honest stopgap.
+ */
+:root[data-theme="dark"] [data-brand-mark] {
+  filter: invert(1);
+}
+
+/* The "when not to hire me" chapter — dark by composition, in both
+   themes. See the CHAPTERS table in app/about/page.tsx. */
+.lab-chapter-ink {
+  background: var(--lab-ink-fixed);
 }
