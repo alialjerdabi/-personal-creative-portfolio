@@ -1,39 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { siteUrl } from "@/lib/site";
 import WhatsAppButton from "@/components/lab/WhatsAppButton";
 import { labContent } from "@/data/lab";
 import "./globals.css";
 
 /*
- * TWO FACES, ONE JOB EACH (Ali's call, 2026-08-17).
+ * ONE FAMILY, EVERYTHING (Ali's call, 2026-08-17).
  *
- * Replaces Nunito + Schibsted Grotesk. Nunito's rounded terminals were
- * chosen for a warm, approachable register that the site no longer has —
- * set beside the concrete room it reads soft where it needs to read
- * authoritative, which is what Ali saw.
+ * Geist for display and for text, with Geist Mono alongside it. Replaces
+ * Nunito + Schibsted Grotesk, whose rounded terminals were chosen for a
+ * warm, approachable register the site no longer has — beside concrete
+ * they read soft where the page needs to read authoritative.
  *
- * `text` is the workhorse: body, UI, placards, buttons, captions, every
- * label. Geist is a sharp modern grotesque and it stays out of the way.
- *
- * `statement` is reserved for display — the big uppercase lines only.
- * The reservation IS the effect: a serif everywhere is a magazine, a
- * serif used for six lines on a site is a gallery.
- *
- * FRAUNCES IS VARIABLE (100-900), so the bold is a real cut rather than
- * a browser-synthesised smear. It replaced Instrument Serif on 2026-08-17
- * when Ali asked for bolder: Instrument ships one weight, and there is no
- * honest way to make a single-weight face heavier at 100px.
+ * A serif pairing was tried first and dropped in a day. Instrument Serif
+ * had one weight and nothing to give when asked for bolder; Fraunces
+ * fixed the weight but bought a second family and a second set of
+ * tracking rules for six lines of copy. One grotesque at 900 does the
+ * same job with no pairing decisions left to make, and the weight range
+ * is what carries the hierarchy instead.
  */
 const geist = Geist({
   variable: "--font-text",
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-statement",
-  subsets: ["latin"],
-});
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -97,7 +88,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-lab-air">
         <a

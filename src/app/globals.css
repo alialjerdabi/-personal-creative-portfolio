@@ -168,9 +168,9 @@
   --color-lab-hairline: var(--lab-hairline);
   --color-lab-card: var(--lab-card);
   --color-lab-gold: var(--lab-gold);
-  /* Tailwind's font-display utility is used across older components for
-     body copy as well as headings, so it maps to the workhorse. The serif
-     is opt-in via the display classes below — see layout.tsx. */
+  /* One family, so every font token resolves to the same face. Tailwind's
+     font-display utility is used for body copy as well as headings in the
+     older components, which is exactly why it can map here safely. */
   --font-display: var(--font-text);
   --color-lab-paper: var(--lab-paper);
   --color-lab-paper-ink: var(--lab-paper-ink);
@@ -1861,27 +1861,22 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 /*
  * ---------------------------------------------------------------------
- * The statement face (2026-08-17)
+ * The statement rules (2026-08-17)
  * ---------------------------------------------------------------------
  *
- * Instrument Serif, and ONLY here. Six kinds of line get it — the hero
- * statement, page headings, the services statement, the close, service
- * names and channel labels. Everything else on the site is Geist.
+ * No second family any more. Geist runs the whole site, so hierarchy is
+ * carried by WEIGHT AND SIZE rather than by a change of voice — 800 and
+ * tight tracking for the lines that make the argument, 400 for prose.
  *
- * The restraint is the whole effect. A serif on every element is a
- * magazine; a serif on the half-dozen lines that carry the argument is a
- * gallery placard, which is what this site is trying to be.
+ * A serif was tried here for a day and dropped: Instrument Serif had one
+ * weight and nothing to give when asked for bolder, and Fraunces solved
+ * that by buying a second family plus its own tracking table for six
+ * lines of copy. This is the cheaper answer and the more consistent one.
  *
- * TWO CORRECTIONS THE SWAP FORCES, both invisible in code review and
- * obvious at 90px:
- *
- * 1. WEIGHT 400, always. Instrument Serif ships one weight. Every rule
- *    above asked for 700, and a browser given 700 for a face that has
- *    none synthesises it by smearing the outline — which turns a fine
- *    display serif into a muddy one at exactly the size it is used.
- *
- * 2. TRACKING OPENS UP. The grotesque wanted -0.04em; a serif at that
- *    setting collides its own serifs in uppercase. These sit near zero.
+ * TRACKING WENT BACK TIGHT. The serif needed to sit near zero or its
+ * serifs collided in uppercase; a grotesque at display size wants the
+ * opposite, and left at the serif's settings these lines read loose and
+ * unresolved.
  */
 .lab-threshold__statement,
 .lab-page-heading,
@@ -1890,31 +1885,26 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-service-card__name,
 .lab-channel__label,
 .lab-stat {
-  font-family: var(--font-statement), Georgia, serif;
-  /* A REAL 800. Fraunces is variable 100-900, which is the whole reason
-     it replaced Instrument Serif — that one ships a single weight, and a
-     browser asked for bold on a face without one smears the outline at
-     exactly the size these rules use. */
   font-weight: 800;
 }
 
 .lab-threshold__statement {
-  letter-spacing: -0.012em;
-  line-height: 0.98;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
 }
 
 .lab-page-heading,
 .lab-service-statement,
 .lab-close__heading {
-  letter-spacing: -0.01em;
-  line-height: 1.02;
+  letter-spacing: -0.04em;
+  line-height: 1;
 }
 
 .lab-service-card__name,
 .lab-channel__label {
-  letter-spacing: -0.005em;
+  letter-spacing: -0.03em;
 }
 
 .lab-stat {
-  letter-spacing: -0.01em;
+  letter-spacing: -0.035em;
 }

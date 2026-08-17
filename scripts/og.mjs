@@ -9,7 +9,7 @@
  *
  * WHY A SCREENSHOT AND NOT `ImageResponse`:
  * `next/og` renders through satori, which needs a font buffer. The site's
- * loaded by `next/font/google` at build time and is not on disk anywhere
+ * faces are loaded by `next/font/google` at build time and are not on disk
  * anywhere we can point at, so ImageResponse would mean either committing
  * a font file or fetching one during the build. Both are more moving parts
  * than this, and the fallback would not be the real face — an off-typeface
@@ -86,8 +86,8 @@ await page.evaluate(
         -->
         <h1 style="
           margin:0;font-size:78px;font-weight:800;line-height:1.02;
-          font-family:var(--font-statement),Georgia,serif;text-transform:uppercase;
-          letter-spacing:-0.018em;max-width:1010px;text-wrap:balance;
+          text-transform:uppercase;
+          letter-spacing:-0.04em;max-width:1010px;text-wrap:balance;
         ">${headline}</h1>
 
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;">
