@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Geist_Mono } from "next/font/google";
 import { siteUrl } from "@/lib/site";
 import WhatsAppButton from "@/components/lab/WhatsAppButton";
 import { labContent } from "@/data/lab";
@@ -8,19 +8,23 @@ import "./globals.css";
 /*
  * ONE FAMILY, EVERYTHING (Ali's call, 2026-08-17).
  *
- * Geist for display and for text, with Geist Mono alongside it. Replaces
- * Nunito + Schibsted Grotesk, whose rounded terminals were chosen for a
- * warm, approachable register the site no longer has — beside concrete
- * they read soft where the page needs to read authoritative.
+ * Space Grotesk for display and for text, with Geist Mono alongside it.
+ * Replaces Nunito + Schibsted Grotesk, whose rounded terminals were chosen
+ * for a warm, approachable register the site no longer has — beside
+ * concrete they read soft where the page needs to read authoritative.
  *
- * A serif pairing was tried first and dropped in a day. Instrument Serif
- * had one weight and nothing to give when asked for bolder; Fraunces
- * fixed the weight but bought a second family and a second set of
- * tracking rules for six lines of copy. One grotesque at 900 does the
- * same job with no pairing decisions left to make, and the weight range
- * is what carries the hierarchy instead.
+ * A serif pairing was tried first and dropped: Instrument Serif had one
+ * weight and nothing to give when asked for bolder, and Fraunces fixed
+ * that by buying a second family plus its own tracking table for six
+ * lines of copy. One grotesque does the same job with no pairing left to
+ * decide.
+ *
+ * SPACE GROTESK STOPS AT 700. It has more character than the neutral
+ * grotesques — the R, the a, the single-storey 1 — and that character is
+ * why it was chosen, but the statement rules cannot ask for 800 here.
+ * See globals.css.
  */
-const geist = Geist({
+const spaceGrotesk = Space_Grotesk({
   variable: "--font-text",
   subsets: ["latin"],
 });
@@ -88,7 +92,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geist.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-lab-air">
         <a

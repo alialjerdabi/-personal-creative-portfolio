@@ -1885,7 +1885,11 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-service-card__name,
 .lab-channel__label,
 .lab-stat {
-  font-weight: 800;
+  /* 700, not 800. Space Grotesk stops there — asking for more gets a
+     synthesised weight, which is the exact trap that cost a round on
+     Instrument Serif. Its character carries what the extra weight would
+     have. */
+  font-weight: 700;
 }
 
 .lab-threshold__statement {
