@@ -37,6 +37,14 @@ const SECURITY_HEADERS = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  /**
+   * Next 16 only serves the qualities declared here, and the default list
+   * is [75] alone. MuseumScreen asks for 90 on the two hall renders — the
+   * room is a large, softly graded image where 75 bands visibly in the
+   * wall gradient — and without this it was being refused and quietly
+   * falling back. Surfaced by a dev-server warning, not by a screenshot.
+   */
+  images: { qualities: [75, 90] },
   async headers() {
     return [{ source: "/:path*", headers: SECURITY_HEADERS }];
   },
