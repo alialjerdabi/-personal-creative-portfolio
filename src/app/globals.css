@@ -166,7 +166,15 @@
      stack rather than flattening into one shade. */
   --lab-air: #131313;
   --lab-haze: #0e0e0e;
-  --lab-card: #1c1c1c;
+  /*
+   * The raised surfaces sit BELOW the page in dark mode, not above it
+   * (Ali, 2026-08-17). In light mode a card is near-white on cream and
+   * lifts; inverted, that same relationship makes every card a pale
+   * patch floating on charcoal, which is a lot of visual noise for a
+   * page that is mostly cards. Sinking them lets the hairline and the
+   * project's colour edge do the separating instead.
+   */
+  --lab-card: #0b0b0b;
   --lab-sky: #0e0e0e;
 
   /* Ink flips with the ground. Off-white rather than #fff, which buzzes
