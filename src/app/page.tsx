@@ -38,10 +38,18 @@ export default function HomePage() {
   const posterSources = labContent.showcase.frames.flatMap(({ media }) =>
     media.kind === "video" ? [media.poster] : []
   );
-  const heroSources = labContent.hero.tokens.flatMap((token) =>
-    token.kind === "chips" ? token.images.map((image) => image.src) : []
-  );
-  const imageSources = [...new Set([...posterSources, ...heroSources])];
+  /*
+   * The hall renders, not hero stills. The hero stopped setting work
+   * inside its sentence on 2026-08-17 and became the room itself, so the
+   * largest above-the-fold image on the site is now wide.jpg — and the
+   * loader has to wait for it or it hands over to an empty room.
+   *
+   * Both orientations, because the loader cannot know which one the
+   * browser will pick from the <picture> and the wrong guess means the
+   * one that matters is still arriving.
+   */
+  const roomSources = ["/hall/wide.jpg", "/hall/tall.jpg"];
+  const imageSources = [...new Set([...roomSources, ...posterSources])];
 
   return (
     <>

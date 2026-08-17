@@ -1613,3 +1613,241 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-prose--inverted {
   color: rgb(255 255 255 / 0.72);
 }
+
+/*
+ * ---------------------------------------------------------------------
+ * The threshold — the hall before the lights go down
+ * ---------------------------------------------------------------------
+ *
+ * Replaces the spoken-sentence hero (2026-08-17). Same room as the
+ * museum, an earlier moment: the screen is still dark, and leaving the
+ * section dims everything to black so the museum's full-bleed film reads
+ * as a cinema going dark rather than as a section change.
+ */
+.lab-threshold {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  padding: 7rem clamp(1.25rem, 4vw, 3.5rem) clamp(2rem, 5vh, 4rem);
+}
+
+.lab-threshold__room {
+  position: absolute;
+  inset: 0;
+  /* Steadies as you arrive rather than sitting perfectly still — the
+     room is a photograph, and a photograph that never moves reads as a
+     backdrop instead of a place. */
+  animation: lab-threshold-settle 2400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-threshold__room {
+    animation: none;
+  }
+}
+
+@keyframes lab-threshold-settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/*
+ * Type sits on concrete. The scrim gives it a ground of its own instead
+ * of hoping the render happens to be dark wherever the words land — the
+ * wall behind the copy is mid-tone at 1600 and near-black at 390, so
+ * without this the same white type is fine on a phone and unreadable on
+ * a laptop.
+ */
+.lab-threshold__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgb(0 0 0 / 0.88) 0%, rgb(0 0 0 / 0.5) 38%, rgb(0 0 0 / 0.12) 68%, transparent 100%),
+    linear-gradient(to right, rgb(0 0 0 / 0.55), transparent 55%);
+}
+
+.lab-threshold__body {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+/* Each line arrives in reading order — the one idea worth keeping from
+   the sentence this replaced. */
+@media (prefers-reduced-motion: no-preference) {
+  .lab-threshold__eyebrow,
+  .lab-threshold__line,
+  .lab-threshold__sub,
+  .lab-threshold__actions,
+  .lab-threshold__status,
+  .lab-threshold__cue {
+    animation: lab-threshold-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .lab-threshold__eyebrow {
+    animation-delay: 120ms;
+  }
+  .lab-threshold__line {
+    animation-delay: calc(260ms + (var(--i) * 110ms));
+  }
+  .lab-threshold__sub {
+    animation-delay: 700ms;
+  }
+  .lab-threshold__actions {
+    animation-delay: 800ms;
+  }
+  .lab-threshold__status {
+    animation-delay: 880ms;
+  }
+  .lab-threshold__cue {
+    animation-delay: 1000ms;
+  }
+}
+
+@keyframes lab-threshold-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.1rem);
+  }
+}
+
+.lab-threshold__eyebrow {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.lab-threshold__statement {
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(2.3rem, 6.4vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.lab-threshold__line {
+  display: block;
+}
+
+.lab-threshold__sub {
+  margin-top: clamp(1.5rem, 3vh, 2.25rem);
+  max-width: 44ch;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.68);
+}
+
+.lab-threshold__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1.75rem, 3.5vh, 2.5rem);
+}
+
+.lab-threshold__cta,
+.lab-threshold__ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.25rem;
+  padding: 0 1.6rem;
+  border-radius: 999px;
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  transition:
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 260ms ease,
+    border-color 260ms ease;
+}
+
+.lab-threshold__cta {
+  background: #fff;
+  color: var(--lab-ink-warm);
+}
+
+.lab-threshold__cta:hover,
+.lab-threshold__cta:focus-visible {
+  background: var(--lab-orange);
+  color: #fff;
+  transform: translateY(-0.15rem);
+}
+
+.lab-threshold__ghost {
+  border: 1px solid rgb(255 255 255 / 0.3);
+  color: #fff;
+}
+
+.lab-threshold__ghost:hover,
+.lab-threshold__ghost:focus-visible {
+  border-color: #fff;
+  transform: translateY(-0.15rem);
+}
+
+.lab-threshold__cta:focus-visible,
+.lab-threshold__ghost:focus-visible {
+  outline: 2px solid var(--lab-orange);
+  outline-offset: 3px;
+}
+
+.lab-threshold__status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: clamp(1.5rem, 3vh, 2.25rem);
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.875rem;
+  color: rgb(255 255 255 / 0.55);
+}
+
+.lab-threshold__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--lab-lime);
+  flex: none;
+}
+
+.lab-threshold__sep {
+  opacity: 0.4;
+}
+
+.lab-threshold__cue {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  margin-top: clamp(2rem, 5vh, 3.5rem);
+  font-family: var(--font-rounded), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.45);
+}
+
+/*
+ * The lights going down. Driven by --exit, written per frame by
+ * HeroScreen from the scroll position, so the room is fully black by the
+ * time the museum's film takes the viewport.
+ */
+.lab-threshold__fade {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: #000;
+  opacity: calc(var(--exit, 0) * 1.15);
+}

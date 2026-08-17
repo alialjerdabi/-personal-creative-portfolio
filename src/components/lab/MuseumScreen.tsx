@@ -198,9 +198,19 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
        * Start big enough to cover, then come home. The 1.025 is Ali's,
        * and it is not decoration: without a margin the film's edge can
        * expose a hairline of room at the extremes of a scale animation.
+       *
+       * MEASURED ON THE CONTENT BOX, not the border box. The frame lives
+       * on this element, so offsetWidth includes it — and scaling by a
+       * factor derived from the border box leaves the film short of the
+       * viewport by exactly the frame's width, which showed up as a grey
+       * edge around a shot that is supposed to be full bleed. clientWidth
+       * is the hole the film actually fills.
        */
       const coverScale =
-        Math.max(window.innerWidth / width, window.innerHeight / height) * 1.025;
+        Math.max(
+          window.innerWidth / aperture.clientWidth,
+          window.innerHeight / aperture.clientHeight
+        ) * 1.025;
       const scale = coverScale + (1 - coverScale) * eased;
 
       /* Uniform scale about the centre, so the centre is all that travels. */

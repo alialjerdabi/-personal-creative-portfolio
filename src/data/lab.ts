@@ -224,26 +224,6 @@ export interface LabService {
   from: string;
 }
 
-/**
- * One piece of the spoken headline. The sentence is data, not markup,
- * because its personality comes from what interrupts it — a cluster of
- * work stills, a drawn arrow — and those interruptions have to be
- * positioned by whoever is writing the line, not by a component.
- */
-export type HeroToken =
-  | { kind: "text"; value: string }
-  | { kind: "chips"; images: LabAsset[] }
-  | { kind: "arrow" }
-  /**
-   * A hand-placed line break, honoured from `lg` up and ignored below.
-   *
-   * Two rules, learned the hard way: never leave a line holding a single
-   * word (it reads as a mistake, not a shape), and never break inside a
-   * noun phrase — "small / businesses" splits a unit the eye expects
-   * whole. Each line below is a complete phrase.
-   */
-  | { kind: "break" };
-
 export interface LabContent {
   identity: string;
   /** The single line that says what this is. Nothing more on the lobby. */
@@ -252,8 +232,8 @@ export interface LabContent {
   navCta: { label: string; href: string };
 
   hero: {
-    /** Read in order; the tokens compose one continuous sentence. */
-    tokens: HeroToken[];
+    /** Hand-broken lines of one claim, set as a statement in the room. */
+    statement: string[];
     sub: string;
     cta: { label: string; href: string };
     secondary: { label: string; href: string };
@@ -462,42 +442,25 @@ export const labContent: LabContent = {
    * break falls inside a noun phrase.
    */
   hero: {
-    tokens: [
-      { kind: "text", value: "I make businesses" },
-      /*
-        Two stills, not four. The fourth used to orphan at the end of a
-        line and read as tacked on, and at four they were each too small
-        to actually be seen at hero scale — which defeats the point of
-        putting real work inside the sentence at all.
-      */
-      {
-        kind: "chips",
-        images: [
-          {
-            src: "/work/petrolas/campaign-plastic.jpg",
-            alt: "Petrolas campaign poster",
-            form: "plate",
-          },
-          {
-            src: "/work/petrolas/booth.jpg",
-            alt: "Petrolas exhibition booth",
-            form: "bleed",
-          },
-        ],
-      },
-      { kind: "break" },
-      /*
-        The gesture leads the first promise rather than the second. It sat
-        on the last line to begin with, where it shared the row with the
-        longest phrase in the sentence and pushed "from." onto a line of
-        its own — a single orphaned word, which is the one thing the break
-        rules above forbid outright.
-      */
-      { kind: "arrow" },
-      { kind: "text", value: "easy to remember" },
-      { kind: "break" },
-      { kind: "text", value: "and easy to buy from." },
-    ],
+    /*
+      THE CLAIM SURVIVED; THE COMPOSITION DID NOT (2026-08-17).
+
+      This used to be a token array — text, inline stills, a hand-drawn
+      arrow, hand-placed breaks — which composed the spoken sentence the
+      hero was built around. That composition was upsunday.co's, and
+      running three of their devices at once is why the page read as
+      borrowed no matter how the words were edited.
+
+      The words are Ali's and they are good, so they are unchanged. They
+      are simply set as a statement in the room now, in the same uppercase
+      voice as /services and /about, instead of as a sentence with
+      pictures in it.
+
+      Hand-broken, under the same two rules as before: never leave one
+      word alone on a line, and never break inside a noun phrase. Each
+      line below is a complete phrase.
+    */
+    statement: ["I make businesses", "easy to remember", "and easy to buy from."],
     sub: "Brand identity, websites, and advertising — made and run by one person, end to end.",
     cta: { label: "Start a project", href: "#contact" },
     secondary: { label: "See the work", href: "#work" },
