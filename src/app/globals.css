@@ -80,6 +80,16 @@
     rather than a project. Cream survives for type and rules, not fields.
   */
   --lab-sun: #ffc220;
+  /*
+    Qobban own their yellow. Sampled from the live site at qobban.store
+    (#f8b800), not from the stationery, whose gold is the same hue
+    darkened for print — on a near-black case-study ground the print
+    value reads muddy and the digital one sings.
+
+    Distinct from --lab-sun, which is Kids Island's: two projects
+    sharing a colour would break the one rule the palette has.
+  */
+  --lab-amber: #f8b800;
 
   --lab-paper: #f2f2ef;
   --lab-paper-ink: #0b0b0d;
@@ -235,6 +245,7 @@
   --color-lab-cream: var(--lab-cream);
   --color-lab-teal: var(--lab-teal);
   --color-lab-sun: var(--lab-sun);
+  --color-lab-amber: var(--lab-amber);
   --color-lab-sky: var(--lab-sky);
   --color-lab-air: var(--lab-air);
   --color-lab-haze: var(--lab-haze);

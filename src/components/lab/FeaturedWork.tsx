@@ -23,6 +23,7 @@ const FIELD: Record<LabPalette, string> = {
   cream: "bg-lab-cream text-black",
   teal: "bg-lab-teal text-black",
   sun: "bg-lab-sun text-black",
+  amber: "bg-lab-amber text-black",
 };
 
 /** Two cards, per Ali's reference. This is the argument, not the index. */

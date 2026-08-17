@@ -22,6 +22,25 @@ const FIELD: Record<LabPalette, string> = {
   cream: "bg-lab-cream text-black",
   teal: "bg-lab-teal text-black",
   sun: "bg-lab-sun text-black",
+  amber: "bg-lab-amber text-black",
+};
+
+/*
+ * The spread title, where it is NOT cut out of imagery.
+ *
+ * Solid titles inherited the page ink, which made the loudest element on
+ * every case study the same colour on all of them. The project already
+ * owns a colour; this was the one place it was not being spent.
+ */
+const TITLE: Record<LabPalette, string> = {
+  orange: "text-lab-orange",
+  blue: "text-lab-blue",
+  lime: "text-lab-lime",
+  violet: "text-lab-violet",
+  cream: "text-lab-cream",
+  teal: "text-lab-teal",
+  sun: "text-lab-sun",
+  amber: "text-lab-amber",
 };
 
 /**
@@ -171,7 +190,11 @@ function Spread({
           than by the viewport. scripts/shots.mjs now fails on any text
           wider than its own box, which is what would have caught this.
         */}
-        <h2 className="text-[clamp(3rem,15vw,12.5rem)] font-semibold uppercase leading-[0.86] tracking-[-0.05em]">
+        <h2
+          className={`text-[clamp(3rem,15vw,12.5rem)] font-semibold uppercase leading-[0.86] tracking-[-0.05em] ${
+            spread.aperture ? "" : TITLE[palette]
+          }`}
+        >
           {/* Cut out of this spread's own imagery where it exists; solid
               ink where it does not yet. */}
           {spread.aperture ? (
@@ -182,7 +205,10 @@ function Spread({
         </h2>
       </Reveal>
 
-      <div className="mt-7 flex border-t border-lab-hairline pt-5 sm:justify-end">
+      {/* Left, with the title above it (Ali, 2026-08-18). Ranged right it
+          sat alone across a wide empty column and read as a caption that
+          had drifted off the page. */}
+      <div className="mt-7 flex border-t border-lab-hairline pt-5">
         <p className="max-w-md font-display text-[17px] leading-relaxed text-lab-ink-soft">
           {spread.note}
         </p>

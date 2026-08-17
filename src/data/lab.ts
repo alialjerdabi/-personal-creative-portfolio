@@ -142,7 +142,8 @@ export type LabPalette =
   | "violet"
   | "cream"
   | "teal"
-  | "sun";
+  | "sun"
+  | "amber";
 
 export interface LabProject {
   slug: string;
@@ -734,7 +735,11 @@ export const labContent: LabContent = {
       slug: "qobban",
       name: "Qobban",
       live: "https://www.qobban.store",
-      palette: "violet",
+      /* Their actual brand, finally. This read "violet" from the first
+         pass and was wrong the whole time — Qobban is yellow and black,
+         which anyone could see the moment the card started showing the
+         real site. */
+      palette: "amber",
       disciplines: ["Branding", "Websites"],
       year: "—",
       sector: "Fabrication & metalwork",
@@ -782,7 +787,13 @@ export const labContent: LabContent = {
           title: "MARK",
           note: "A letter Q built around a spirit level: the tool the trade actually measures with, made into the thing the business is recognised by. Precision as a mark rather than a promise.",
           layout: "bleeds",
-          aperture: { src: "/work/qobban/level-vial.jpg", position: "50% 50%" },
+          /*
+            NO APERTURE (Ali, 2026-08-18). MARK was cut out of the spirit
+            level below it, which put the same photograph on screen twice
+            and left the title reading as texture rather than as a word.
+            It sets solid in Qobban's own yellow instead — the palette was
+            already there and this was the one place it went unspent.
+          */
           assets: [
             {
               src: "/work/qobban/level-vial.jpg",
@@ -795,8 +806,10 @@ export const labContent: LabContent = {
               form: "bleed",
             },
             {
-              src: "/work/qobban/quote-document.jpg",
-              alt: "A Qobban written scope document with the studio's stationery",
+              /* Ali's real stationery system, supplied 2026-08-18, in
+                 place of the generic scope-document still. */
+              src: "/work/qobban/stationery.jpg",
+              alt: "The Qobban stationery system — letterhead, envelope, business cards, notepad, lanyard and keyring in black, white and the brand gold",
               form: "bleed",
             },
           ],

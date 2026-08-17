@@ -16,6 +16,7 @@ const FIELD: Record<LabPalette, string> = {
   cream: "bg-lab-cream",
   teal: "bg-lab-teal",
   sun: "bg-lab-sun",
+  amber: "bg-lab-amber",
 };
 
 export const metadata: Metadata = {

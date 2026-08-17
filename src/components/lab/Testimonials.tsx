@@ -12,6 +12,7 @@ const FIELD: Record<LabPalette, string> = {
   cream: "bg-lab-cream text-black",
   teal: "bg-lab-teal text-black",
   sun: "bg-lab-sun text-black",
+  amber: "bg-lab-amber text-black",
 };
 
 const ACCENT: Record<LabPalette, string> = {
@@ -22,6 +23,7 @@ const ACCENT: Record<LabPalette, string> = {
   cream: "text-lab-ink-warm",
   teal: "text-lab-teal",
   sun: "text-lab-ink-warm",
+  amber: "text-lab-ink-warm",
 };
 
 /**
