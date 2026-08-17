@@ -258,7 +258,7 @@ function CaseStudyClose({ contact }: { contact: LabContent["contact"] }) {
     <Reveal>
       <section
         aria-labelledby="case-study-close"
-        className="rounded-[2rem] bg-lab-ink-warm px-7 py-12 text-white sm:px-14 sm:py-16"
+        className="lab-ink-panel rounded-[2rem] px-7 py-12 text-white sm:px-14 sm:py-16"
       >
         <h2
           id="case-study-close"
@@ -274,7 +274,7 @@ function CaseStudyClose({ contact }: { contact: LabContent["contact"] }) {
             href={`https://wa.me/${contact.whatsapp}`}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full bg-white px-7 py-3.5 font-display text-[15px] font-bold text-lab-ink-warm transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-lab-ink-warm"
+            className="lab-ink-panel__cta rounded-full px-7 py-3.5 font-display text-[15px] font-bold transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-lab-ink-warm"
           >
             WhatsApp
           </a>

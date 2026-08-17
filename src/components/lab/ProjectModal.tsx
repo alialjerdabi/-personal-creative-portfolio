@@ -135,12 +135,12 @@ export default function ProjectModal({
           being vertically centred. Those two things are what make it read
           as a mounted print rather than a split-screen banner.
         */
-        <div className="relative grid gap-6 overflow-hidden rounded-[1.5rem] bg-white p-6 text-lab-ink-warm shadow-[0_50px_120px_-50px_rgb(26_23_19/0.5)] sm:grid-cols-[1fr_0.86fr] sm:gap-10 sm:p-8">
+        <div className="relative grid gap-6 overflow-hidden rounded-[1.5rem] bg-lab-card p-6 text-lab-ink-warm shadow-[0_50px_120px_-50px_rgb(26_23_19/0.5)] sm:grid-cols-[1fr_0.86fr] sm:gap-10 sm:p-8">
           <button
             type="button"
             onClick={() => dialogRef.current?.close()}
             aria-label="Close"
-            className="absolute right-6 top-6 z-10 flex h-14 w-14 items-center justify-center rounded-[1rem] border border-lab-hairline bg-white text-lab-ink-warm transition-colors hover:bg-lab-haze focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm sm:right-8 sm:top-8"
+            className="absolute right-6 top-6 z-10 flex h-14 w-14 items-center justify-center rounded-[1rem] border border-lab-hairline bg-lab-card text-lab-ink-warm transition-colors hover:bg-lab-haze focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm sm:right-8 sm:top-8"
           >
             <span aria-hidden="true" className="text-lg leading-none">
               ✕

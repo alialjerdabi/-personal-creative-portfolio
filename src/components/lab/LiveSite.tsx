@@ -56,7 +56,7 @@ export default function LiveSite({ site }: { site: LabSite }) {
             width of the screen and a second device on top of it is just
             something covering the work. */}
         {site.mobile && (
-          <div className="absolute -bottom-8 right-6 hidden w-[16%] min-w-[8rem] overflow-hidden rounded-[1rem] border-[5px] border-lab-ink-warm bg-lab-ink-warm shadow-[0_24px_60px_-24px_rgb(19_23_30/0.6)] sm:block lg:right-10">
+          <div className="absolute -bottom-8 right-6 hidden w-[16%] min-w-[8rem] overflow-hidden lab-device-frame rounded-[1rem] border-[5px] shadow-[0_24px_60px_-24px_rgb(19_23_30/0.6)] sm:block lg:right-10">
             <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[0.65rem] bg-lab-haze">
               <Image
                 src={site.mobile.src}

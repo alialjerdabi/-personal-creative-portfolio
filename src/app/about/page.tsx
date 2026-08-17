@@ -149,7 +149,7 @@ export default function AboutPage() {
           const chapter = aboutPage[key];
           const ground =
             tone === "ink"
-              ? "lab-chapter-ink text-white"
+              ? "lab-ink-panel text-white"
               : tone === "haze"
                 ? "bg-lab-haze"
                 : "bg-lab-air";

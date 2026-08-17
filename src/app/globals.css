@@ -2105,8 +2105,30 @@ html[data-aperture-seen="true"] #aperture-loader {
   filter: invert(1);
 }
 
-/* The "when not to hire me" chapter — dark by composition, in both
-   themes. See the CHAPTERS table in app/about/page.tsx. */
-.lab-chapter-ink {
+/*
+ * Panels that are dark BY COMPOSITION rather than by theme.
+ *
+ * The /about chapter, the case-study close — sections the page is meant
+ * to land on as a dark beat. They cannot ride --lab-ink-warm, because
+ * that token inverts, which would turn every one of them light at
+ * exactly the moment the rest of the site turned dark.
+ *
+ * Anything sitting ON one of these needs fixed colours too, hence the
+ * CTA: a white pill with --lab-ink-warm text is white-on-white the
+ * moment the theme flips.
+ */
+.lab-ink-panel {
+  background: var(--lab-ink-fixed);
+}
+
+.lab-ink-panel__cta {
+  background: #fff;
+  color: var(--lab-ink-fixed);
+}
+
+/* A device bezel is an object, not a surface. It stays dark so the
+   phone still reads as a phone once the page turns dark. */
+.lab-device-frame {
+  border-color: var(--lab-ink-fixed);
   background: var(--lab-ink-fixed);
 }
