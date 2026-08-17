@@ -39,18 +39,18 @@ function FeaturedCard({
 }) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   /*
-   * A card with a live site LEAVES THE SITE (Ali's call 2026-08-12).
+   * EVERY CARD OPENS THE POPUP (Ali's call 2026-08-17).
    *
-   * The popup was a summary of the work; the work is a website, and it
-   * is running right now. Sending someone to a page about it, when the
-   * thing itself is one click away, is the weaker version of the
-   * strongest proof this portfolio has. The branding, the photography
-   * and the case study stay one link further on, at /work.
+   * From 2026-08-12 a card with a live site left the site directly, on
+   * the reasoning that a running website beats a page about one. That
+   * reasoning was right and the trade was wrong: it bought the live site
+   * at the cost of the summary, the gallery, and any route to the case
+   * study — and it made two cards on the same row behave differently for
+   * a reason no visitor could see.
    *
-   * Cards without a live site keep the popup, so the interaction only
-   * changes where there is somewhere better to go.
+   * The popup now carries both, so nothing is lost and the card does one
+   * predictable thing.
    */
-  const live = project.live;
   /* `feature` where the square card needs a different still from the
      landscape mosaic tile; `cover` everywhere else. */
   const image = project.feature ?? project.cover;
@@ -150,8 +150,12 @@ function FeaturedCard({
               >
                 {project.name}
               </span>
+              {/* Not "Open the live site ↗" any more — the card opens a
+                  popup, and an arrow promising a new tab would be lying
+                  about where the click goes. The live site is a button
+                  inside, where it can be labelled honestly. */}
               <span className={`font-display text-[15px] ${soft}`}>
-                {live ? "Open the live site ↗" : project.disciplines.join(", ")}
+                {project.disciplines.join(", ")}
               </span>
             </span>
           </span>
@@ -159,20 +163,6 @@ function FeaturedCard({
       </Tilt>
     </>
   );
-
-  if (live) {
-    return (
-      <a
-        href={live}
-        target="_blank"
-        rel="noreferrer"
-        data-more-target
-        className={shell}
-      >
-        {face}
-      </a>
-    );
-  }
 
   return (
     <button

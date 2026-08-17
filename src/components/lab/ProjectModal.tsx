@@ -198,22 +198,51 @@ export default function ProjectModal({
                 `${project.name} is in production. The full case study goes up once the work is ready to show.`}
             </p>
 
+            {/*
+              Up to two ways on, and the live site leads where there is
+              one (Ali, 2026-08-17).
+
+              The reasoning that used to send the whole CARD offsite still
+              holds — a running website is the one claim on this page a
+              visitor can check in a single click — but it cost the popup
+              entirely, and with it the summary, the gallery and the route
+              into the case study. Both now live here: the site is the
+              filled button, the case study the quiet one beside it.
+            */}
             <div className="mt-2 flex flex-wrap items-center gap-3">
+              {project.live && (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-lab-ink-warm px-6 py-3 font-display text-[15px] font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-2"
+                >
+                  View website
+                  <span aria-hidden="true">↗</span>
+                </a>
+              )}
+
               {project.spreads ? (
                 <Link
                   href={`/work/${project.slug}`}
-                  className="rounded-full bg-lab-ink-warm px-6 py-3 font-display text-[15px] font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-2"
+                  className={
+                    project.live
+                      ? "rounded-full border border-lab-ink-warm/25 px-6 py-3 font-display text-[15px] font-bold text-lab-ink-warm transition-colors hover:border-lab-ink-warm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-2"
+                      : "rounded-full bg-lab-ink-warm px-6 py-3 font-display text-[15px] font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-2"
+                  }
                 >
                   See work
                 </Link>
               ) : (
-                <a
-                  href="#contact"
-                  onClick={() => dialogRef.current?.close()}
-                  className="rounded-full bg-lab-ink-warm px-6 py-3 font-display text-[15px] font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-2"
-                >
-                  Ask me about it
-                </a>
+                !project.live && (
+                  <a
+                    href="#contact"
+                    onClick={() => dialogRef.current?.close()}
+                    className="rounded-full bg-lab-ink-warm px-6 py-3 font-display text-[15px] font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-2"
+                  >
+                    Ask me about it
+                  </a>
+                )
               )}
 
               {gallery.length > 1 && (
