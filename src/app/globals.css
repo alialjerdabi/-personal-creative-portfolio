@@ -1738,9 +1738,18 @@ html[data-aperture-seen="true"] #aperture-loader {
   font-family: var(--font-text), sans-serif;
   font-size: clamp(2.5rem, 7.2vw, 6.5rem);
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.045em;
-  text-transform: uppercase;
+  /*
+   * SENTENCE CASE (Ali, 2026-08-17). It reads as something a person says
+   * rather than something a brand announces — which is the register the
+   * whole site is written in, first person and spoken.
+   *
+   * Two settings move with it. Lowercase has ascenders and descenders
+   * where uppercase has neither, so the line needs room it did not need
+   * before; and it is narrower per character, so the very tight -0.045em
+   * that stopped uppercase from sprawling now closes the counters up.
+   */
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
@@ -1892,9 +1901,11 @@ html[data-aperture-seen="true"] #aperture-loader {
   font-weight: 700;
 }
 
+/* The hero is sentence case and needs its own settings — see the rule
+   further up. Uppercase values would win here on source order. */
 .lab-threshold__statement {
-  letter-spacing: -0.045em;
-  line-height: 0.96;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
 }
 
 .lab-page-heading,
