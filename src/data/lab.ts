@@ -835,13 +835,26 @@ export const labContent: LabContent = {
              title is the loudest thing on its page. Repeating it makes two
              projects read as one template. */
           title: "STREET",
-          /* Rewritten 2026-08-12. The original line named "the vehicles",
-             and there is no vehicle in the delivered photography — a note
-             that describes work the page cannot show reads as a claim.
-             What the images do show is the workshop, the workwear and the
-             install, so that is what it now says. */
-          note: "The identity had to survive where the work happens — the workshop, the workwear, the site visit. A client meets this business in a half-built villa long before they meet a brochure.",
+          /*
+            The note names what is on screen, and what is on screen
+            changed twice.
+
+            It said "the vehicles" first, when no vehicle had been
+            delivered — a note describing work the page cannot show reads
+            as a claim. It was rewritten on 2026-08-12 to "the site
+            visit", which the photography did show. Ali supplied the
+            workwear and the liveried vehicle on 2026-08-18, and the site
+            visit came out of the spread, so the line follows the images
+            again rather than the images following the line.
+          */
+          note: "The identity had to survive where the work happens — the workshop, the workwear, the vehicle on the street. A client meets this business at a half-built villa long before they meet a brochure.",
           layout: "bleeds",
+          /*
+            site-survey.jpg and install.jpg come out. "bleeds" has three
+            slots, and the workwear and the vehicle each show the identity
+            APPLIED to something, where those two showed people working
+            with the brand barely visible. Both stay on disk.
+          */
           assets: [
             {
               src: "/work/qobban/workshop.jpg",
@@ -849,13 +862,13 @@ export const labContent: LabContent = {
               form: "bleed",
             },
             {
-              src: "/work/qobban/site-survey.jpg",
-              alt: "Two Qobban fabricators in branded workwear surveying a villa entrance",
+              src: "/work/qobban/workwear.jpg",
+              alt: "The Qobban mark on the back of a fabricator's black work jacket, on the shop floor",
               form: "bleed",
             },
             {
-              src: "/work/qobban/install.jpg",
-              alt: "A Qobban gate leaf being installed against a finished wall",
+              src: "/work/qobban/vehicle.jpg",
+              alt: "A white Qobban SUV in the company livery, its mark and phone number along the door",
               form: "bleed",
             },
           ],
