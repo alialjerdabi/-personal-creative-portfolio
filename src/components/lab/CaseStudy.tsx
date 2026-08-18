@@ -111,7 +111,7 @@ const BENTO: { span: string; ratio: string; label: string }[] = [
   { span: "lg:col-span-5 lg:row-span-2", ratio: "aspect-[9/16]", label: "Tall 9:16" },
   { span: "lg:col-span-3", ratio: "aspect-square", label: "Square" },
   { span: "lg:col-span-4", ratio: "aspect-[4/3]", label: "Landscape" },
-  { span: "lg:col-span-5", ratio: "aspect-[4/5]", label: "Portrait" },
+  { span: "lg:col-span-5", ratio: "aspect-[3/4]", label: "Portrait" },
   { span: "lg:col-span-3", ratio: "aspect-[3/4]", label: "Portrait" },
   { span: "lg:col-span-4", ratio: "aspect-[16/10]", label: "Landscape" },
   { span: "lg:col-span-6", ratio: "aspect-[16/9]", label: "Wide" },
@@ -128,7 +128,12 @@ function Bento({
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:gap-5">
       {BENTO.map((cell, index) => {
-        const asset = assets[index];
+        /* By slot where the asset names one, positional otherwise — so a
+           half-filled board keeps every photograph in the cell it was
+           chosen for instead of sliding up as gaps appear. */
+        const asset =
+          assets.find((candidate) => candidate.slot === index + 1) ??
+          (assets.some((candidate) => candidate.slot) ? undefined : assets[index]);
         return (
           /* Every cell carries the entrance rules — morph, because a
              board of tiles settling into place is exactly the case the

@@ -32,9 +32,20 @@ function interleave(posts: LabMedia[], stories: LabMedia[]) {
   const postCount = Math.max(EXPECTED.posts, posts.length);
   const storyCount = Math.max(EXPECTED.stories, stories.length);
 
-  for (let i = 0; i < Math.max(postCount, storyCount); i += 1) {
-    if (i < postCount) cells.push({ media: posts[i], kind: "post", index: i });
-    if (i < storyCount) cells.push({ media: stories[i], kind: "story", index: i });
+  /*
+   * ALWAYS A PAIR, so the sequence cannot break at the loop seam.
+   *
+   * Running to the longer of the two put six posts against five stories
+   * and ended the group on a post — which then met the first post of the
+   * duplicate copy and showed two posts together, exactly where the loop
+   * is supposed to be invisible. Pairing every post with a story and
+   * cycling the shorter list keeps post-story-post-story true across the
+   * wrap.
+   */
+  for (let i = 0; i < postCount; i += 1) {
+    cells.push({ media: posts[i], kind: "post", index: i });
+    const storyIndex = i % storyCount;
+    cells.push({ media: stories[storyIndex], kind: "story", index: storyIndex });
   }
   return cells;
 }
@@ -190,9 +201,9 @@ export default function SocialShowreel({
                 inert={copy === 1}
                 className="lab-reel__group"
               >
-                {cells.map((cell) => (
+                {cells.map((cell, position) => (
                   <div
-                    key={`${cell.kind}-${cell.index}`}
+                    key={`${cell.kind}-${cell.index}-${position}`}
                     className={cell.kind === "post" ? "lab-reel__post" : "lab-reel__story"}
                   >
                     <Cell

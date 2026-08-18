@@ -30,6 +30,16 @@ export interface LabAsset {
    * "plate"  — a designed artefact; framed as an object on the ground.
    */
   form: "bleed" | "plate";
+  /**
+   * Which bento cell this belongs in, 1-indexed. READ ONLY BY THE BENTO
+   * LAYOUT; every other layout is positional and ignores it.
+   *
+   * It exists because a bento's slots are not interchangeable — a 9:16
+   * cell and a 16:9 cell want different photographs — so "the billboard
+   * goes in 01" has to be sayable without padding the array with
+   * placeholders for the slots that are still empty.
+   */
+  slot?: number;
 }
 
 /** An image bold enough to read inside letterforms. */
@@ -884,7 +894,57 @@ export const labContent: LabContent = {
           title: "BRANDING",
           note: "A mark is one shape. A system is what makes it usable everywhere — the pattern, the palette, and the rules that keep them consistent across every surface the business puts its name on.",
           layout: "bento",
-          assets: [],
+          /*
+            Placed by slot, not by order (Ali, 2026-08-18). Four more
+            cells are still empty and show their labelled shape until
+            the files land.
+
+            EVERY ONE OF THESE FITS ITS CELL WITHOUT BEING CROPPED TO
+            death: the billboard is 1.78 into a 16:9, the profile 0.56
+            into a 9:16, the signage 1.33 into a 4:3. Slot 05 moved from
+            4:5 to 3:4 to match the workwear exactly, because the rule
+            here is that the layout fits the material rather than the
+            material being cropped to fit the layout.
+          */
+          assets: [
+            {
+              slot: 1,
+              src: "/work/qobban/brand-billboard.jpg",
+              alt: "A Qobban roadside billboard at dusk — Precision built to last, over a fabricator cutting a metal screen",
+              form: "bleed",
+            },
+            {
+              /*
+                TEMPORARY. This is a screenshot of the live Instagram
+                profile, standing in for a designed 9:16 asset. It is
+                real work and it is honest to show, but it is a phone
+                screen recorded rather than a piece made — swap it when
+                Ali supplies the intended tall asset.
+              */
+              slot: 2,
+              src: "/work/qobban/brand-profile-temp.jpg",
+              alt: "The Qobban Instagram profile: the mark, the service highlights and the recent grid",
+              form: "bleed",
+            },
+            {
+              slot: 4,
+              src: "/work/qobban/brand-signage.jpg",
+              alt: "The Qobban projecting sign mounted on a building façade against the sky",
+              form: "bleed",
+            },
+            {
+              slot: 5,
+              src: "/work/qobban/brand-workwear.jpg",
+              alt: "The Qobban mark on the back of a black work jacket, on the shop floor",
+              form: "bleed",
+            },
+            {
+              slot: 7,
+              src: "/work/qobban/brand-favicon.jpg",
+              alt: "The Qobban mark as a browser tab favicon beside the address qobban.store",
+              form: "bleed",
+            },
+          ],
         },
         {
           id: "workshop",
