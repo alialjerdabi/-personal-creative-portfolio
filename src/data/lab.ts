@@ -126,7 +126,7 @@ export interface LabSpread {
    * layout from the data" is exactly how a portfolio ends up looking
    * like a grid again.
    */
-  layout: "bleed-plate" | "plates" | "bleeds";
+  layout: "bleed-plate" | "plates" | "bleeds" | "bento";
   /**
    * Absent until this spread's imagery exists. The title then sets in
    * solid ink instead of being cut out of a photograph — the mechanic is
@@ -872,21 +872,18 @@ export const labContent: LabContent = {
             confirmed and whose files are not.
           */
           id: "pattern",
-          label: "02 — Visual system",
+          label: "02 — Branding",
           /*
-            "SYSTEM" per Ali, 2026-08-18.
-
-            KNOWN COLLISION: Delivery Point's second spread is also titled
-            SYSTEM. Every other title on this site is unique on purpose —
-            a spread title is the loudest thing on its page, and two
-            projects sharing one makes them read as a template. Ali asked
-            for this word here, so it stands and Delivery Point's is the
-            one to rename. Flagged rather than changed silently, because
-            renaming another project's spread was not the instruction.
+            "BRANDING" per Ali, 2026-08-18 — and it clears a collision on
+            the way. This was briefly titled SYSTEM, which Delivery Point
+            already owns; every title on this site is unique on purpose,
+            because a spread title is the loudest thing on its page and
+            two projects sharing one reads as a template. Eight
+            characters, single word, so it cannot wrap at 390.
           */
-          title: "SYSTEM",
+          title: "BRANDING",
           note: "A mark is one shape. A system is what makes it usable everywhere — the pattern, the palette, and the rules that keep them consistent across every surface the business puts its name on.",
-          layout: "bleeds",
+          layout: "bento",
           assets: [],
         },
         {

@@ -91,6 +91,80 @@ function PendingAssets({ palette, label }: { palette: LabPalette; label: string 
   );
 }
 
+/*
+ * The bento (Ali, 2026-08-18), modelled on the brand-board grid he
+ * supplied: cells of deliberately unequal size and ratio, so a stationery
+ * flat-lay, an app icon and a billboard each get the shape they were shot
+ * for instead of all three being cropped to one tile.
+ *
+ * SPANS AND RATIOS ARE FIXED, CONTENT IS NOT. The grid is declared here
+ * rather than derived from the assets, because a layout that rearranges
+ * itself around whatever arrived is how a considered board becomes a
+ * gallery. Assets fill the slots in order; unfilled slots show the
+ * project's colour and say what belongs there.
+ *
+ * Slot 02 is the 9:16 Ali asked for — the tall portrait that gives the
+ * grid its vertical, and the one shape a uniform grid can never hold.
+ */
+const BENTO: { span: string; ratio: string; label: string }[] = [
+  { span: "lg:col-span-7", ratio: "aspect-[16/9]", label: "Wide" },
+  { span: "lg:col-span-5 lg:row-span-2", ratio: "aspect-[9/16]", label: "Tall 9:16" },
+  { span: "lg:col-span-3", ratio: "aspect-square", label: "Square" },
+  { span: "lg:col-span-4", ratio: "aspect-[4/3]", label: "Landscape" },
+  { span: "lg:col-span-5", ratio: "aspect-[4/5]", label: "Portrait" },
+  { span: "lg:col-span-3", ratio: "aspect-[3/4]", label: "Portrait" },
+  { span: "lg:col-span-4", ratio: "aspect-[16/10]", label: "Landscape" },
+  { span: "lg:col-span-6", ratio: "aspect-[16/9]", label: "Wide" },
+  { span: "lg:col-span-6", ratio: "aspect-[16/9]", label: "Wide" },
+];
+
+function Bento({
+  assets,
+  palette,
+}: {
+  assets: LabAsset[];
+  palette: LabPalette;
+}) {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:gap-5">
+      {BENTO.map((cell, index) => {
+        const asset = assets[index];
+        return (
+          /* Every cell carries the entrance rules — morph, because a
+             board of tiles settling into place is exactly the case the
+             scale variant exists for. See docs/motion.md. */
+          <Reveal
+            key={asset?.src ?? `bento-${index}`}
+            variant="morph"
+            index={index}
+            className={cell.span}
+          >
+            <div
+              className={`relative w-full overflow-hidden rounded-[1.2rem] ${cell.ratio} ${
+                asset ? "bg-lab-haze" : FIELD[palette]
+              }`}
+            >
+              {asset ? (
+                <Image
+                  src={asset.src}
+                  alt={asset.alt}
+                  fill
+                  sizes="(max-width: 1024px) 90vw, 40vw"
+                  className="object-cover"
+                />
+              ) : (
+                <span className="absolute bottom-4 left-4 font-display text-[11px] font-bold uppercase tracking-[0.14em] opacity-75">
+                  {String(index + 1).padStart(2, "0")} · {cell.label}
+                </span>
+              )}
+            </div>
+          </Reveal>
+        );
+      })}
+    </div>
+  );
+}
+
 function SpreadAssets({
   spread,
   palette,
@@ -100,11 +174,18 @@ function SpreadAssets({
   palette: LabPalette;
   pendingLabel: string;
 }) {
-  if (spread.assets.length === 0) {
+  /* A bento declares its own slots, so an empty one still has a layout
+     to show — the pending panel would replace the very thing being
+     judged. */
+  if (spread.assets.length === 0 && spread.layout !== "bento") {
     return <PendingAssets palette={palette} label={pendingLabel} />;
   }
 
   const [first, second, third] = spread.assets;
+
+  if (spread.layout === "bento") {
+    return <Bento assets={spread.assets} palette={palette} />;
+  }
 
   if (spread.layout === "plates") {
     // Equal widths, unequal tops. The stagger is what keeps three
