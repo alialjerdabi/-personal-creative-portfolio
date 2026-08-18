@@ -71,6 +71,28 @@ export type LabMedia =
     };
 
 /**
+ * The social band: three formats, each with its own ratio and its own
+ * job. Posts loop, stories sit in a row, films play.
+ *
+ * Separate arrays rather than one list with a `ratio` field, because the
+ * three are laid out differently and a component that had to sort a
+ * mixed list into three buckets would be doing at render what the
+ * content layer can just state.
+ *
+ * Every entry is a LabMedia, so a still and a video are the same kind of
+ * thing here — a campaign is both, and a shape that only took images
+ * would decide that for Ali.
+ */
+export interface LabShowreel {
+  /** 4:5. Six is what makes the rail read as continuous. */
+  posts: LabMedia[];
+  /** 9:16, up to five. */
+  stories: LabMedia[];
+  /** 16:9. */
+  films: LabMedia[];
+}
+
+/**
  * A site that is live right now, shown in browser chrome.
  *
  * The URL is the point. Everything else on a portfolio is a claim about
@@ -127,6 +149,12 @@ export interface LabSpread {
    * above this spread's assets, in browser chrome, with a link out.
    */
   site?: LabSite;
+  /**
+   * Present only on a spread whose job is the social output. Replaces
+   * the asset layouts entirely — posts, stories and films are three
+   * ratios that a `bleeds` or `plates` grid cannot hold together.
+   */
+  showreel?: LabShowreel;
 }
 
 /**
@@ -925,7 +953,7 @@ export const labContent: LabContent = {
                products page in light mode on the phone — the two halves
                of the build, and the two themes, in one exhibit. */
             desktop: {
-              src: "/work/qobban/site-landing-dark-v2.jpg",
+              src: "/work/qobban/site-landing-dark-v3.jpg",
               alt: "The Qobban landing page in dark mode: the headline Precision is our standard over a lit villa entrance, with the tipping spirit level above it",
               form: "bleed",
             },
@@ -968,6 +996,12 @@ export const labContent: LabContent = {
           note: "The identity at post scale, where most of a local audience actually meets this business — content and campaign creative built from the same system rather than decorated to match it.",
           layout: "bleeds",
           assets: [],
+          /*
+            Empty on purpose. Each band renders its expected number of
+            labelled slots, so the composition is judgeable now and the
+            files drop in without the layout changing shape.
+          */
+          showreel: { posts: [], stories: [], films: [] },
         },
       ],
     },

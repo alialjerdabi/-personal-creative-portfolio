@@ -4,6 +4,7 @@ import Reveal from "@/components/ui/Reveal";
 import ApertureText from "@/components/lab/ApertureText";
 import FloatingNav from "@/components/lab/FloatingNav";
 import LiveSite from "@/components/lab/LiveSite";
+import SocialShowreel from "@/components/lab/SocialShowreel";
 import type { LabAsset, LabContent, LabPalette, LabProject, LabSpread } from "@/data/lab";
 
 /**
@@ -241,10 +242,18 @@ function Spread({
         which is the honest state for a spread whose files have not
         arrived.
       */}
-      {(spread.assets.length > 0 || !spread.site) && (
+      {/* A showreel spread lays itself out — three ratios that no asset
+          grid can hold together. */}
+      {spread.showreel ? (
         <div className="mt-10 sm:mt-14">
-          <SpreadAssets spread={spread} palette={palette} pendingLabel={pendingLabel} />
+          <SocialShowreel showreel={spread.showreel} palette={palette} />
         </div>
+      ) : (
+        (spread.assets.length > 0 || !spread.site) && (
+          <div className="mt-10 sm:mt-14">
+            <SpreadAssets spread={spread} palette={palette} pendingLabel={pendingLabel} />
+          </div>
+        )
       )}
     </article>
   );
