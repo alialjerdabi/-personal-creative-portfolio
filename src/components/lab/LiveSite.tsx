@@ -24,9 +24,29 @@ import type { LabSite } from "@/data/lab";
 export default function LiveSite({ site }: { site: LabSite }) {
   return (
     <Reveal mask duration={600}>
-      <div className="relative">
+      {/*
+        THE WHOLE EXHIBIT IS THE LINK (Ali, 2026-08-18).
+
+        A screenshot of a website that is live and one click away should
+        behave like the website — people click pictures of sites, and a
+        picture that does nothing when clicked reads as a dead end. The
+        text link below stays: it is the labelled affordance, and it is
+        what a keyboard user meets in the tab order.
+
+        `aria-hidden` and `tabIndex={-1}` on this one so the same
+        destination is not announced twice or tabbed to twice. The
+        accessible route is the labelled link underneath.
+      */}
+      <a
+        href={site.url}
+        target="_blank"
+        rel="noreferrer"
+        aria-hidden="true"
+        tabIndex={-1}
+        className="group/site relative block"
+      >
         {/* The desktop frame. */}
-        <div className="overflow-hidden rounded-[1.1rem] border border-lab-hairline bg-white shadow-[0_24px_70px_-40px_rgb(19_23_30/0.55)]">
+        <div className="overflow-hidden rounded-[1.1rem] border border-lab-hairline bg-white shadow-[0_24px_70px_-40px_rgb(19_23_30/0.55)] transition-shadow duration-500 group-hover/site:shadow-[0_34px_90px_-40px_rgb(19_23_30/0.7)]">
           {/* Chrome. Three dots and an address bar — enough to read as a
               browser, not so much that it becomes a drawing of one. */}
           <div className="flex items-center gap-3 border-b border-lab-hairline bg-lab-haze px-4 py-3">
@@ -68,7 +88,7 @@ export default function LiveSite({ site }: { site: LabSite }) {
             </div>
           </div>
         )}
-      </div>
+      </a>
 
       <p className="mt-12 font-display text-[15px] sm:mt-14">
         <a

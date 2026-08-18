@@ -925,7 +925,7 @@ export const labContent: LabContent = {
                products page in light mode on the phone — the two halves
                of the build, and the two themes, in one exhibit. */
             desktop: {
-              src: "/work/qobban/site-landing-dark.jpg",
+              src: "/work/qobban/site-landing-dark-v2.jpg",
               alt: "The Qobban landing page in dark mode: the headline Precision is our standard over a lit villa entrance, with the tipping spirit level above it",
               form: "bleed",
             },
