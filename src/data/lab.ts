@@ -829,8 +829,30 @@ export const labContent: LabContent = {
           ],
         },
         {
+          /*
+            Added 2026-08-18 (Ali). Sits directly after the mark because
+            it is the mark's consequence: one shape becomes a system.
+
+            "PATTERN", not "SYSTEM" — Delivery Point owns SYSTEM, and a
+            spread title is the loudest thing on its page. Two projects
+            sharing one reads as a template rather than as two pieces of
+            work. Seven characters, single word, so it cannot wrap at 390.
+
+            ASSETS PENDING. The spread renders its argument over a
+            labelled panel until Ali supplies the pattern and the system
+            boards — the honest state for a case study whose story is
+            confirmed and whose files are not.
+          */
+          id: "pattern",
+          label: "02 — Pattern & visual system",
+          title: "PATTERN",
+          note: "A mark is one shape. A system is what makes it usable everywhere — the pattern, the palette, and the rules that keep them consistent across every surface the business puts its name on.",
+          layout: "bleeds",
+          assets: [],
+        },
+        {
           id: "workshop",
-          label: "02 — Premises & workwear",
+          label: "03 — Premises & workwear",
           /* Not "PLACE" — Petrolas already owns that word, and a spread
              title is the loudest thing on its page. Repeating it makes two
              projects read as one template. */
@@ -875,7 +897,7 @@ export const labContent: LabContent = {
         },
         {
           id: "digital",
-          label: "03 — Website",
+          label: "04 — Website",
           title: "SITE",
           note: "A site that shows the craft rather than listing services: fabrication, welding, architectural metalwork and maintenance, presented so a client can tell the standard before they call. The spirit level runs across the top of the page and tips with the cursor — the mark, made operable.",
           layout: "bleeds",
@@ -910,6 +932,31 @@ export const labContent: LabContent = {
               form: "bleed",
             },
           ],
+        },
+        {
+          /*
+            Added 2026-08-18 (Ali), and last on purpose: social is where
+            the identity is spent, so it reads best after the pages that
+            establish what is being spent.
+
+            "SOCIAL", not "CAMPAIGN" or "REACH" — Petrolas owns the first
+            and Delivery Point the second.
+
+            QOBBAN ONLY. This is not a section every case study gets; it
+            exists because there is social and campaign work for this
+            client. A spread that appears on a project with nothing to put
+            in it is a template, and the pending panel is for files that
+            are coming, not for work that was never done.
+
+            ASSETS PENDING until Ali supplies the content and the campaign
+            creative.
+          */
+          id: "social",
+          label: "05 — Social & campaigns",
+          title: "SOCIAL",
+          note: "The identity at post scale, where most of a local audience actually meets this business — content and campaign creative built from the same system rather than decorated to match it.",
+          layout: "bleeds",
+          assets: [],
         },
       ],
     },
