@@ -844,8 +844,19 @@ export const labContent: LabContent = {
             confirmed and whose files are not.
           */
           id: "pattern",
-          label: "02 — Pattern & visual system",
-          title: "PATTERN",
+          label: "02 — Visual system",
+          /*
+            "SYSTEM" per Ali, 2026-08-18.
+
+            KNOWN COLLISION: Delivery Point's second spread is also titled
+            SYSTEM. Every other title on this site is unique on purpose —
+            a spread title is the loudest thing on its page, and two
+            projects sharing one makes them read as a template. Ali asked
+            for this word here, so it stands and Delivery Point's is the
+            one to rename. Flagged rather than changed silently, because
+            renaming another project's spread was not the instruction.
+          */
+          title: "SYSTEM",
           note: "A mark is one shape. A system is what makes it usable everywhere — the pattern, the palette, and the rules that keep them consistent across every surface the business puts its name on.",
           layout: "bleeds",
           assets: [],
@@ -899,39 +910,39 @@ export const labContent: LabContent = {
           id: "digital",
           label: "04 — Website",
           title: "SITE",
-          note: "A site that shows the craft rather than listing services: fabrication, welding, architectural metalwork and maintenance, presented so a client can tell the standard before they call. The spirit level runs across the top of the page and tips with the cursor — the mark, made operable.",
+          /*
+            Updated 2026-08-18 with the real captures. The note now names
+            the products page too, because the page exists and the phone
+            in this spread is showing it — a note that describes less than
+            the images do is the same fault as one that describes more.
+          */
+          note: "A site that shows the craft rather than listing services: fabrication, welding, architectural metalwork and maintenance, presented so a client can tell the standard before they call. The spirit level runs across the top of the page and tips with the cursor — the mark, made operable. A second page sells ready-made pieces at a stated price, for the work that does not need a site visit.",
           layout: "bleeds",
           site: {
             url: "https://www.qobban.store",
             label: "Open qobban.store",
+            /* The landing page in dark mode on the desktop frame, the
+               products page in light mode on the phone — the two halves
+               of the build, and the two themes, in one exhibit. */
             desktop: {
-              src: "/work/qobban/site-desktop.jpg",
-              alt: "The Qobban homepage: a tipping spirit level above the headline Precision is our standard",
+              src: "/work/qobban/site-landing-dark.jpg",
+              alt: "The Qobban landing page in dark mode: the headline Precision is our standard over a lit villa entrance, with the tipping spirit level above it",
               form: "bleed",
             },
             mobile: {
-              src: "/work/qobban/site-mobile.jpg",
-              alt: "The Qobban homepage on a phone",
+              src: "/work/qobban/site-products-mobile.jpg",
+              alt: "The Qobban products page on a phone in light mode: ready-made pieces listed at a stated price",
               form: "bleed",
             },
           },
-          assets: [
-            {
-              src: "/work/qobban/site-work.jpg",
-              alt: "The selected work section of the Qobban site, projects listed by dimension and location",
-              form: "bleed",
-            },
-            {
-              src: "/work/qobban/gate-villa.jpg",
-              alt: "A Qobban sliding entrance gate in a villa façade at dusk",
-              form: "bleed",
-            },
-            {
-              src: "/work/qobban/level-vial.jpg",
-              alt: "The spirit level vial that opens the Qobban site",
-              form: "bleed",
-            },
-          ],
+          /*
+            NO STILLS UNDER THE SITE (Ali, 2026-08-18). The three that sat
+            here were pictures OF the website plus a gate photograph
+            already shown elsewhere — a section about a live site arguing
+            with screenshots when the site itself is right above them, one
+            click away. The frame and the URL are the evidence.
+          */
+          assets: [],
         },
         {
           /*

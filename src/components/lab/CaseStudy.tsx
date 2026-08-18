@@ -231,9 +231,21 @@ function Spread({
         </div>
       )}
 
-      <div className="mt-10 sm:mt-14">
-        <SpreadAssets spread={spread} palette={palette} pendingLabel={pendingLabel} />
-      </div>
+      {/*
+        A spread with a live site and no stills is FINISHED, not pending.
+        The site is the evidence — running, checkable, one click away —
+        so a panel underneath it reading "imagery in production" would be
+        apologising for something that is already there.
+
+        Everywhere else an empty `assets` still renders the pending panel,
+        which is the honest state for a spread whose files have not
+        arrived.
+      */}
+      {(spread.assets.length > 0 || !spread.site) && (
+        <div className="mt-10 sm:mt-14">
+          <SpreadAssets spread={spread} palette={palette} pendingLabel={pendingLabel} />
+        </div>
+      )}
     </article>
   );
 }
