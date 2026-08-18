@@ -794,15 +794,29 @@ export const labContent: LabContent = {
             It sets solid in Qobban's own yellow instead — the palette was
             already there and this was the one place it went unspent.
           */
+          /*
+            REORDERED 2026-08-18 (Ali). The spread now argues in the right
+            order: the mark and how it was built, then the object it was
+            built from, then the system it turned into.
+
+            level-on-gate.jpg comes out. The "bleeds" layout has exactly
+            three slots, and a photograph of a level held against a gate
+            was the weakest of four once the construction board arrived —
+            it says the same thing as the vial, less clearly. The file is
+            still on disk if it belongs in the premises spread later.
+          */
           assets: [
             {
-              src: "/work/qobban/level-vial.jpg",
-              alt: "The bubble in a spirit level vial — the device the Qobban mark is built from",
+              /* The logo-construction board from Ali's brand guidelines,
+                 supplied 2026-08-18. This is the spread's argument stated
+                 outright: Q frame + spirit level = the mark. */
+              src: "/work/qobban/logo-concept.jpg",
+              alt: "Qobban brand guidelines: the logo built from a letter Q frame combined with a spirit level, shown as a construction diagram",
               form: "bleed",
             },
             {
-              src: "/work/qobban/level-on-gate.jpg",
-              alt: "A spirit level held against a Qobban gate post during installation",
+              src: "/work/qobban/level-vial.jpg",
+              alt: "The bubble in a spirit level vial — the device the Qobban mark is built from",
               form: "bleed",
             },
             {

@@ -123,8 +123,17 @@ function SpreadAssets({
   if (spread.layout === "bleeds") {
     return (
       <div>
+        {/*
+          16:9 at every width (Ali, 2026-08-18), not 21:9 on desktop.
+
+          The 21:9 letterbox was chosen for photographs, where cropping
+          the top and bottom costs nothing. It is wrong for a DESIGNED
+          artefact: Qobban's logo-construction board is a 16:9 composition
+          with content at both edges, and the wider crop cut the whole
+          "logo construction" row off the bottom.
+        */}
         <Reveal mask duration={600}>
-          <Bleed asset={first} ratio="aspect-[16/9] lg:aspect-[21/9]" sizes="92vw" />
+          <Bleed asset={first} ratio="aspect-[16/9]" sizes="92vw" />
         </Reveal>
         <div className="mt-6 grid gap-6 lg:mt-8 lg:grid-cols-12 lg:gap-8">
           <Reveal mask delay={80} duration={550} className="lg:col-span-7">
