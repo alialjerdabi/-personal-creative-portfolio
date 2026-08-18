@@ -118,7 +118,7 @@ export default function ServiceIndex({
         */}
         <h2 id="lab-services-heading" className="mt-7 lab-service-statement">
           {["I research.", "I design.", "I build."].map((line, index) => (
-            <Reveal key={line} delay={index * 90}>
+            <Reveal key={line} index={index}>
               <span className="block">{line}</span>
             </Reveal>
           ))}

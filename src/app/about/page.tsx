@@ -111,13 +111,13 @@ export default function AboutPage() {
               <Reveal>
                 <p className="lab-placard">{aboutPage.placard}</p>
               </Reveal>
-              <Reveal delay={70}>
+              <Reveal index={1}>
                 <h1 className="mt-6 lab-page-heading">{studio.heading}</h1>
               </Reveal>
 
               <div className="mt-8 space-y-5">
                 {studio.bio.map((paragraph, index) => (
-                  <Reveal key={paragraph} delay={140 + index * 70}>
+                  <Reveal key={paragraph} index={index + 2}>
                     <p className="max-w-xl lab-page-lede">{paragraph}</p>
                   </Reveal>
                 ))}
@@ -127,7 +127,7 @@ export default function AboutPage() {
                   years figure here and that is deliberate — it is the one
                   number a page like this usually leads with, and the one
                   Ali has not settled. */}
-              <Reveal delay={320}>
+              <Reveal index={5}>
                 <dl className="mt-11 grid gap-6 border-t border-lab-hairline pt-7 sm:grid-cols-3">
                   {studio.highlights.map((item) => (
                     <div key={item.label}>
@@ -173,7 +173,7 @@ export default function AboutPage() {
                       {chapter.placard}
                     </p>
                   </Reveal>
-                  <Reveal delay={70}>
+                  <Reveal index={1}>
                     <h2
                       id={`about-${key}`}
                       className={`mt-5 lab-page-heading ${
@@ -187,7 +187,7 @@ export default function AboutPage() {
 
                 <div className="space-y-5 lg:pt-2">
                   {chapter.body.map((paragraph, index) => (
-                    <Reveal key={paragraph} delay={index * 70}>
+                    <Reveal key={paragraph} index={index}>
                       <p
                         className={`max-w-2xl lab-prose ${
                           tone === "ink" ? "lab-prose--inverted" : ""
@@ -211,7 +211,7 @@ export default function AboutPage() {
             <Reveal>
               <p className="lab-placard">Questions</p>
             </Reveal>
-            <Reveal delay={70}>
+            <Reveal index={1}>
               <h2 id="about-faq-heading" className="mt-6 lab-page-heading">
                 Straight answers.
               </h2>

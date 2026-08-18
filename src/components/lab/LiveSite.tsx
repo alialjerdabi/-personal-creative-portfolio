@@ -23,7 +23,7 @@ import type { LabSite } from "@/data/lab";
  */
 export default function LiveSite({ site }: { site: LabSite }) {
   return (
-    <Reveal mask duration={600}>
+    <Reveal variant="mask">
       {/*
         THE WHOLE EXHIBIT IS THE LINK (Ali, 2026-08-18).
 

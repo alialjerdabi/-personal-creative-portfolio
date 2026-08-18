@@ -91,6 +91,22 @@
   */
   --lab-amber: #f8b800;
 
+  /*
+   * MOTION TOKENS. See docs/motion.md — measured from the two reference
+   * sites rather than chosen.
+   *
+   * The easing is symbolstudio's, and it is the whole finding: near
+   * symmetric, so it accelerates and decelerates about equally. Most
+   * sites reach for ease-out, which starts fast and is why they feel
+   * like software rather than like something considered.
+   */
+  --ease-motion: cubic-bezier(0.44, 0, 0.56, 1);
+  --dur-quick: 260ms;
+  --dur-base: 520ms;
+  --dur-slow: 800ms;
+  --rise-text: 12px;
+  --rise-block: 28px;
+
   --lab-paper: #f2f2ef;
   --lab-paper-ink: #0b0b0d;
   --lab-paper-muted: #6b6b70;
@@ -2248,4 +2264,73 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-reel__ticks span.is-active {
   width: 2.4rem;
   background: #fff;
+}
+
+/* -------------------------------- reveal -------------------------------- */
+
+/*
+ * The entrance primitive. See docs/motion.md.
+ *
+ * One easing, three durations, three distances — and it enters ONCE. The
+ * measured behaviour of both reference sites is that elements arrive and
+ * then stop; on pages of 8,000-9,500px, animating content away while the
+ * reader is still passing it is how motion becomes interference.
+ */
+.lab-reveal {
+  transition-property: opacity, transform;
+  transition-timing-function: var(--ease-motion);
+  transition-duration: var(--dur-base);
+}
+
+.lab-reveal[data-state="hidden"] {
+  opacity: 0;
+}
+
+.lab-reveal[data-variant="text"][data-state="hidden"] {
+  transform: translate3d(0, var(--rise-text), 0);
+}
+
+.lab-reveal[data-variant="block"][data-state="hidden"] {
+  transform: translate3d(0, var(--rise-block), 0);
+}
+
+/*
+ * MORPH — for things genuinely changing size, not for everything.
+ *
+ * Scale paired with opacity and a deliberately small rise. Two large
+ * simultaneous transforms read as a bounce, which is the difference
+ * between a card settling and a card arriving like a notification.
+ */
+.lab-reveal[data-variant="morph"][data-state="hidden"] {
+  transform: translate3d(0, 10px, 0) scale(0.94);
+}
+
+.lab-reveal[data-variant="morph"] {
+  transition-duration: var(--dur-slow);
+}
+
+/* MASK — media travels its own height from behind its own edge. The clip
+   is a separate, stable wrapper so the observed node and the transformed
+   node are never the same element. */
+.lab-reveal-clip {
+  overflow: hidden;
+}
+
+.lab-reveal[data-variant="mask"] {
+  transition-duration: var(--dur-slow);
+}
+
+.lab-reveal[data-variant="mask"][data-state="hidden"] {
+  transform: translate3d(0, 100%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-reveal {
+    transition: none;
+  }
+
+  .lab-reveal[data-state="hidden"] {
+    opacity: 1;
+    transform: none;
+  }
 }

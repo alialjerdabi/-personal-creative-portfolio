@@ -79,7 +79,7 @@ function Bleed({ asset, ratio, sizes }: { asset: LabAsset; ratio: string; sizes:
  */
 function PendingAssets({ palette, label }: { palette: LabPalette; label: string }) {
   return (
-    <Reveal mask duration={600}>
+    <Reveal variant="mask">
       <div
         className={`flex aspect-[16/9] w-full items-end rounded-[1.4rem] p-7 sm:p-10 lg:aspect-[2/1] ${FIELD[palette]}`}
       >
@@ -113,7 +113,7 @@ function SpreadAssets({
     return (
       <div className="grid gap-6 sm:grid-cols-3 sm:gap-8">
         {spread.assets.map((asset, index) => (
-          <Reveal key={asset.src} mask delay={index * 90} duration={550} className={offsets[index]}>
+          <Reveal key={asset.src} variant="mask" index={index} className={offsets[index]}>
             <Plate asset={asset} sizes="(max-width: 640px) 90vw, 30vw" />
           </Reveal>
         ))}
@@ -133,14 +133,14 @@ function SpreadAssets({
           with content at both edges, and the wider crop cut the whole
           "logo construction" row off the bottom.
         */}
-        <Reveal mask duration={600}>
+        <Reveal variant="mask">
           <Bleed asset={first} ratio="aspect-[16/9]" sizes="92vw" />
         </Reveal>
         <div className="mt-6 grid gap-6 lg:mt-8 lg:grid-cols-12 lg:gap-8">
-          <Reveal mask delay={80} duration={550} className="lg:col-span-7">
+          <Reveal variant="mask" index={1} className="lg:col-span-7">
             <Bleed asset={second} ratio="aspect-[4/3]" sizes="(max-width: 1024px) 90vw, 55vw" />
           </Reveal>
-          <Reveal mask delay={170} duration={550} className="lg:col-span-5 lg:mt-14">
+          <Reveal variant="mask" index={3} className="lg:col-span-5 lg:mt-14">
             <Bleed asset={third} ratio="aspect-[4/3]" sizes="(max-width: 1024px) 90vw, 38vw" />
           </Reveal>
         </div>
@@ -152,13 +152,12 @@ function SpreadAssets({
   // against it as evidence, pulled up into the photograph's lower margin.
   return (
     <div>
-      <Reveal mask duration={600}>
+      <Reveal variant="mask">
         <Bleed asset={first} ratio="aspect-[16/9] lg:aspect-[2/1]" sizes="92vw" />
       </Reveal>
       <Reveal
-        mask
+        variant="mask"
         delay={120}
-        duration={550}
         className="mt-6 w-full sm:w-2/3 lg:-mt-24 lg:ml-auto lg:w-[28%]"
       >
         <Plate asset={second} sizes="(max-width: 640px) 90vw, 28vw" />
@@ -182,7 +181,7 @@ function Spread({
         <p className="font-display text-[15px] text-lab-ink-soft">{spread.label}</p>
       </Reveal>
 
-      <Reveal mask duration={600} className="mt-4">
+      <Reveal variant="mask" className="mt-4">
         {/*
           15vw: the spread title is the loudest element on the page and
           has to hold that job on a phone too. Measured against the

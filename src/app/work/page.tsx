@@ -37,12 +37,12 @@ export default function WorkPage() {
         <Reveal>
           <p className="font-display text-[15px] text-lab-ink-soft">Work</p>
         </Reveal>
-        <Reveal delay={70}>
+        <Reveal index={1}>
           <h1 className="mt-5 max-w-3xl font-display text-[clamp(2.1rem,5.4vw,4.25rem)] font-bold leading-[1.04] tracking-[-0.04em]">
             Every project, and what it changed.
           </h1>
         </Reveal>
-        <Reveal delay={140}>
+        <Reveal index={2}>
           <p className="mt-7 max-w-xl font-display text-[clamp(1.05rem,1.5vw,1.25rem)] leading-relaxed text-lab-ink-soft">
             Six businesses, six sectors. Open any one to see what the problem
             was before it was a design problem.

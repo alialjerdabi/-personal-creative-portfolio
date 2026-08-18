@@ -61,7 +61,7 @@ export default function ClientStrip({ content }: { content: LabContent }) {
                div between <ul> and <li> and makes every child a
                last-child. */
             <li key={project.slug} className="border-t border-lab-hairline pt-5">
-              <Reveal delay={(index % 3) * 70}>
+              <Reveal index={index % 3}>
                 <p className="font-display text-[clamp(1.15rem,1.9vw,1.45rem)] font-bold leading-tight tracking-[-0.025em] text-lab-ink-warm">
                   {project.name}
                 </p>

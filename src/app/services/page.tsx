@@ -115,15 +115,15 @@ export default function ServicesPage() {
             <Reveal>
               <p className="lab-placard">{servicesPage.placard}</p>
             </Reveal>
-            <Reveal delay={70}>
+            <Reveal index={1}>
               <h1 className="mt-6 max-w-4xl lab-page-heading">
                 {servicesPage.heading}
               </h1>
             </Reveal>
-            <Reveal delay={140}>
+            <Reveal index={2}>
               <p className="mt-7 max-w-2xl lab-page-lede">{servicesPage.intro}</p>
             </Reveal>
-            <Reveal delay={210}>
+            <Reveal index={3}>
               <p className="mt-9 flex flex-wrap gap-2.5">
                 {services.items.map((service) => (
                   <a
@@ -224,7 +224,7 @@ export default function ServicesPage() {
             <Reveal>
               <p className="lab-placard">How it runs</p>
             </Reveal>
-            <Reveal delay={70}>
+            <Reveal index={1}>
               <h2 id="process-heading" className="mt-6 max-w-3xl lab-page-heading">
                 Research first. Always.
               </h2>
@@ -233,7 +233,7 @@ export default function ServicesPage() {
             <ol className="mt-12 grid gap-x-10 gap-y-8 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
               {servicesPage.process.map((stage, index) => (
                 <li key={stage.step} className="border-t border-lab-hairline pt-5">
-                  <Reveal delay={index * 60}>
+                  <Reveal index={index}>
                     <p className="lab-step-num">{stage.step}</p>
                     <h3 className="mt-2 lab-step-title">{stage.title}</h3>
                     <p className="mt-2 lab-prose">{stage.body}</p>
@@ -252,7 +252,7 @@ export default function ServicesPage() {
             <Reveal>
               <p className="lab-placard">Questions</p>
             </Reveal>
-            <Reveal delay={70}>
+            <Reveal index={1}>
               <h2 id="faq-heading" className="mt-6 lab-page-heading">
                 What people ask before they call.
               </h2>

@@ -85,12 +85,12 @@ export default function ContactPage() {
             <Reveal>
               <p className="lab-placard">{contactPage.placard}</p>
             </Reveal>
-            <Reveal delay={70}>
+            <Reveal index={1}>
               <h1 className="mt-6 max-w-3xl lab-page-heading">
                 {contactPage.heading}
               </h1>
             </Reveal>
-            <Reveal delay={140}>
+            <Reveal index={2}>
               <p className="mt-7 max-w-2xl lab-page-lede">{contactPage.intro}</p>
             </Reveal>
           </div>
@@ -104,7 +104,7 @@ export default function ContactPage() {
             <Reveal>
               <p className="lab-placard">What happens next</p>
             </Reveal>
-            <Reveal delay={70}>
+            <Reveal index={1}>
               <h2 id="next-heading" className="mt-6 max-w-3xl lab-page-heading">
                 Four steps, no pitch.
               </h2>
@@ -113,7 +113,7 @@ export default function ContactPage() {
             <ol className="mt-12 grid gap-x-10 gap-y-8 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4">
               {contactPage.next.map((stage, index) => (
                 <li key={stage.step} className="border-t border-lab-hairline pt-5">
-                  <Reveal delay={index * 70}>
+                  <Reveal index={index}>
                     <p className="lab-step-num">{stage.step}</p>
                     <h3 className="mt-2 lab-step-title">{stage.title}</h3>
                     <p className="mt-2 lab-prose">{stage.body}</p>
@@ -132,7 +132,7 @@ export default function ContactPage() {
             <Reveal>
               <p className="lab-placard">Questions</p>
             </Reveal>
-            <Reveal delay={70}>
+            <Reveal index={1}>
               <h2 id="contact-faq-heading" className="mt-6 lab-page-heading">
                 Before you write.
               </h2>

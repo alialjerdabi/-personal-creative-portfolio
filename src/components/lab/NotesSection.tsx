@@ -31,7 +31,7 @@ export default function NotesSection({ notes }: { notes: LabContent["notes"] }) 
 
         <div className="mt-12 grid gap-5 sm:mt-16 lg:grid-cols-3">
           {notes.items.map((note, index) => (
-            <Reveal key={note.title} delay={index * 80}>
+            <Reveal key={note.title} index={index}>
               <article className="flex h-full flex-col rounded-[1.6rem] border border-lab-hairline bg-white/70 p-7 shadow-[0_14px_44px_-30px_rgb(19_23_30/0.45)] sm:p-9">
                 <p className="font-display text-[13px] font-bold uppercase tracking-[0.12em] text-lab-ink-soft">
                   {note.tag}

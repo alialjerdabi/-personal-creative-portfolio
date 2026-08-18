@@ -245,7 +245,7 @@ export default function FeaturedWork({ content }: { content: LabContent }) {
         <MoreCursor>
           <div className="mt-12 grid items-stretch gap-6 sm:mt-16 lg:grid-cols-2">
             {featured.map((project, index) => (
-              <Reveal key={project.slug} delay={index * 90}>
+              <Reveal key={project.slug} index={index}>
                 <FeaturedCard
                   project={project}
                   priority={index === 0}

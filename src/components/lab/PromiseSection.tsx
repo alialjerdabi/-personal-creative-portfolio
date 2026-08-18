@@ -54,7 +54,7 @@ export default function PromiseSection({
               className="border-t border-lab-hairline last:border-b"
             >
               <Reveal
-                delay={index * 80}
+                index={index}
                 className="grid grid-cols-1 gap-x-10 gap-y-3 py-8 sm:grid-cols-[4rem_1fr] sm:py-10 lg:grid-cols-[5rem_minmax(0,1.1fr)_minmax(0,1fr)] lg:items-baseline"
               >
                 <span
