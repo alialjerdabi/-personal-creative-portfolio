@@ -2147,10 +2147,12 @@ html[data-aperture-seen="true"] #aperture-loader {
 /* ----------------------------- social showreel -------------------------- */
 
 /*
- * Three formats, three ratios, one band. The cell is the shared shell —
- * only the wrapper's aspect ratio changes between posts, stories and
- * films, so a 4:5 still and a 16:9 film are the same object at different
- * proportions rather than three separate components.
+ * One rail, two ratios, one screen.
+ *
+ * The 9:16 cells used to sit in a row of their own, which read as a
+ * filmstrip of the same thing five times over. Interleaving them into
+ * the looping rail (Ali, 2026-08-18) makes the change of format part of
+ * the rhythm rather than a second section to scroll past.
  */
 .lab-reel__cell {
   position: absolute;
@@ -2160,21 +2162,17 @@ html[data-aperture-seen="true"] #aperture-loader {
 }
 
 /*
- * The loading ground, on filled cells ONLY.
+ * The loading ground, on FILLED cells only.
  *
- * Declared unconditionally first, and it silently beat the project's
- * colour on every pending slot: these rules are appended after
- * Tailwind's utility layer, so at equal specificity source order wins
- * and `bg-lab-amber` lost. Third time this exact trap has bitten in this
- * file — a component class and a Tailwind colour utility on one element
- * is always the component class.
+ * Declared unconditionally it silently beat the project colour on every
+ * pending slot: these rules are appended after Tailwind's utility layer,
+ * so at equal specificity source order wins. A component class and a
+ * colour utility on one element is always the component class.
  */
 .lab-reel__cell:not(.lab-reel__cell--pending) {
   background: var(--lab-haze);
 }
 
-/* The slot state. Labelled and in the project's colour, so an unfilled
-   band reads as a layout waiting for files rather than as a broken one. */
 .lab-reel__cell--pending {
   display: flex;
   align-items: flex-end;
@@ -2190,76 +2188,64 @@ html[data-aperture-seen="true"] #aperture-loader {
   opacity: 0.75;
 }
 
-/* POSTS — 4:5, sized so six of them read as a continuous rail rather
-   than as a row that happens to repeat. */
-.lab-reel__post {
-  position: relative;
-  flex: none;
-  width: clamp(11rem, 22vw, 15rem);
-  aspect-ratio: 4 / 5;
-}
-
-/*
- * STORIES — 9:16. A row at desktop; a swipeable strip below `sm`, where
- * five 9:16 cells side by side would each be a sliver too narrow to read
- * anything in.
- */
-.lab-reel__stories {
+/* CENTRED, so the two ratios stagger themselves. Hand-placed offsets
+   would need re-tuning the moment the count of either format changes. */
+.lab-reel__group {
   display: flex;
-  gap: 0.75rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  scroll-snap-type: x mandatory;
-  overscroll-behavior-x: contain;
+  flex: none;
+  align-items: center;
+  gap: 1rem;
+  padding-left: 1rem;
 }
 
-.lab-reel__stories::-webkit-scrollbar {
-  display: none;
-}
-
+.lab-reel__post,
 .lab-reel__story {
   position: relative;
   flex: none;
-  width: clamp(9rem, 40vw, 100%);
-  aspect-ratio: 9 / 16;
-  scroll-snap-align: start;
 }
 
-@media (min-width: 768px) {
-  .lab-reel__stories {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    overflow: visible;
-  }
+.lab-reel__post {
+  width: clamp(10rem, 20vw, 14rem);
+  aspect-ratio: 4 / 5;
+}
 
-  .lab-reel__story {
-    width: 100%;
-  }
+.lab-reel__story {
+  width: clamp(8.5rem, 16vw, 11.5rem);
+  aspect-ratio: 9 / 16;
 }
 
 /*
- * FILMS — 16:9, bento. The first runs full width and the other two share
- * the row beneath it. Three equal cells would read as a grid; the point
- * of the bento is that the first film is the one being shown and the
- * other two are the rest of the set.
+ * The screen. One 16:9 card playing the films back to back, starting
+ * when it is scrolled to — a campaign is watched, not browsed, and three
+ * stacked players ask the visitor to choose which one matters.
  */
-.lab-reel__films {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.lab-reel__film {
+.lab-reel__screen {
   position: relative;
+  width: 100%;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 1.4rem;
+  background: var(--lab-haze);
 }
 
-@media (min-width: 768px) {
-  .lab-reel__films {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
+.lab-reel__ticks {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  display: flex;
+  gap: 0.4rem;
+}
 
-  .lab-reel__film:first-child {
-    grid-column: span 2;
-  }
+.lab-reel__ticks span {
+  display: block;
+  height: 0.2rem;
+  width: 1.4rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.35);
+  transition: background-color 400ms ease, width 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-reel__ticks span.is-active {
+  width: 2.4rem;
+  background: #fff;
 }
