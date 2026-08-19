@@ -55,7 +55,27 @@ SOCIAL**.
   primitive. Variants `text | block | morph | mask`, `index` for the
   60ms stagger capped at six steps. Timing is a token, not a prop — do
   not pass hand-written delays.
-- `Bento` in `CaseStudy.tsx` declares nine fixed slots. Assets choose
+**The five roles.** Every case study reads in the same order, and each
+project keeps its own words for them:
+
+| # | Role | Qobban | Petrolas | Delivery Point |
+|---|------|--------|----------|----------------|
+| 1 | the mark | MARK | IDENTITY | POSITION |
+| 2 | the system | BRANDING | SYSTEM | SYSTEM |
+| 3 | the campaign | SOCIAL | CAMPAIGN | REACH |
+| 4 | the screen | SITE | SCREEN | TRACK |
+| 5 | the place | STREET | PLACE | ROAD |
+
+The sequence is unified; the vocabulary is not. Three case studies using
+the same five words would read as one template filled in three times.
+
+**Every layout slot tolerates a missing asset.** `Slot` in `CaseStudy.tsx`
+renders the project's colour and names the shape that belongs there, so a
+spread can be composed before its files exist. The guard lives in `Bleed`
+and `Plate` rather than in each layout — a spread with one asset in a
+three-slot layout used to return a 500.
+
+- `Bento` in `CaseStudy.tsx` declares ten fixed slots. Assets choose
   their cell with `slot` in `src/data/lab.ts`; the grid never rearranges
   itself around what happened to arrive. Empty slots render the
   project's colour and say what belongs there.
@@ -79,9 +99,18 @@ SOCIAL**.
    he should know it is visible.
 3. **SOCIAL showreel assets** — six posts at 4:5, five stories at 9:16,
    three desktop films.
-4. **Petrolas, then Delivery Point** get the same restructure Qobban
-   just had, once their assets arrive.
-5. The About page start year. Ali said mid-2020 for the first design
+4. **Petrolas and Delivery Point are skeletons waiting on files.**
+   Petrolas needs its SYSTEM bento filled (nine of ten cells empty) —
+   Ali has said there are many more assets, and little motion. Delivery
+   Point is empty in all five spreads.
+5. **Six Petrolas files are 418px wide** — `campaign-*`, `dashboard`,
+   `loop-diagram`, `refinery`, `ev-charging`. They are only usable small.
+   Ask for the originals.
+6. **Kids Island, Nextshoot and Shawarma & Sauce have no case study at
+   all** and were deliberately left that way — five empty spreads each
+   would publish three near-identical placeholder pages. Add them when
+   the first real asset for each arrives.
+7. The About page start year. Ali said mid-2020 for the first design
    course; the years figure is still deliberately absent from the page
    because his anchor and his figure disagreed by a year.
 

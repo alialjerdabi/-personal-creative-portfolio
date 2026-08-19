@@ -603,12 +603,31 @@ export const labContent: LabContent = {
         form: "bleed",
       },
       spreads: [
+        /*
+          THE FIVE ROLES (Ali, 2026-08-19). Every case study now reads in
+          the same order, and each project keeps its own words for them:
+
+            1  the mark        — what the business is recognised by
+            2  the system      — palette, type, and the mark applied
+            3  the campaign    — the identity spent on an audience
+            4  the screen      — the site
+            5  the place       — where the business physically shows up
+
+          The SEQUENCE is unified; the VOCABULARY is not. Three case
+          studies using the same five words would read as one template
+          filled in three times, which is the opposite of what this site
+          is arguing. Petrolas keeps IDENTITY, SYSTEM, CAMPAIGN, SCREEN
+          and PLACE; Qobban keeps MARK, BRANDING, SOCIAL, SITE, STREET.
+
+          Empty cells are labelled with the shape that belongs in them,
+          so the composition can be judged before the files exist.
+        */
         {
           id: "identity",
           label: "01 — Brand identity",
           title: "IDENTITY",
           note: "Mark, colour, type, and voice — built to hold from a business card to a trade-show hall without losing itself.",
-          layout: "bleed-plate",
+          layout: "bleeds",
           aperture: { src: "/hero/petrolas-branding.jpg", position: "50% 45%" },
           assets: [
             {
@@ -616,16 +635,40 @@ export const labContent: LabContent = {
               alt: "Petrolas exhibition booth staffed and busy with visitors, the full identity applied at trade-show scale",
               form: "bleed",
             },
+          ],
+        },
+        {
+          id: "system",
+          label: "02 — Brand system",
+          title: "SYSTEM",
+          note: "A mark is one shape. A system is what makes it usable everywhere — the palette, the type, and the rules that hold them together across every surface the business puts its name on.",
+          layout: "bento",
+          /*
+            The guidelines page takes slot 01 because it is the one asset
+            here that IS the system rather than an application of it.
+            Everything else is labelled and waiting.
+          */
+          assets: [
             {
+              slot: 1,
               src: "/work/petrolas/brand-guidelines.jpg",
               alt: "Petrolas brand guidelines page detailing the primary, secondary, and accent colour system",
-              form: "plate",
+              form: "bleed",
+            },
+            {
+              /* The charger belongs to the system rather than to PLACE:
+                 it is the mark on a product, and 0.67 fits the 3:4 cell
+                 far better than PLACE's 4:3 would. */
+              slot: 6,
+              src: "/work/petrolas/ev-charging.jpg",
+              alt: "Petrolas-branded EV charging station reading From waste to what moves us forward",
+              form: "bleed",
             },
           ],
         },
         {
           id: "campaign",
-          label: "02 — Campaign",
+          label: "03 — Campaign",
           title: "CAMPAIGN",
           note: "One argument, carried across every format the business actually buys — not three unrelated adverts.",
           layout: "plates",
@@ -649,36 +692,11 @@ export const labContent: LabContent = {
           ],
         },
         {
-          id: "environment",
-          label: "03 — Environmental",
-          title: "PLACE",
-          note: "The identity had to survive outside a browser — on a hoarding, on a fleet, wherever the business physically shows up.",
-          layout: "bleeds",
-          assets: [
-            {
-              src: "/work/petrolas/hoarding-wide.jpg",
-              alt: "Petrolas construction hoarding with connected circuit-line graphics reading Powering progress. Fueling tomorrow.",
-              form: "bleed",
-            },
-            {
-              src: "/work/petrolas/fleet-systems.jpg",
-              alt: "Petrolas-branded tanker truck with a connected circuit graphic along its tank",
-              form: "bleed",
-            },
-            {
-              src: "/work/petrolas/ev-charging.jpg",
-              alt: "Petrolas-branded EV charging station reading From waste to what moves us forward",
-              form: "bleed",
-            },
-          ],
-          aperture: { src: "/work/petrolas/hoarding-wide.jpg", position: "38% 50%" },
-        },
-        {
           id: "digital",
           label: "04 — Digital",
           title: "SCREEN",
           note: "The same language carried into screens — social, site, and a live operations view built in the identity, not beside it. The partnership page is the argument at its sharpest: a serif italic against the grotesque, and a brief set as a document rather than a pitch.",
-          layout: "bleed-plate",
+          layout: "plates",
           aperture: { src: "/hero/petrolas-digital.jpg", position: "55% 45%" },
           /* Captured from the live build 2026-08-12, at Ali's
              instruction. The URL is a preview deployment, so it is the
@@ -693,11 +711,17 @@ export const labContent: LabContent = {
               form: "bleed",
             },
           },
+          /*
+            PLATES, NOT BLEEDS. Both of these are 418px wide — running
+            either full width would show the visitor a soft image and
+            call it the work. As plates they are objects on a page at a
+            size their resolution can carry.
+          */
           assets: [
             {
               src: "/work/petrolas/dashboard.jpg",
               alt: "Petrolas operations dashboard interface showing live production and feedstock data",
-              form: "bleed",
+              form: "plate",
             },
             {
               src: "/work/petrolas/loop-diagram.jpg",
@@ -705,6 +729,26 @@ export const labContent: LabContent = {
               form: "plate",
             },
           ],
+        },
+        {
+          id: "environment",
+          label: "05 — Environmental",
+          title: "PLACE",
+          note: "The identity had to survive outside a browser — on a hoarding, on a fleet, wherever the business physically shows up.",
+          layout: "bleeds",
+          assets: [
+            {
+              src: "/work/petrolas/hoarding-wide.jpg",
+              alt: "Petrolas construction hoarding with connected circuit-line graphics reading Powering progress. Fueling tomorrow.",
+              form: "bleed",
+            },
+            {
+              src: "/work/petrolas/fleet-systems.jpg",
+              alt: "Petrolas-branded tanker truck with a connected circuit graphic along its tank",
+              form: "bleed",
+            },
+          ],
+          aperture: { src: "/work/petrolas/hoarding-wide.jpg", position: "38% 50%" },
         },
       ],
     },
@@ -733,20 +777,26 @@ export const labContent: LabContent = {
         Assets to come in `public/work/delivery-point/`.
       */
       spreads: [
+        /*
+          The five roles, in Delivery Point's own words. Every asset is
+          pending — the notes are Ali's account of the engagement and were
+          written before any file existed, so the argument is judgeable
+          now and the imagery drops into a shape that already holds.
+        */
         {
-          id: "position",
+          id: "identity",
           label: "01 — Positioning",
           title: "POSITION",
           note: "Competing against regional and international carriers, the problem was never capability — it was that the scale of the business did not show. Market, competitor and SWOT analysis first, design second.",
-          layout: "bleed-plate",
+          layout: "bleeds",
           assets: [],
         },
         {
-          id: "identity",
+          id: "system",
           label: "02 — Brand system",
           title: "SYSTEM",
           note: "One identity across the fleet, the packaging, the tracking interface and the paperwork — the four places a logistics customer actually meets the company, made to look like one business.",
-          layout: "bleeds",
+          layout: "bento",
           assets: [],
         },
         {
@@ -755,6 +805,22 @@ export const labContent: LabContent = {
           title: "REACH",
           note: "Branding and marketing planned as one system rather than two briefs. During the first month of implementation the client reported reach up approximately 20% and sales up approximately 5%. The full three-month plan was not completed; those figures cover the implemented period.",
           layout: "plates",
+          assets: [],
+        },
+        {
+          id: "digital",
+          label: "04 — Digital",
+          title: "TRACK",
+          note: "The tracking interface and the pages around it — where a logistics customer spends most of their time with the company, and the surface most likely to be built by someone who never saw the brand.",
+          layout: "plates",
+          assets: [],
+        },
+        {
+          id: "environment",
+          label: "05 — Fleet & premises",
+          title: "ROAD",
+          note: "A logistics brand is met on the road before it is met anywhere else — the fleet, the uniforms, the packaging that arrives at a door.",
+          layout: "bleeds",
           assets: [],
         },
       ],

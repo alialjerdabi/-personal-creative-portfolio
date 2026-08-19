@@ -50,7 +50,51 @@ const TITLE: Record<LabPalette, string> = {
  * typography; running them full width puts two type systems in a fight
  * the page always loses.
  */
-function Plate({ asset, sizes }: { asset: LabAsset; sizes: string }) {
+/**
+ * A cell whose file has not arrived.
+ *
+ * THE GUARD LIVES HERE, not in each layout. Every layout used to assume
+ * it had been given as many assets as it has slots, and a spread with one
+ * asset in a three-slot layout took `undefined.src` and returned a 500 —
+ * which is how a missing photograph became a missing page. One fallback
+ * in the two shared cells covers all four layouts at once.
+ *
+ * It carries the project's colour and names the shape that belongs in it,
+ * so the composition is judgeable before the imagery exists and nobody
+ * has to guess what is meant to go there.
+ */
+function Slot({
+  palette,
+  label,
+  className,
+}: {
+  palette: LabPalette;
+  label: string;
+  className: string;
+}) {
+  return (
+    <div className={`flex w-full items-end p-5 sm:p-6 ${FIELD[palette]} ${className}`}>
+      <span className="font-display text-[11px] font-bold uppercase tracking-[0.14em] opacity-75">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function Plate({
+  asset,
+  sizes,
+  palette,
+  label,
+}: {
+  asset?: LabAsset;
+  sizes: string;
+  palette: LabPalette;
+  label: string;
+}) {
+  if (!asset) {
+    return <Slot palette={palette} label={label} className="aspect-[2/3] rounded-[1.4rem]" />;
+  }
   return (
     <div className="rounded-[1.4rem] border border-lab-hairline bg-white/70 p-3 shadow-[0_14px_44px_-30px_rgb(19_23_30/0.5)] sm:p-4">
       <div className="relative aspect-[2/3] w-full overflow-hidden rounded-[1rem]">
@@ -61,33 +105,26 @@ function Plate({ asset, sizes }: { asset: LabAsset; sizes: string }) {
 }
 
 /** Photographic material, run wide. */
-function Bleed({ asset, ratio, sizes }: { asset: LabAsset; ratio: string; sizes: string }) {
+function Bleed({
+  asset,
+  ratio,
+  sizes,
+  palette,
+  label,
+}: {
+  asset?: LabAsset;
+  ratio: string;
+  sizes: string;
+  palette: LabPalette;
+  label: string;
+}) {
+  if (!asset) {
+    return <Slot palette={palette} label={label} className={`${ratio} rounded-[1.4rem]`} />;
+  }
   return (
     <div className={`relative w-full overflow-hidden rounded-[1.4rem] ${ratio}`}>
       <Image src={asset.src} alt={asset.alt} fill sizes={sizes} className="object-cover" />
     </div>
-  );
-}
-
-/**
- * A spread whose story is written but whose files have not arrived.
- *
- * Carries the project's own colour and says plainly what is missing. A
- * designed, labelled panel reads as a page still being finished; an empty
- * div or a broken image icon reads as a page that is broken — and a
- * borrowed image would attribute another client's work to this one.
- */
-function PendingAssets({ palette, label }: { palette: LabPalette; label: string }) {
-  return (
-    <Reveal variant="mask">
-      <div
-        className={`flex aspect-[16/9] w-full items-end rounded-[1.4rem] p-7 sm:p-10 lg:aspect-[2/1] ${FIELD[palette]}`}
-      >
-        <p className="font-display text-[15px] font-bold uppercase tracking-[0.12em] opacity-80">
-          {label}
-        </p>
-      </div>
-    </Reveal>
   );
 }
 
@@ -177,19 +214,10 @@ function Bento({
 function SpreadAssets({
   spread,
   palette,
-  pendingLabel,
 }: {
   spread: LabSpread;
   palette: LabPalette;
-  pendingLabel: string;
 }) {
-  /* A bento declares its own slots, so an empty one still has a layout
-     to show — the pending panel would replace the very thing being
-     judged. */
-  if (spread.assets.length === 0 && spread.layout !== "bento") {
-    return <PendingAssets palette={palette} label={pendingLabel} />;
-  }
-
   const [first, second, third] = spread.assets;
 
   if (spread.layout === "bento") {
@@ -202,9 +230,19 @@ function SpreadAssets({
     const offsets = ["sm:mt-0", "sm:mt-16", "sm:mt-8"];
     return (
       <div className="grid gap-6 sm:grid-cols-3 sm:gap-8">
-        {spread.assets.map((asset, index) => (
-          <Reveal key={asset.src} variant="mask" index={index} className={offsets[index]}>
-            <Plate asset={asset} sizes="(max-width: 640px) 90vw, 30vw" />
+        {[first, second, third].map((asset, index) => (
+          <Reveal
+            key={asset?.src ?? `plate-${index}`}
+            variant="mask"
+            index={index}
+            className={offsets[index]}
+          >
+            <Plate
+              asset={asset}
+              sizes="(max-width: 640px) 90vw, 30vw"
+              palette={palette}
+              label={`${String(index + 1).padStart(2, "0")} · Poster 2:3`}
+            />
           </Reveal>
         ))}
       </div>
@@ -224,14 +262,32 @@ function SpreadAssets({
           "logo construction" row off the bottom.
         */}
         <Reveal variant="mask">
-          <Bleed asset={first} ratio="aspect-[16/9]" sizes="92vw" />
+          <Bleed
+            asset={first}
+            ratio="aspect-[16/9]"
+            sizes="92vw"
+            palette={palette}
+            label="01 · Wide 16:9"
+          />
         </Reveal>
         <div className="mt-6 grid gap-6 lg:mt-8 lg:grid-cols-12 lg:gap-8">
           <Reveal variant="mask" index={1} className="lg:col-span-7">
-            <Bleed asset={second} ratio="aspect-[4/3]" sizes="(max-width: 1024px) 90vw, 55vw" />
+            <Bleed
+              asset={second}
+              ratio="aspect-[4/3]"
+              sizes="(max-width: 1024px) 90vw, 55vw"
+              palette={palette}
+              label="02 · Landscape 4:3"
+            />
           </Reveal>
           <Reveal variant="mask" index={3} className="lg:col-span-5 lg:mt-14">
-            <Bleed asset={third} ratio="aspect-[4/3]" sizes="(max-width: 1024px) 90vw, 38vw" />
+            <Bleed
+              asset={third}
+              ratio="aspect-[4/3]"
+              sizes="(max-width: 1024px) 90vw, 38vw"
+              palette={palette}
+              label="03 · Landscape 4:3"
+            />
           </Reveal>
         </div>
       </div>
@@ -243,14 +299,25 @@ function SpreadAssets({
   return (
     <div>
       <Reveal variant="mask">
-        <Bleed asset={first} ratio="aspect-[16/9] lg:aspect-[2/1]" sizes="92vw" />
+        <Bleed
+          asset={first}
+          ratio="aspect-[16/9] lg:aspect-[2/1]"
+          sizes="92vw"
+          palette={palette}
+          label="01 · Wide 2:1"
+        />
       </Reveal>
       <Reveal
         variant="mask"
         delay={120}
         className="mt-6 w-full sm:w-2/3 lg:-mt-24 lg:ml-auto lg:w-[28%]"
       >
-        <Plate asset={second} sizes="(max-width: 640px) 90vw, 28vw" />
+        <Plate
+          asset={second}
+          sizes="(max-width: 640px) 90vw, 28vw"
+          palette={palette}
+          label="02 · Poster 2:3"
+        />
       </Reveal>
     </div>
   );
@@ -259,11 +326,9 @@ function SpreadAssets({
 function Spread({
   spread,
   palette,
-  pendingLabel,
 }: {
   spread: LabSpread;
   palette: LabPalette;
-  pendingLabel: string;
 }) {
   return (
     <article className="mt-24 first:mt-0 sm:mt-36">
@@ -340,7 +405,7 @@ function Spread({
       ) : (
         (spread.assets.length > 0 || !spread.site) && (
           <div className="mt-10 sm:mt-14">
-            <SpreadAssets spread={spread} palette={palette} pendingLabel={pendingLabel} />
+            <SpreadAssets spread={spread} palette={palette} />
           </div>
         )
       )}
@@ -518,7 +583,6 @@ export default function CaseStudy({ content, project, next }: CaseStudyProps) {
               key={spread.id}
               spread={spread}
               palette={project.palette}
-              pendingLabel={content.lobby.assetsPendingLabel}
             />
           ))}
         </div>
