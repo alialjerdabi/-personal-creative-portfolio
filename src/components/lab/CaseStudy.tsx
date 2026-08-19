@@ -111,9 +111,13 @@ const BENTO: { span: string; ratio: string; label: string }[] = [
   { span: "lg:col-span-5 lg:row-span-2", ratio: "aspect-[9/16]", label: "Tall 9:16" },
   { span: "lg:col-span-3", ratio: "aspect-square", label: "Square" },
   { span: "lg:col-span-4", ratio: "aspect-[16/9]", label: "Wide 16:9" },
-  { span: "lg:col-span-5", ratio: "aspect-[3/4]", label: "Portrait" },
-  { span: "lg:col-span-3", ratio: "aspect-[3/4]", label: "Portrait" },
+  /* The two portraits span two grid rows so the right-hand column can
+     hold a stack — the browser frame is short and left slack under
+     itself, which is where the app card goes (Ali, 2026-08-19). */
+  { span: "lg:col-span-5 lg:row-span-2", ratio: "aspect-[3/4]", label: "Portrait" },
+  { span: "lg:col-span-3 lg:row-span-2", ratio: "aspect-[3/4]", label: "Portrait" },
   { span: "lg:col-span-4", ratio: "aspect-[16/10]", label: "Landscape" },
+  { span: "lg:col-span-4", ratio: "aspect-[4/3]", label: "Landscape" },
   { span: "lg:col-span-6", ratio: "aspect-[4/3]", label: "Landscape" },
   { span: "lg:col-span-6", ratio: "aspect-[3/2]", label: "Wide" },
 ];

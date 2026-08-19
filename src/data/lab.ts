@@ -937,6 +937,12 @@ export const labContent: LabContent = {
             },
             {
               slot: 8,
+              src: "/work/qobban/brand-appstore.jpg",
+              alt: "The Qobban app listing on a store page — the mark as an app icon, Metal solutions & services beneath it",
+              form: "bleed",
+            },
+            {
+              slot: 9,
               src: "/work/qobban/brand-signage.jpg",
               alt: "The Qobban projecting sign mounted on a building façade against the sky",
               form: "bleed",
@@ -960,7 +966,7 @@ export const labContent: LabContent = {
               form: "bleed",
             },
             {
-              slot: 9,
+              slot: 10,
               src: "/work/qobban/brand-stationery-set.jpg",
               alt: "The Qobban stationery set laid out — letterhead, envelope, business cards, notepad, pen, keyring and lanyard",
               form: "bleed",
