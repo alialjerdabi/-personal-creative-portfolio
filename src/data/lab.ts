@@ -936,7 +936,7 @@ export const labContent: LabContent = {
               form: "bleed",
             },
             {
-              slot: 9,
+              slot: 8,
               src: "/work/qobban/brand-signage.jpg",
               alt: "The Qobban projecting sign mounted on a building façade against the sky",
               form: "bleed",
@@ -960,7 +960,7 @@ export const labContent: LabContent = {
               form: "bleed",
             },
             {
-              slot: 8,
+              slot: 9,
               src: "/work/qobban/brand-stationery-set.jpg",
               alt: "The Qobban stationery set laid out — letterhead, envelope, business cards, notepad, pen, keyring and lanyard",
               form: "bleed",

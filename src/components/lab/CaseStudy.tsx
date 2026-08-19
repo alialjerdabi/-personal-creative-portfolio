@@ -114,8 +114,8 @@ const BENTO: { span: string; ratio: string; label: string }[] = [
   { span: "lg:col-span-5", ratio: "aspect-[3/4]", label: "Portrait" },
   { span: "lg:col-span-3", ratio: "aspect-[3/4]", label: "Portrait" },
   { span: "lg:col-span-4", ratio: "aspect-[16/10]", label: "Landscape" },
-  { span: "lg:col-span-6", ratio: "aspect-[3/2]", label: "Wide" },
   { span: "lg:col-span-6", ratio: "aspect-[4/3]", label: "Landscape" },
+  { span: "lg:col-span-6", ratio: "aspect-[3/2]", label: "Wide" },
 ];
 
 function Bento({
