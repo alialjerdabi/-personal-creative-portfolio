@@ -980,93 +980,10 @@ export const labContent: LabContent = {
           ],
         },
         {
-          id: "workshop",
-          label: "03 — Premises & workwear",
-          /* Not "PLACE" — Petrolas already owns that word, and a spread
-             title is the loudest thing on its page. Repeating it makes two
-             projects read as one template. */
-          title: "STREET",
           /*
-            The note names what is on screen, and what is on screen
-            changed twice.
-
-            It said "the vehicles" first, when no vehicle had been
-            delivered — a note describing work the page cannot show reads
-            as a claim. It was rewritten on 2026-08-12 to "the site
-            visit", which the photography did show. Ali supplied the
-            workwear and the liveried vehicle on 2026-08-18, and the site
-            visit came out of the spread, so the line follows the images
-            again rather than the images following the line.
-          */
-          note: "The identity had to survive where the work happens — the workshop, the workwear, the vehicle on the street. A client meets this business at a half-built villa long before they meet a brochure.",
-          layout: "bleeds",
-          /*
-            site-survey.jpg and install.jpg come out. "bleeds" has three
-            slots, and the workwear and the vehicle each show the identity
-            APPLIED to something, where those two showed people working
-            with the brand barely visible. Both stay on disk.
-          */
-          assets: [
-            {
-              src: "/work/qobban/workshop.jpg",
-              alt: "The Qobban fabrication workshop, benches and stock racked along the span",
-              form: "bleed",
-            },
-            {
-              src: "/work/qobban/workwear.jpg",
-              alt: "The Qobban mark on the back of a fabricator's black work jacket, on the shop floor",
-              form: "bleed",
-            },
-            {
-              src: "/work/qobban/vehicle.jpg",
-              alt: "A white Qobban SUV in the company livery, its mark and phone number along the door",
-              form: "bleed",
-            },
-          ],
-        },
-        {
-          id: "digital",
-          label: "04 — Website",
-          title: "SITE",
-          /*
-            Updated 2026-08-18 with the real captures. The note now names
-            the products page too, because the page exists and the phone
-            in this spread is showing it — a note that describes less than
-            the images do is the same fault as one that describes more.
-          */
-          note: "A site that shows the craft rather than listing services: fabrication, welding, architectural metalwork and maintenance, presented so a client can tell the standard before they call. The spirit level runs across the top of the page and tips with the cursor — the mark, made operable. A second page sells ready-made pieces at a stated price, for the work that does not need a site visit.",
-          layout: "bleeds",
-          site: {
-            url: "https://www.qobban.store",
-            label: "Open qobban.store",
-            /* The landing page in dark mode on the desktop frame, the
-               products page in light mode on the phone — the two halves
-               of the build, and the two themes, in one exhibit. */
-            desktop: {
-              src: "/work/qobban/site-landing-dark-v3.jpg",
-              alt: "The Qobban landing page in dark mode: the headline Precision is our standard over a lit villa entrance, with the tipping spirit level above it",
-              form: "bleed",
-            },
-            mobile: {
-              src: "/work/qobban/site-products-mobile.jpg",
-              alt: "The Qobban products page on a phone in light mode: ready-made pieces listed at a stated price",
-              form: "bleed",
-            },
-          },
-          /*
-            NO STILLS UNDER THE SITE (Ali, 2026-08-18). The three that sat
-            here were pictures OF the website plus a gate photograph
-            already shown elsewhere — a section about a live site arguing
-            with screenshots when the site itself is right above them, one
-            click away. The frame and the URL are the evidence.
-          */
-          assets: [],
-        },
-        {
-          /*
-            Added 2026-08-18 (Ali), and last on purpose: social is where
-            the identity is spent, so it reads best after the pages that
-            establish what is being spent.
+            Added 2026-08-18 (Ali), and moved up to third on 2026-08-19:
+            it follows BRANDING directly, so the system is shown and then
+            immediately shown being spent.
 
             "SOCIAL", not "CAMPAIGN" or "REACH" — Petrolas owns the first
             and Delivery Point the second.
@@ -1077,11 +994,9 @@ export const labContent: LabContent = {
             in it is a template, and the pending panel is for files that
             are coming, not for work that was never done.
 
-            ASSETS PENDING until Ali supplies the content and the campaign
-            creative.
           */
           id: "social",
-          label: "05 — Social & campaigns",
+          label: "03 — Social & campaigns",
           title: "SOCIAL",
           note: "The identity at post scale, where most of a local audience actually meets this business — content and campaign creative built from the same system rather than decorated to match it.",
           layout: "bleeds",
@@ -1198,6 +1113,89 @@ export const labContent: LabContent = {
               },
             ],
           },
+        },
+        {
+          id: "digital",
+          label: "04 — Website",
+          title: "SITE",
+          /*
+            Updated 2026-08-18 with the real captures. The note now names
+            the products page too, because the page exists and the phone
+            in this spread is showing it — a note that describes less than
+            the images do is the same fault as one that describes more.
+          */
+          note: "A site that shows the craft rather than listing services: fabrication, welding, architectural metalwork and maintenance, presented so a client can tell the standard before they call. The spirit level runs across the top of the page and tips with the cursor — the mark, made operable. A second page sells ready-made pieces at a stated price, for the work that does not need a site visit.",
+          layout: "bleeds",
+          site: {
+            url: "https://www.qobban.store",
+            label: "Open qobban.store",
+            /* The landing page in dark mode on the desktop frame, the
+               products page in light mode on the phone — the two halves
+               of the build, and the two themes, in one exhibit. */
+            desktop: {
+              src: "/work/qobban/site-landing-dark-v3.jpg",
+              alt: "The Qobban landing page in dark mode: the headline Precision is our standard over a lit villa entrance, with the tipping spirit level above it",
+              form: "bleed",
+            },
+            mobile: {
+              src: "/work/qobban/site-products-mobile.jpg",
+              alt: "The Qobban products page on a phone in light mode: ready-made pieces listed at a stated price",
+              form: "bleed",
+            },
+          },
+          /*
+            NO STILLS UNDER THE SITE (Ali, 2026-08-18). The three that sat
+            here were pictures OF the website plus a gate photograph
+            already shown elsewhere — a section about a live site arguing
+            with screenshots when the site itself is right above them, one
+            click away. The frame and the URL are the evidence.
+          */
+          assets: [],
+        },
+        {
+          id: "workshop",
+          label: "05 — Premises & workwear",
+          /* Not "PLACE" — Petrolas already owns that word, and a spread
+             title is the loudest thing on its page. Repeating it makes two
+             projects read as one template. */
+          title: "STREET",
+          /*
+            The note names what is on screen, and what is on screen
+            changed twice.
+
+            It said "the vehicles" first, when no vehicle had been
+            delivered — a note describing work the page cannot show reads
+            as a claim. It was rewritten on 2026-08-12 to "the site
+            visit", which the photography did show. Ali supplied the
+            workwear and the liveried vehicle on 2026-08-18, and the site
+            visit came out of the spread, so the line follows the images
+            again rather than the images following the line.
+          */
+          note: "The identity had to survive where the work happens — the workshop, the workwear, the vehicle on the street. A client meets this business at a half-built villa long before they meet a brochure.",
+          layout: "bleeds",
+          /*
+            site-survey.jpg and install.jpg come out. "bleeds" has three
+            slots, and the workwear and the vehicle each show the identity
+            APPLIED to something, where those two showed people working
+            with the brand barely visible. Both stay on disk.
+          */
+          assets: [
+            {
+              src: "/work/qobban/workshop.jpg",
+              alt: "The Qobban fabrication workshop, benches and stock racked along the span",
+              form: "bleed",
+            },
+            {
+              src: "/work/qobban/workwear.jpg",
+              alt: "The Qobban mark on the back of a fabricator's black work jacket, on the shop floor",
+              form: "bleed",
+            },
+            {
+              src: "/work/qobban/vehicle.jpg",
+              alt: "A white Qobban SUV in the company livery, its mark and phone number along the door",
+              form: "bleed",
+            },
+          ],
         },
       ],
     },
