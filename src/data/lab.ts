@@ -1091,7 +1091,40 @@ export const labContent: LabContent = {
             labelled slots, so the composition is judgeable now and the
             files drop in without the layout changing shape.
           */
-          showreel: { posts: [], stories: [], films: [] },
+          showreel: {
+            posts: [],
+            stories: [],
+            /*
+              Three campaign films (Ali, 2026-08-19), each showing the
+              product in a room rather than on a white ground — which is
+              the argument the whole spread is making: the metalwork is
+              furniture, not fabrication.
+
+              Silent by construction. The audio track is stripped in the
+              encode rather than only muted in markup, because a film
+              that can never be unmuted has no reason to carry the bytes.
+            */
+            films: [
+              {
+                kind: "video",
+                src: "/work/qobban/film-retail.mp4",
+                poster: "/work/qobban/film-retail.jpg",
+                alt: "A black steel and oak garment rail on castors in a boutique, hung with neutral clothing, then a close pass along its base",
+              },
+              {
+                kind: "video",
+                src: "/work/qobban/film-outdoor.mp4",
+                poster: "/work/qobban/film-outdoor.jpg",
+                alt: "A slatted steel cabinet opening to hold a gas cylinder, a shelving trolley on a balcony, and a close pass along a blackened metal edge",
+              },
+              {
+                kind: "video",
+                src: "/work/qobban/film-entryway.mp4",
+                poster: "/work/qobban/film-entryway.jpg",
+                alt: "A hallway rail and shelf unit in daylight, a garment being hung on the rail, and keys and a wallet set down on its oak shelf",
+              },
+            ],
+          },
         },
       ],
     },
