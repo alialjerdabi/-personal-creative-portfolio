@@ -2335,3 +2335,46 @@ html[data-aperture-seen="true"] #aperture-loader {
   }
 }
 
+
+/*
+ * The film screen's sound control.
+ *
+ * Bottom right, opposite the ticks. It says "Sound off" rather than
+ * showing a crossed speaker, because a speaker glyph is ambiguous about
+ * whether it reports the state or the action — and this control does
+ * both, so the word has to.
+ */
+.lab-reel__sound {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.28);
+  background: rgb(0 0 0 / 0.42);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-quick) var(--ease-motion),
+    border-color var(--dur-quick) var(--ease-motion);
+}
+
+.lab-reel__sound:hover {
+  background: rgb(0 0 0 / 0.62);
+  border-color: rgb(255 255 255 / 0.5);
+}
+
+.lab-reel__sound[aria-pressed="true"] {
+  background: var(--lab-amber);
+  border-color: var(--lab-amber);
+  color: #000;
+}

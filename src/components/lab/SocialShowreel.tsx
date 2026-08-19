@@ -66,12 +66,21 @@ function FilmScreen({ films, palette }: { films: LabMedia[]; palette: LabPalette
   const videoRef = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(0);
   const [seen, setSeen] = useState(false);
+  /* Muted until asked. Autoplay with sound is refused by every browser
+     and resented by every visitor. */
+  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setSeen(entry.isIntersecting),
+      ([entry]) => {
+        setSeen(entry.isIntersecting);
+        /* Sound does not survive scrolling away. Coming back to a film
+           that starts talking is startling in a way starting it never
+           is. */
+        if (!entry.isIntersecting) setMuted(true);
+      },
       { threshold: 0.35 }
     );
     observer.observe(node);
@@ -90,6 +99,13 @@ function FilmScreen({ films, palette }: { films: LabMedia[]; palette: LabPalette
     }
   }, [seen, active]);
 
+  /* React does not reliably reflect `muted` onto the element — it is one
+     of the properties the DOM owns rather than the attribute. Set it. */
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = muted;
+  }, [muted, active]);
+
+
   const film = films[active];
   const advance = () => setActive((current) => (current + 1) % films.length);
 
@@ -102,8 +118,9 @@ function FilmScreen({ films, palette }: { films: LabMedia[]; palette: LabPalette
           className="absolute inset-0 h-full w-full object-cover"
           src={film.src}
           poster={film.poster}
-          muted
+          muted={muted}
           playsInline
+          loop={films.length === 1}
           preload="metadata"
           aria-label={film.alt}
           onEnded={advance}
@@ -114,6 +131,18 @@ function FilmScreen({ films, palette }: { films: LabMedia[]; palette: LabPalette
         <div className={`flex h-full w-full items-end p-6 sm:p-8 ${FIELD[palette]}`}>
           <span className="lab-reel__slot">Campaign film</span>
         </div>
+      )}
+
+      {film && film.kind === "video" && (
+        <button
+          type="button"
+          className="lab-reel__sound"
+          onClick={() => setMuted((current) => !current)}
+          aria-pressed={!muted}
+          aria-label={muted ? "Turn the film sound on" : "Turn the film sound off"}
+        >
+          <span aria-hidden="true">{muted ? "Sound off" : "Sound on"}</span>
+        </button>
       )}
 
       {films.length > 1 && (
