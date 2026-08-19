@@ -73,8 +73,10 @@ SOCIAL**.
 
 1. **`brand-profile-temp.jpg` in bento slot 02 is a temporary Instagram
    screenshot.** Remind him. It needs a designed 9:16 asset.
-2. **Bento slots 3, 6, 8, 9** are empty and labelled. Slot 3 square,
-   slot 6 portrait 3:4, slots 8 and 9 wide 16:9.
+2. **The stationery set in bento slot 08 uses an ochre**, not the
+   construction yellow `#FFC400` the palette board two cells away
+   declares. They sit on the same board. Ali's asset, Ali's call — but
+   he should know it is visible.
 3. **SOCIAL showreel assets** — six posts at 4:5, five stories at 9:16,
    three desktop films.
 4. **Petrolas, then Delivery Point** get the same restructure Qobban
