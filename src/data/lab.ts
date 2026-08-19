@@ -900,8 +900,10 @@ export const labContent: LabContent = {
 
             EVERY ONE OF THESE FITS ITS CELL WITHOUT BEING CROPPED TO
             death: the billboard is 1.78 into a 16:9, the profile 0.56
-            into a 9:16, the signage 1.33 into a 4:3, the palette 1.00
-            into a square, the type board 1.78 into a 16:9. Slot 05
+            into a 9:16, the palette 1.00 into a square, the
+            type board 1.78 into a 16:9. The palette and the type sit
+            side by side (Ali, 2026-08-19) because they are the two
+            reference boards on this spread and they answer each other. Slot 05
             moved from 4:5 to 3:4 to match the workwear and slot 08 from
             16:9 to 3:2 to match the stationery, because the rule here
             is that the layout fits the material rather than the
@@ -934,7 +936,7 @@ export const labContent: LabContent = {
               form: "bleed",
             },
             {
-              slot: 4,
+              slot: 9,
               src: "/work/qobban/brand-signage.jpg",
               alt: "The Qobban projecting sign mounted on a building façade against the sky",
               form: "bleed",
@@ -964,7 +966,7 @@ export const labContent: LabContent = {
               form: "bleed",
             },
             {
-              slot: 9,
+              slot: 4,
               src: "/work/qobban/brand-type.jpg",
               alt: "The Arabic display type specimen: the Qobban wordmark set large, the tagline in yellow, and the Arabic numerals",
               form: "bleed",
