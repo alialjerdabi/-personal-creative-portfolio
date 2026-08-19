@@ -1092,8 +1092,81 @@ export const labContent: LabContent = {
             files drop in without the layout changing shape.
           */
           showreel: {
-            posts: [],
-            stories: [],
+            /*
+              Six posts and six stories (Ali, 2026-08-19). Five of the
+              stories are film, one is a still — the rail takes either,
+              which is the reason LabMedia is a union rather than a
+              string.
+            */
+            posts: [
+              {
+                kind: "image",
+                src: "/work/qobban/social/post-01.jpg",
+                alt: "Opening offers: a courtyard laid out with Qobban pieces — a laundry rack, a console, a gas-cylinder cabinet, plant stands and a platform trolley",
+              },
+              {
+                kind: "image",
+                src: "/work/qobban/social/post-02.jpg",
+                alt: "Living room stands: a C-shaped steel and wood side table beside a sofa, priced from 15 BHD, with the Instagram handle and WhatsApp number",
+              },
+              {
+                kind: "image",
+                src: "/work/qobban/social/post-03.jpg",
+                alt: "A man working on a laptop at a two-tier steel and walnut desk in a sunlit living room",
+              },
+              {
+                kind: "image",
+                src: "/work/qobban/social/post-04.jpg",
+                alt: "A steel and fabric car canopy over a villa driveway at golden hour, a car parked beneath it",
+              },
+              {
+                kind: "image",
+                src: "/work/qobban/social/post-05.jpg",
+                alt: "A woman loading a stacked washer and dryer held on a Qobban rolling laundry rack with shelves and a hamper",
+              },
+              {
+                kind: "image",
+                src: "/work/qobban/social/post-06.jpg",
+                alt: "Kitchen stand: a four-shelf steel and wood unit holding jars, bowls and mugs, offered at 55 BHD",
+              },
+            ],
+            stories: [
+              {
+                kind: "video",
+                src: "/work/qobban/social/story-01.mp4",
+                poster: "/work/qobban/social/story-01.jpg",
+                alt: "A gas-cylinder cabinet on a terrace and a side table beside a sofa, under the line Fits where life happens",
+              },
+              {
+                kind: "image",
+                src: "/work/qobban/social/story-02.jpg",
+                alt: "A saving offer: a console table with two matching side tables in a hallway, three pieces for 80 BHD instead of 100",
+              },
+              {
+                kind: "video",
+                src: "/work/qobban/social/story-03.mp4",
+                poster: "/work/qobban/social/story-03.jpg",
+                alt: "A young woman sitting on a living room floor singing into a hairbrush, her books on the rug beside her",
+              },
+              {
+                kind: "video",
+                src: "/work/qobban/social/story-04.mp4",
+                poster: "/work/qobban/social/story-04.jpg",
+                alt: "A drive at sunset, palms passing beyond the windscreen",
+              },
+              {
+                kind: "video",
+                src: "/work/qobban/social/story-05.mp4",
+                poster: "/work/qobban/social/story-05.jpg",
+                alt: "A woman holding a toddler and singing into a kitchen spatula beside a stacked washer and dryer",
+              },
+              {
+                kind: "video",
+                src: "/work/qobban/social/story-06.mp4",
+                poster: "/work/qobban/social/story-06.jpg",
+                alt: "A slow pass across a steel and wood shelving unit in a kitchen, morning light through the window",
+              },
+            ],
             /*
               Three campaign films (Ali, 2026-08-19), each showing the
               product in a room rather than on a white ground — which is

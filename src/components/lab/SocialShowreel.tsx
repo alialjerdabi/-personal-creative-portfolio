@@ -17,7 +17,7 @@ const FIELD: Record<LabPalette, string> = {
   amber: "bg-lab-amber text-black",
 };
 
-const EXPECTED = { posts: 6, stories: 5 } as const;
+const EXPECTED = { posts: 6, stories: 6 } as const;
 
 /**
  * Posts and stories interleaved into one rail.
@@ -165,6 +165,37 @@ function Cell({
   palette: LabPalette;
   label: string;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  /*
+   * `autoPlay` alone is not enough on a rail.
+   *
+   * Chrome starts a muted autoplaying video only while it is actually on
+   * screen, and most of this rail is not — it is wider than the viewport
+   * by design. Measured: two of ten playing, the other eight parked at
+   * zero. The observer starts each cell as it arrives and pauses it as it
+   * leaves, which is both what Ali asked for and the only reason ten
+   * simultaneous decoders are affordable at all.
+   */
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            /* Refused; the poster stays. */
+          });
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [media]);
+
   if (!media) {
     return (
       <div className={`lab-reel__cell lab-reel__cell--pending ${FIELD[palette]}`}>
@@ -177,9 +208,11 @@ function Cell({
     <div className="lab-reel__cell">
       {media.kind === "video" ? (
         <video
+          ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
           src={media.src}
           poster={media.poster}
+          autoPlay
           muted
           loop
           playsInline
