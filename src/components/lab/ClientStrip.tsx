@@ -26,7 +26,17 @@ export default function ClientStrip({ content }: { content: LabContent }) {
   return (
     <section
       aria-labelledby="lab-clients-heading"
-      className="bg-lab-air px-5 pb-20 sm:px-8 sm:pb-28"
+      /*
+        SYMMETRIC, so the group sits in the middle of its own band.
+
+        This carried `pb` only, on the reasoning that the section above
+        supplied the top spacing. WorksBoard replaced FeaturedWork and
+        took that padding with it — measured, the heading sat 0px from
+        the top edge against 112px of air underneath. A section that
+        depends on its neighbour for half its spacing breaks the first
+        time the neighbour changes, so it now owns both sides.
+      */
+      className="bg-lab-air px-5 py-20 sm:px-8 sm:py-28"
     >
       {/*
         84.5rem, the same measure as the featured cards above.

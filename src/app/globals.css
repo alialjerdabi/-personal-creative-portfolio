@@ -2378,3 +2378,545 @@ html[data-aperture-seen="true"] #aperture-loader {
   border-color: var(--lab-amber);
   color: #000;
 }
+
+/* ======================================================================
+ * THE OPENING — a visual test, 2026-08-19.
+ *
+ * Appended as one block. Nothing above this line is edited, so the whole
+ * experiment comes out by deleting from here to the end of the file plus
+ * three imports in page.tsx.
+ *
+ * NO OVERFLOW IS DECLARED ON ANY ANCESTOR OF THE HALL. MuseumScreen pins
+ * with position: sticky, and sticky dies inside a scroll container. Every
+ * overflow rule below sits on a leaf that contains a picture.
+ * ==================================================================== */
+
+:root {
+  /* The reference's easing, kept separate from --ease-motion because it
+     is a different curve doing a different job: a hard in-out for the
+     big wipes, against the site's own gentle symmetric ease. */
+  --ease-opening: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.opening {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 7.5rem 1.5rem 1.5rem;
+  background: var(--lab-air);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.opening__intro {
+  position: relative;
+  z-index: 2;
+  max-width: 30rem;
+}
+
+.opening__lede {
+  display: grid;
+  gap: 0.15rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.05rem, 1.5vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--lab-ink-warm);
+  animation: opening-rise var(--dur-slow) var(--ease-opening) 120ms both;
+}
+
+.opening__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 3.5rem;
+  margin-top: 1.75rem;
+  padding: 0 1.4rem;
+  border: 1px solid var(--lab-ink-warm);
+  border-radius: 999px;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--lab-ink-warm);
+  background: transparent;
+  transition:
+    background-color var(--dur-quick) var(--ease-motion),
+    color var(--dur-quick) var(--ease-motion),
+    transform 120ms var(--ease-motion);
+  animation: opening-rise var(--dur-slow) var(--ease-opening) 220ms both;
+}
+
+.opening__cta:hover {
+  background: var(--lab-ink-warm);
+  color: var(--lab-air);
+}
+
+.opening__cta:active {
+  transform: scale(0.97);
+}
+
+/*
+ * The wordmark.
+ *
+ * font-size and both scale factors are written by JS on every resize —
+ * the values here are only what it looks like before the first
+ * measurement and before the webfont has landed.
+ */
+.opening__word {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  margin: 0;
+  width: calc(100% - 2rem);
+  font-family: var(--font-display), sans-serif;
+  /* 700 is this family's ceiling. The weight comes from the stretch. */
+  font-weight: 700;
+  font-size: 12vw;
+  line-height: 0.72;
+  letter-spacing: -0.085em;
+  white-space: nowrap;
+  text-align: center;
+  color: var(--lab-ink-warm);
+  transform-origin: center;
+  transform: translate(-50%, -50%);
+  opacity: var(--word-fade, 1);
+  will-change: transform;
+  animation: opening-wipe 1000ms var(--ease-opening) both;
+}
+
+@keyframes opening-wipe {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes opening-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.opening__debris {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.opening-shard {
+  position: absolute;
+  display: block;
+  background: linear-gradient(135deg, var(--lab-ink-warm), rgb(150 150 150 / 0.5));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.opening__foot {
+  position: relative;
+  z-index: 2;
+  /* Clears the WhatsApp button, which is fixed bottom-right on every
+     page and was sitting on top of the social links. It rests with its
+     label showing on wide screens, so the gutter is measured against
+     that; on a phone it collapses to an icon and 12rem of gutter would
+     take a third of the row. */
+  padding-right: 4.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  animation: opening-rise var(--dur-slow) var(--ease-opening) 320ms both;
+}
+
+.opening__role,
+.opening__links {
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--lab-ink-soft);
+}
+
+.opening__links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.opening__links a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.opening__links a:hover {
+  color: var(--lab-ink-warm);
+}
+
+.opening__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: var(--lab-ink-warm);
+  color: var(--lab-air);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* ------------------------------- showreel ---------------------------- */
+
+.reel {
+  position: relative;
+  height: 155svh;
+  min-height: 950px;
+  padding: 0 1.5rem;
+  background: var(--lab-air);
+}
+
+.reel__statement {
+  display: grid;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 16svh 0 4svh;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 4.4vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  color: var(--lab-ink-warm);
+}
+
+/*
+ * transform-origin is what makes this read as the image settling into
+ * the page's right column rather than shrinking where it stands.
+ */
+.reel__panel {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  transform-origin: top right;
+  will-change: transform;
+  overflow: hidden;
+  background: var(--lab-haze);
+}
+
+.reel__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reel__note {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 8svh;
+  display: grid;
+  gap: 1rem;
+  max-width: 30rem;
+}
+
+.reel__label {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: var(--lab-ink-soft);
+}
+
+.reel__copy {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--lab-ink-soft);
+}
+
+/* -------------------------------- works ------------------------------ */
+
+.works {
+  position: relative;
+  padding: 6rem 1.5rem 3rem;
+  background: #0b0b0d;
+  color: #fff;
+}
+
+.works__head {
+  display: grid;
+  gap: 2rem;
+  padding-bottom: 4rem;
+}
+
+.works__title {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.works__statement {
+  display: grid;
+  gap: 0.1rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  color: rgb(255 255 255 / 0.82);
+}
+
+.works__board {
+  display: grid;
+  gap: 4rem;
+}
+
+/* Narrow screens: normal flow, but alternated and inset so the stack
+   still reads as a composition rather than a list of equal blocks. */
+.works__card {
+  width: 88%;
+}
+
+.works__card:nth-child(even) {
+  margin-left: auto;
+}
+
+.works__card:nth-child(3n) {
+  width: 100%;
+}
+
+/*
+ * THE CLIP IS ON THE LINK, NOT ON THE OBSERVED CARD.
+ *
+ * With `clip-path: inset(100% ...)` on the article itself, Chromium's
+ * IntersectionObserver reports the target as never intersecting — the
+ * clip is applied when the intersection rect is computed, so an element
+ * hidden this way clips itself out of ever being seen. Measured: all
+ * five cards fully in the viewport, `isIntersecting` false, nothing ever
+ * revealed. The article stays unclipped so it can be observed; its link
+ * carries the reveal.
+ */
+.works__card {
+  position: relative;
+}
+
+.works__link {
+  display: block;
+  color: inherit;
+  clip-path: var(--cut);
+  transition: clip-path 950ms var(--ease-opening);
+}
+
+.works__card[data-shown="true"] .works__link {
+  clip-path: inset(0 0 0 0);
+}
+
+.works__frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: rgb(255 255 255 / 0.06);
+}
+
+.works__media {
+  position: absolute;
+  inset: -4% 0;
+  display: block;
+  will-change: transform;
+}
+
+.works__media img {
+  transition: filter var(--dur-base) var(--ease-motion);
+}
+
+.works__pending {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.works__pending--orange { background: var(--lab-orange); }
+.works__pending--blue { background: var(--lab-blue); color: #fff; }
+.works__pending--lime { background: var(--lab-lime); }
+.works__pending--violet { background: var(--lab-violet); color: #fff; }
+.works__pending--cream { background: var(--lab-cream); }
+.works__pending--teal { background: var(--lab-teal); }
+.works__pending--sun { background: var(--lab-sun); }
+.works__pending--amber { background: var(--lab-amber); }
+
+
+.works__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding-top: 1rem;
+  font-family: var(--font-display), sans-serif;
+}
+
+.works__name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.works__sector {
+  flex: 1;
+  font-size: 0.8125rem;
+  color: rgb(255 255 255 / 0.6);
+}
+
+.works__arrow {
+  font-size: 1rem;
+  transition: transform var(--dur-quick) var(--ease-motion);
+}
+
+.works__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgb(255 255 255 / 0.14);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.8125rem;
+  color: rgb(255 255 255 / 0.7);
+}
+
+.works__all {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.works__all:hover {
+  color: #fff;
+}
+
+/* Pointer affordances only where there is a pointer. */
+@media (hover: hover) and (pointer: fine) {
+  .works__link:hover .works__media img {
+    filter: saturate(0.72) contrast(1.06);
+  }
+
+  .works__link:hover .works__arrow {
+    transform: translate3d(3px, -3px, 0);
+  }
+}
+
+/*
+ * The placed composition — wide screens only.
+ *
+ * Below 1024px the cards stay in normal flow, which is why the board is
+ * a grid to begin with rather than a positioned box that has to be undone.
+ */
+@media (min-width: 1024px) {
+  .opening__foot {
+    padding-right: 12rem;
+  }
+
+  .works {
+    padding: 8rem 2rem 3rem;
+  }
+
+  .works__head {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    padding-bottom: 6rem;
+  }
+
+  /*
+   * A GRID, NOT A FIXED-HEIGHT BOARD.
+   *
+   * The first pass placed five cards at percentages of a 2700px block.
+   * Measured, that left 300-500px voids between them — a full screen of
+   * scrolling with almost nothing in it — and it made collisions
+   * possible in principle, because two percentages and two heights can
+   * always be made to meet.
+   *
+   * Explicit column spans give the same asymmetry, the row heights come
+   * from the cards themselves so there is nothing to leave empty, and
+   * two cards can no longer occupy one space. The offsets below are what
+   * keeps it from reading as a grid: each card sits at a different
+   * height within its row.
+   */
+  .works__board {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: start;
+    gap: 5rem 2rem;
+    height: auto;
+    min-height: 0;
+  }
+
+  .works__card[data-cut="0"] {
+    grid-column: 1 / span 6;
+  }
+
+  .works__card[data-cut="1"] {
+    grid-column: 9 / span 4;
+    margin-top: 9rem;
+  }
+
+  .works__card[data-cut="2"] {
+    grid-column: 2 / span 8;
+    margin-top: 4rem;
+  }
+
+  .works__card[data-cut="3"] {
+    grid-column: 1 / span 4;
+    margin-top: 7rem;
+  }
+
+  .works__card[data-cut="4"] {
+    grid-column: 6 / span 6;
+  }
+
+  .works__card[data-cut="2"] .works__frame {
+    aspect-ratio: 16 / 9;
+  }
+
+  .works__card[data-cut="1"] .works__frame,
+  .works__card[data-cut="3"] .works__frame {
+    aspect-ratio: 3 / 4;
+  }
+}
+
+/* Reduced motion: the composition, arrived at. */
+@media (prefers-reduced-motion: reduce) {
+  .opening__word,
+  .opening__lede,
+  .opening__cta,
+  .opening__foot {
+    animation: none;
+  }
+
+  .works__link {
+    clip-path: none;
+    transition: none;
+  }
+}

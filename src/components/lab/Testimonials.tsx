@@ -15,15 +15,34 @@ const FIELD: Record<LabPalette, string> = {
   amber: "bg-lab-amber text-black",
 };
 
+/*
+ * THE CARD IS ALWAYS LIGHT, SO ITS INK IS ALWAYS DARK.
+ *
+ * The panel is `bg-white/75` — a literal white, not a token — which
+ * stays a pale grey in dark mode while every `text-lab-ink-*` utility
+ * inside it flips to near-white. Measured in dark mode: quote at
+ * rgb(244,244,244) on that pale card, and the lime/cream/sun/amber
+ * accents with it, since they fall back to the same ink token.
+ *
+ * A theme-aware colour is right when the ground behind it is theme
+ * aware. This one is not, so these are fixed values: the light theme's
+ * own ink and soft-ink, pinned so they cannot invert out from under the
+ * card. If the panel ever takes a dark ground, these come back to tokens.
+ */
+const INK = "text-[#1a1713]";
+const SOFT = "text-[#6b6459]";
+
 const ACCENT: Record<LabPalette, string> = {
   orange: "text-lab-orange",
   blue: "text-lab-blue",
-  lime: "text-lab-ink-warm",
+  /* The pale palettes have no legible form on a white card, so they
+     spend the emphasis on weight instead of hue. */
+  lime: INK,
   violet: "text-lab-violet",
-  cream: "text-lab-ink-warm",
+  cream: INK,
   teal: "text-lab-teal",
-  sun: "text-lab-ink-warm",
-  amber: "text-lab-ink-warm",
+  sun: INK,
+  amber: INK,
 };
 
 /**
@@ -93,12 +112,18 @@ function Panel({
   return (
     <figure className="flex h-full w-[min(86vw,44rem)] shrink-0 flex-col gap-7 rounded-[1.75rem] border border-lab-hairline bg-white/75 p-7 shadow-[0_14px_44px_-30px_rgb(19_23_30/0.45)] sm:w-[46rem] sm:flex-row sm:items-stretch sm:gap-8 sm:p-9">
       <div className="flex min-w-0 flex-1 flex-col">
-        <p className="font-display text-[13px] font-bold uppercase tracking-[0.12em] text-lab-ink-soft">
+        <p className={`font-display text-[13px] font-bold uppercase tracking-[0.12em] ${SOFT}`}>
           {project?.name ?? testimonial.role}
           {project?.sector ? ` · ${project.sector}` : ""}
         </p>
 
-        <blockquote className="mt-5 font-display text-[clamp(1rem,1.35vw,1.15rem)] leading-relaxed text-lab-ink-soft">
+        {/* Ink, not soft grey (Ali, 2026-08-19). The quote is the thing
+            the card exists to carry, and at rgb(107,100,89) the
+            highlighted phrases read while the sentence holding them did
+            not. See INK above for why this is a fixed value. */}
+        <blockquote
+          className={`mt-5 font-display text-[clamp(1rem,1.35vw,1.15rem)] leading-relaxed ${INK}`}
+        >
           &ldquo;
           <Emphasised
             quote={testimonial.quote}
@@ -111,14 +136,14 @@ function Panel({
         {/* Set quietly and directly under the quote, not in a footnote:
             a caveat that has to be hunted for is not a caveat. */}
         {testimonial.caveat && (
-          <p className="mt-4 font-display text-[13px] leading-relaxed text-lab-ink-soft/80">
+          <p className={`mt-4 font-display text-[13px] leading-relaxed ${SOFT}`}>
             {testimonial.caveat}
           </p>
         )}
 
         <figcaption className="mt-auto pt-6 font-display text-[14px]">
-          <span className="font-bold text-lab-ink-warm">{testimonial.name}</span>
-          <span className="text-lab-ink-soft"> — {testimonial.role}</span>
+          <span className={`font-bold ${INK}`}>{testimonial.name}</span>
+          <span className={SOFT}> — {testimonial.role}</span>
         </figcaption>
       </div>
 

@@ -270,6 +270,35 @@ export interface LabContent {
   navLinks: { label: string; href: string }[];
   navCta: { label: string; href: string };
 
+  /*
+    THE OPENING (Ali, 2026-08-19) — a visual test adapted from noth.in.
+
+    The structure is borrowed; the words are not. Every line here is
+    written for Ali in his own register, first person, no agency voice.
+    The reference's own headline copy is its property in a way its
+    layout conventions are not, and this site's whole argument is that
+    it was made for this business rather than filled in from a template.
+  */
+  opening: {
+    /** Two compact lines, upper left. */
+    lede: string[];
+    cta: string;
+    /** Set as one line, sized to fill the screen. No spaces. */
+    wordmark: string;
+    role: string;
+    showreel: {
+      statement: string[];
+      film: { src: string; poster: string; alt: string };
+      label: string;
+      body: string;
+    };
+    works: {
+      title: string;
+      statement: string[];
+      mark: string;
+    };
+  };
+
   hero: {
     /** Hand-broken lines of one claim, set as a statement in the room. */
     statement: string[];
@@ -439,6 +468,32 @@ export interface LabContent {
 
 export const labContent: LabContent = {
   identity: "Ali Aljardabi",
+
+  opening: {
+    lede: ["Not a style. A standard.", "Because I design it, then I build it."],
+    /* "Start a project" rather than the reference's "Book a call" — it is
+       the CTA every other page on this site already uses, and a second
+       name for the same action is a second thing to remember. */
+    cta: "Start a project",
+    wordmark: "ALIALJARDABI",
+    role: "Independent designer — Manama, Bahrain",
+    showreel: {
+      statement: ["Anyone can post more.", "Fewer can make it worth seeing."],
+      film: {
+        src: "/reel/fragrance.mp4",
+        poster: "/reel/fragrance.jpg",
+        alt: "A burgundy fragrance bottle wrapped in a gold serpent, in candlelight",
+      },
+      label: "( The long look )",
+      body: "Most of this work is decided before anything is drawn. What the business actually sells, who is already buying, and what a stranger reads in the first four seconds. The design is the last step, and it is short, because by then there is only one sensible answer.",
+    },
+    works: {
+      title: "WORKS",
+      statement: ["Being remembered", "is cheaper than being advertised."],
+      mark: "MMXXVI · MANAMA",
+    },
+  },
+
   /*
     POSITIONING CHANGED 2026-08-06 (Ali's call): social media design
     replaces web & app products across the site. The claim lived in seven

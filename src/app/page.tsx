@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import HeroScreen from "@/components/lab/HeroScreen";
+import OpeningHero from "@/components/lab/OpeningHero";
+import ShowreelPanel from "@/components/lab/ShowreelPanel";
 import MuseumScreen from "@/components/lab/MuseumScreen";
 import FloatingNav from "@/components/lab/FloatingNav";
 import ClientStrip from "@/components/lab/ClientStrip";
-import FeaturedWork from "@/components/lab/FeaturedWork";
+import WorksBoard from "@/components/lab/WorksBoard";
 import ServiceIndex from "@/components/lab/ServiceIndex";
 import Testimonials from "@/components/lab/Testimonials";
 import PromiseSection from "@/components/lab/PromiseSection";
@@ -56,11 +57,13 @@ export default function HomePage() {
       <ApertureLoader imageSources={imageSources} videoSources={videoSources} />
       <main id="main">
         <FloatingNav content={labContent} />
-        <HeroScreen content={labContent} />
+        {/* THE OPENING — a visual test, 2026-08-19. HeroScreen and
+            FeaturedWork are untouched on disk; the homepage just points
+            somewhere else, so this reverts by swapping four lines. */}
+        <OpeningHero content={labContent} />
+        <ShowreelPanel content={labContent} />
+        <WorksBoard content={labContent} />
         <MuseumScreen content={labContent} />
-        {/* Only the work with finished imagery, at full size. The complete
-            index lives on /work — see FeaturedWork for why. */}
-        <FeaturedWork content={labContent} />
         {/* Was StatsBand. Names beat counts — see ClientStrip. */}
         <ClientStrip content={labContent} />
         <Testimonials content={labContent} />
