@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import MoreCursor from "@/components/lab/MoreCursor";
+import ProjectModal from "@/components/lab/ProjectModal";
 import type { LabContent, LabProject } from "@/data/lab";
 
 /**
@@ -49,13 +50,16 @@ function WorkCard({
   project,
   index,
   pendingLabel,
+  onOpen,
 }: {
   project: LabProject;
   index: number;
   pendingLabel: string;
+  onOpen: (trigger: HTMLButtonElement) => void;
 }) {
   const cardRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const art = project.feature ?? project.cover;
 
   /* Reveal once. Leaving the viewport must not take it away again —
@@ -124,18 +128,38 @@ function WorkCard({
          the stylesheet when the board became a grid. */
       style={{ "--cut": CUTS[index] } as React.CSSProperties}
     >
-      {/* data-more-target is what MoreCursor watches for — the pointer
-          swells into the "More +" pill over a card and shrinks back to a
-          dot between them. */}
-      <Link href={`/work/${project.slug}`} className="works__link" data-more-target>
+      {/*
+        A BUTTON, NOT A LINK (Ali, 2026-08-20).
+        
+        It opens the popup rather than navigating, because there are two
+        destinations — the case study and the live site — and a card that
+        silently picked one would be guessing. The popup names both. This
+        is the same interaction FeaturedWork and the /work mosaic already
+        use, so the page has one idea about what clicking a project does.
+
+        data-more-target is what MoreCursor watches: the pointer swells
+        into the "More +" pill over a card and shrinks back between them.
+      */}
+      <button
+        ref={buttonRef}
+        type="button"
+        className="works__link"
+        data-more-target
+        onClick={() => buttonRef.current && onOpen(buttonRef.current)}
+      >
         <span className="works__frame">
           {art ? (
             <span ref={imageRef} className="works__media">
+              {/* q90, not the default 75. Both covers are dark
+                  photographs carrying long smooth gradients, which is
+                  precisely where JPEG bands — and the file had already
+                  taken one lossy pass before Next re-encoded it. */}
               <Image
                 src={art.src}
                 alt={art.alt}
                 fill
-                sizes="(max-width: 1024px) 88vw, 46vw"
+                quality={90}
+                sizes="(max-width: 1024px) 90vw, 50vw"
                 className="object-cover"
               />
             </span>
@@ -144,16 +168,29 @@ function WorkCard({
               {pendingLabel}
             </span>
           )}
-        </span>
 
-        <span className="works__meta">
-          <span className="works__name">{project.name}</span>
-          <span className="works__sector">{project.sector}</span>
-          <span className="works__arrow" aria-hidden="true">
-            ↗
+          {/* A gradient rather than a bar: it guarantees the label's
+              contrast without laying a block of chrome across the bottom
+              of the photograph. */}
+          {art && <span aria-hidden="true" className="works__scrim" />}
+
+          <span className="works__meta">
+            {/* The badge slot renders only where a real client mark
+                exists — an empty rounded square on a card this size reads
+                as an image that failed to load. Ali has no logo files
+                yet; nothing else about the card changes when one lands. */}
+            {project.logo && (
+              <span className="works__badge">
+                <Image src={project.logo.src} alt="" aria-hidden="true" fill sizes="56px" />
+              </span>
+            )}
+            <span className="works__lines">
+              <span className="works__name">{project.name}</span>
+              <span className="works__sector">{project.disciplines.join(", ")}</span>
+            </span>
           </span>
         </span>
-      </Link>
+      </button>
     </article>
   );
 }
@@ -161,19 +198,36 @@ function WorkCard({
 /*
  * The board's own order (Ali, 2026-08-19), not the data's.
  *
- * Qobban and Kids Island swap: the wide centre cell is the biggest thing
- * on the section and Qobban is the one of the two with finished
- * landscape art, so it gets the space and Kids Island takes the smaller
- * portrait until its imagery exists. Nothing else on the site reorders —
- * `content.projects` is untouched.
+ * Qobban first (Ali, 2026-08-20), so it takes the large left cell and
+ * Petrolas the smaller one on the right. Nothing else on the site
+ * reorders — `content.projects` is untouched, and /work still lists all
+ * six in their own order.
  */
-const ORDER = ["petrolas", "delivery-point", "qobban", "kids-island", "nextshoot"];
+const ORDER = ["qobban", "petrolas", "delivery-point", "kids-island", "nextshoot"];
 
+/*
+ * ONLY THE WORK THAT HAS A PICTURE (Ali, 2026-08-19).
+ *
+ * The board carried five cards, three of them a flat colour reading
+ * "imagery in production". On a case-study page that is honest; on the
+ * homepage, which exists to turn a stranger into an enquiry, three
+ * placeholders out of five say the studio is half-built. Two finished
+ * cards are a stronger argument than five where three are empty.
+ *
+ * DERIVED, NOT HARDCODED. This filters on whether art exists rather than
+ * naming Petrolas and Qobban, so the board grows back by itself the day
+ * a cover lands in `lab.ts` — there is no list to remember to undo. The
+ * five-card composition below is still in the stylesheet, waiting.
+ */
 export default function WorksBoard({ content }: { content: LabContent }) {
+  const [openProject, setOpenProject] = useState<LabProject | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const { works } = content.opening;
   const projects = ORDER.map((slug) =>
     content.projects.find((project) => project.slug === slug)
-  ).filter((project): project is LabProject => Boolean(project));
+  )
+    .filter((project): project is LabProject => Boolean(project))
+    .filter((project) => Boolean(project.feature ?? project.cover));
 
   return (
     <section className="works" id="work" aria-labelledby="works-heading">
@@ -189,17 +243,32 @@ export default function WorksBoard({ content }: { content: LabContent }) {
       </header>
 
       <MoreCursor>
-        <div className="works__board">
+        {/* The count drives the composition — see globals.css. */}
+        <div className="works__board" data-count={projects.length}>
           {projects.map((project, index) => (
             <WorkCard
               key={project.slug}
               project={project}
               index={index}
               pendingLabel={content.lobby.assetsPendingLabel}
+              onOpen={(trigger) => {
+                triggerRef.current = trigger;
+                setOpenProject(project);
+              }}
             />
           ))}
         </div>
       </MoreCursor>
+
+      {/* Focus returns to the card that opened it — see ProjectModal. */}
+      <ProjectModal
+        project={openProject}
+        content={content}
+        onClose={() => {
+          setOpenProject(null);
+          triggerRef.current?.focus();
+        }}
+      />
 
       <footer className="works__foot">
         <Link href="/work" className="works__all">

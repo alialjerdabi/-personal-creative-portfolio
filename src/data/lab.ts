@@ -653,8 +653,8 @@ export const labContent: LabContent = {
         inside the case study.
       */
       feature: {
-        src: "/work/petrolas/feature-square.jpg",
-        alt: "The Petrolas website on a laptop, its headline reading Waste is not the end. It is potential.",
+        src: "/work/petrolas/cover-laptop-v2.jpg",
+        alt: "The Petrolas website on a laptop set on blue velvet in a dark room, its headline reading Waste is not the end. It is potential.",
         form: "bleed",
       },
       spreads: [
@@ -922,8 +922,8 @@ export const labContent: LabContent = {
         would lose the machine.
       */
       feature: {
-        src: "/work/qobban/feature-square.jpg",
-        alt: "The Qobban website on a laptop, its tipping spirit level above the headline Precision is our standard",
+        src: "/work/qobban/cover-idcards-v2.jpg",
+        alt: "Two Qobban staff ID cards hanging on branded lanyards — a project supervisor's photo card and the reverse carrying the mark",
         form: "bleed",
       },
       /*

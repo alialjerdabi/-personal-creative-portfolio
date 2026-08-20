@@ -50,10 +50,12 @@ function HallRender() {
 function Exhibit({
   media,
   active,
+  muted,
   onFinished,
 }: {
   media: LabMedia;
   active: boolean;
+  muted: boolean;
   onFinished: () => void;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -81,6 +83,12 @@ function Exhibit({
     return () => window.clearTimeout(fallback);
   }, [active, onFinished]);
 
+  /* React does not reliably reflect `muted` onto the element — it is one
+     of the properties the DOM owns rather than the attribute. Set it. */
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = muted;
+  }, [muted, active]);
+
   const shared = `absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
     active ? "opacity-100" : "opacity-0"
   }`;
@@ -92,7 +100,7 @@ function Exhibit({
         className={shared}
         src={media.src}
         poster={media.poster}
-        muted
+        muted={muted}
         /* NOT looped: the reel advances when a film finishes, so `ended`
            has to be allowed to fire. */
         playsInline
@@ -146,6 +154,14 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
   const apertureRef = useRef<HTMLDivElement>(null);
   const { showcase } = content;
   const [active, setActive] = useState(0);
+  /*
+   * Muted until asked (Ali, 2026-08-20), the same contract as the
+   * campaign screen on the Qobban case study: autoplay with sound is
+   * refused by every browser and resented by every visitor, and a room
+   * that starts talking when you scroll back to it is startling in a way
+   * starting it never is — so it resets when the hall leaves the screen.
+   */
+  const [muted, setMuted] = useState(true);
 
   const count = showcase.frames.length;
 
@@ -288,10 +304,32 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
               key={frame.media.src}
               media={frame.media}
               active={index === active}
+              muted={muted}
               onFinished={advance}
             />
           ))}
         </div>
+
+        {/*
+          The sound control.
+
+          Bottom right of the stage, and only while the exhibit on screen
+          is actually a film — a mute button over a still promises audio
+          that does not exist. It is NOT tied to `--room` like the rest of
+          the chrome: the film is at its loudest full-bleed, which is
+          exactly when the room's opacity is zero.
+        */}
+        {showcase.frames[active]?.media.kind === "video" && (
+          <button
+            type="button"
+            className="lab-reel__sound z-30"
+            onClick={() => setMuted((current) => !current)}
+            aria-pressed={!muted}
+            aria-label={muted ? "Turn the film sound on" : "Turn the film sound off"}
+          >
+            <span aria-hidden="true">{muted ? "Sound off" : "Sound on"}</span>
+          </button>
+        )}
 
         {/* Chrome arrives with the room. Over a full-bleed film it would be
             furniture on top of the work; against the wall it is a label. */}
