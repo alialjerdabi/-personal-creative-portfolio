@@ -2344,12 +2344,20 @@ html[data-aperture-seen="true"] #aperture-loader {
  * whether it reports the state or the action — and this control does
  * both, so the word has to.
  */
+/*
+ * TOP CENTRE (Ali, 2026-08-20).
+ *
+ * It sat bottom right, which is the WhatsApp button's corner on every
+ * page. Lifting it clear worked but left two round controls stacked in
+ * one column, still reading as one cluster. The top centre belongs to
+ * nothing else, and on a wide film it lands over sky or ceiling rather
+ * than over the subject.
+ */
 .lab-reel__sound {
   position: absolute;
-  /* Clear of the WhatsApp button, which is fixed bottom-right on every
-     page — measured at 390px, the two were sharing the same corner. */
-  right: 1.25rem;
-  bottom: 5.25rem;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -2368,6 +2376,16 @@ html[data-aperture-seen="true"] #aperture-loader {
   transition:
     background-color var(--dur-quick) var(--ease-motion),
     border-color var(--dur-quick) var(--ease-motion);
+}
+
+/*
+ * The hall's stage is a full viewport pinned under the fixed nav, so the
+ * top centre there is behind the nav pill. It drops to the same line the
+ * hall's own chrome uses — which runs heading left, meta right, and
+ * leaves the centre free.
+ */
+.lab-reel__sound--hall {
+  top: 6.5rem;
 }
 
 .lab-reel__sound:hover {
@@ -3008,6 +3026,7 @@ html[data-aperture-seen="true"] #aperture-loader {
     transition: none;
   }
 }
+
 
 
 

@@ -313,8 +313,8 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
         {/*
           The sound control.
 
-          Bottom right of the stage, and only while the exhibit on screen
-          is actually a film — a mute button over a still promises audio
+          Top centre of the stage, below the nav, and only while the
+          exhibit on screen is actually a film — a mute button over a still promises audio
           that does not exist. It is NOT tied to `--room` like the rest of
           the chrome: the film is at its loudest full-bleed, which is
           exactly when the room's opacity is zero.
@@ -322,7 +322,7 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
         {showcase.frames[active]?.media.kind === "video" && (
           <button
             type="button"
-            className="lab-reel__sound z-30"
+            className="lab-reel__sound lab-reel__sound--hall z-30"
             onClick={() => setMuted((current) => !current)}
             aria-pressed={!muted}
             aria-label={muted ? "Turn the film sound on" : "Turn the film sound off"}
