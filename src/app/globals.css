@@ -2472,12 +2472,14 @@ html[data-aperture-seen="true"] #aperture-loader {
  * which was mostly empty. A fixed ratio is why there is no fitting
  * routine here any more: width 100%, and the height follows.
  *
- * Second cut (Ali, 2026-08-20) — heavier and taller: 5.71 wide to tall
- * against the first drawing's 6.17, so it takes more of the screen at
- * the same width. New filename rather than an overwrite, because a
- * replaced SVG is served from cache exactly like a replaced photograph.
+ * Third cut (Ali, 2026-08-20), ratio 6.11. New filename each time rather
+ * than an overwrite: a replaced SVG is served from cache exactly like a
+ * replaced photograph.
  */
 .opening__word {
+  /* The corner size, and the gutter the wordmark leaves for it. One
+     token so the two can never drift apart at a width nobody checked. */
+  --corner: clamp(1.5rem, 3.2vw, 3.5rem);
   position: relative;
   z-index: 1;
   display: block;
@@ -2486,16 +2488,85 @@ html[data-aperture-seen="true"] #aperture-loader {
   color: var(--lab-ink-warm);
   transform-origin: center;
   will-change: transform;
-  animation: opening-wipe 1000ms var(--ease-opening) both;
+}
+
+/*
+ * THE FOCUS FRAME (Ali, 2026-08-20).
+ *
+ * Two corner marks, drawn as borders on the wordmark's own pseudo
+ * elements rather than added to the SVG — so they take `currentColor`
+ * with the letters, scale with the block, and cost no extra request.
+ *
+ * DIAGONALLY OPPOSED, not four corners. Four would close the wordmark
+ * into a box and read as a container; two mark the crop without
+ * enclosing it, which is what a camera's focus indicator actually does.
+ * The top-left leads into the name and the bottom-right releases it,
+ * following the reading direction.
+ *
+ * They sit inside the section's own padding, because `.opening` clips
+ * its overflow and anything hung outside would simply be cut.
+ */
+.opening__word::before,
+.opening__word::after {
+  content: "";
+  position: absolute;
+  width: var(--corner);
+  height: var(--corner);
+  border: 3px solid currentColor;
+  pointer-events: none;
+  /* After the name, not with it: the frame reads as settling around
+     something already there. */
+  animation: opening-frame var(--dur-slow) var(--ease-opening) 900ms both;
+}
+
+@keyframes opening-frame {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+
+.opening__word::before {
+  top: clamp(-3rem, -2.6vw, -1.25rem);
+  left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.opening__word::after {
+  right: 0;
+  bottom: clamp(-3rem, -2.6vw, -1.25rem);
+  border-left: 0;
+  border-top: 0;
 }
 
 .opening__mark {
   display: block;
-  width: 100%;
-  aspect-ratio: 1802 / 315.472;
+  /*
+   * INSET BY A CORNER PLUS A GAP.
+   *
+   * At full width the last letterform ran under the bottom-right mark —
+   * the frame and the name were competing for the same pixels. The
+   * wordmark now stops short of both corners by construction rather than
+   * by a hand-tuned percentage, so it holds at every viewport.
+   */
+  width: calc(100% - 2 * (var(--corner) + 0.75rem));
+  margin-inline: auto;
+  aspect-ratio: 1695 / 277.602;
   background: currentColor;
-  -webkit-mask: url("/opening-wordmark-v2.svg") center / contain no-repeat;
-  mask: url("/opening-wordmark-v2.svg") center / contain no-repeat;
+  -webkit-mask: url("/opening-wordmark-v3.svg") center / contain no-repeat;
+  mask: url("/opening-wordmark-v3.svg") center / contain no-repeat;
+  /*
+   * THE WIPE LIVES HERE, NOT ON THE WORD.
+   *
+   * clip-path clips an element's pseudo-elements too, and the corner
+   * marks hang outside the word's box by design — measured, they were
+   * rendering at 46px and showing about 1px each. Clipping the mark
+   * instead leaves the frame free and wipes exactly what should wipe.
+   */
+  animation: opening-wipe 1000ms var(--ease-opening) both;
 }
 
 @keyframes opening-wipe {
@@ -2982,6 +3053,9 @@ html[data-aperture-seen="true"] #aperture-loader {
 /* Reduced motion: the composition, arrived at. */
 @media (prefers-reduced-motion: reduce) {
   .opening__word,
+  .opening__word::before,
+  .opening__word::after,
+  .opening__mark,
   .opening__lede,
   .opening__cta,
   .opening__foot {
@@ -2993,4 +3067,7 @@ html[data-aperture-seen="true"] #aperture-loader {
     transition: none;
   }
 }
+
+
+
 
