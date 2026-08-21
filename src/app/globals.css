@@ -698,6 +698,28 @@ html[data-aperture-seen="true"] #aperture-loader {
  * Tall render measurement: black screen x=334..787, y=485..815 in the
  * 1122x1402 source. The cover-crop formula preserves the 1.37 ratio.
  */
+/*
+ * PORTRAIT, BUT WIDTH-BOUND.
+ *
+ * The block below assumes a portrait viewport crops the tall render on
+ * its sides — true only while the viewport is narrower than the render's
+ * own 1122/1402. Between that ratio and square, a portrait viewport is
+ * WIDTH-bound instead: the image overflows top and bottom, and every vh
+ * figure below points somewhere else. Tablets and resized windows live
+ * exactly in that band, and the aperture drifted off the painted screen
+ * there with nothing to catch it.
+ *
+ * Same source measurement, solved for the other constraint.
+ */
+@media (orientation: portrait) and (min-aspect-ratio: 1122/1402) {
+  .hall-aperture {
+    left: 29.768vw;
+    top: calc(50vh - 19.251vw);
+    width: 40.374vw;
+    height: 29.412vw;
+  }
+}
+
 @media (orientation: portrait) {
   .hall-aperture {
     left: calc(50vw - 16.191vh);
@@ -2613,9 +2635,9 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .reel {
   position: relative;
-  height: 155svh;
-  min-height: 950px;
-  padding: 0 1.5rem;
+  /* Height comes from the content on a phone, where the note is in flow;
+     the fixed 155svh returns at 640px with the two-column placement. */
+  padding: 0 1.5rem 6rem;
   background: var(--lab-air);
 }
 
@@ -2654,13 +2676,35 @@ html[data-aperture-seen="true"] #aperture-loader {
   object-fit: cover;
 }
 
+/*
+ * The copy sits beside the settled panel on a wide screen, and UNDER it
+ * on a narrow one.
+ *
+ * Absolutely placed, it overlapped the panel at every scroll position on
+ * a phone — measured at 390px the note ran 24..390 and the panel landed
+ * at 252..366, so they were always in the same band. There is no room
+ * for two columns at that width, so below 640px the note returns to
+ * normal flow and lands just under where the panel comes to rest.
+ */
 .reel__note {
-  position: absolute;
-  left: 1.5rem;
-  bottom: 8svh;
+  margin-top: 2rem;
   display: grid;
   gap: 1rem;
   max-width: 30rem;
+}
+
+@media (min-width: 640px) {
+  .reel {
+    height: 155svh;
+    min-height: 950px;
+  }
+
+  .reel__note {
+    position: absolute;
+    left: 1.5rem;
+    bottom: 8svh;
+    margin-top: 0;
+  }
 }
 
 .reel__label {
@@ -3026,6 +3070,7 @@ html[data-aperture-seen="true"] #aperture-loader {
     transition: none;
   }
 }
+
 
 
 

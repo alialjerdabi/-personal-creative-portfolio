@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ArrowOut from "@/components/ui/ArrowOut";
 import Reveal from "@/components/ui/Reveal";
 import type { LabSite } from "@/data/lab";
 
@@ -102,7 +103,7 @@ export default function LiveSite({ site }: { site: LabSite }) {
             aria-hidden="true"
             className="inline-block transition-transform group-hover:translate-x-1"
           >
-            ↗
+            <ArrowOut />
           </span>
         </a>
       </p>

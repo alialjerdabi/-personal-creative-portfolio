@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ArrowOut from "@/components/ui/ArrowOut";
 import type { LabAsset, LabContent, LabPalette, LabProject } from "@/data/lab";
 
 const FIELD: Record<LabPalette, string> = {
@@ -219,7 +220,7 @@ export default function ProjectModal({
                   className="inline-flex items-center gap-1.5 rounded-full bg-lab-ink-warm px-6 py-3 font-display text-[15px] font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lab-ink-warm focus-visible:ring-offset-2"
                 >
                   View website
-                  <span aria-hidden="true">↗</span>
+                  <ArrowOut />
                 </a>
               )}
 
