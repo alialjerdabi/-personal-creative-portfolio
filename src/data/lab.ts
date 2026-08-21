@@ -775,6 +775,22 @@ export const labContent: LabContent = {
               ratio: "aspect-[4/3]",
             },
             {
+              slot: 8,
+              src: "/work/petrolas/system-station.jpg",
+              alt: "A Petrolas service station — the canopy, the pumps and the shopfront carrying the identity",
+              form: "bleed",
+            },
+            {
+              /* 2.5 is a panorama. The cell's 4:3 would throw away nearly
+                 half its width, and the width is the whole point of a
+                 wayfinding set read left to right. */
+              slot: 9,
+              src: "/work/petrolas/system-wayfinding.jpg",
+              alt: "The Petrolas wayfinding set — visitor parking, innovation lab, a numbered department directory and an exit sign",
+              form: "bleed",
+              ratio: "aspect-[5/2]",
+            },
+            {
               /* 5:4 into the cell's 3:2 would take seventeen per cent off
                  the sides, and the figures sit near them. */
               slot: 10,
@@ -784,12 +800,11 @@ export const labContent: LabContent = {
               ratio: "aspect-[5/4]",
             },
             {
-              /* The charger belongs to the system rather than to PLACE:
-                 it is the mark on a product, and 0.67 fits the 3:4 cell
-                 far better than PLACE's 4:3 would. */
+              /* 0.78 against the cell's 0.75 — under four per cent, so it
+                 takes the cell rather than spending the override. */
               slot: 6,
-              src: "/work/petrolas/ev-charging.jpg",
-              alt: "Petrolas-branded EV charging station reading From waste to what moves us forward",
+              src: "/work/petrolas/system-signpanel.jpg",
+              alt: "A hand holding an illuminated acrylic sign panel with the Petrolas mark glowing through it",
               form: "bleed",
             },
           ],
