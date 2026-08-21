@@ -741,8 +741,8 @@ export const labContent: LabContent = {
             },
             {
               slot: 2,
-              src: "/work/petrolas/system-story.jpg",
-              alt: "A Petrolas story frame — the identity at 9:16, built for a phone",
+              src: "/work/petrolas/system-packaging.jpg",
+              alt: "A five-litre Petrolas Syntech 5W-30 engine oil bottle, the identity carried onto packaging",
               form: "bleed",
             },
             {
@@ -775,20 +775,21 @@ export const labContent: LabContent = {
               ratio: "aspect-[4/3]",
             },
             {
+              /* 2.5 is a panorama, and the width is the whole point of a
+                 wayfinding set read left to right — so the ratio travels
+                 with the image rather than with the cell. */
               slot: 8,
-              src: "/work/petrolas/system-station.jpg",
-              alt: "A Petrolas service station — the canopy, the pumps and the shopfront carrying the identity",
-              form: "bleed",
-            },
-            {
-              /* 2.5 is a panorama. The cell's 4:3 would throw away nearly
-                 half its width, and the width is the whole point of a
-                 wayfinding set read left to right. */
-              slot: 9,
               src: "/work/petrolas/system-wayfinding.jpg",
               alt: "The Petrolas wayfinding set — visitor parking, innovation lab, a numbered department directory and an exit sign",
               form: "bleed",
               ratio: "aspect-[5/2]",
+            },
+            {
+              /* 1.33 into cell 09's 4:3 — an exact fit, no override. */
+              slot: 9,
+              src: "/work/petrolas/system-station.jpg",
+              alt: "A Petrolas service station — the canopy, the pumps and the shopfront carrying the identity",
+              form: "bleed",
             },
             {
               /* 5:4 into the cell's 3:2 would take seventeen per cent off
