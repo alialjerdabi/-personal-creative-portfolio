@@ -40,6 +40,20 @@ export interface LabAsset {
    * placeholders for the slots that are still empty.
    */
   slot?: number;
+  /**
+   * An escape hatch, not a default.
+   *
+   * Layouts declare their own cell shapes so a composition stays a
+   * composition — and the bento is shared by every project that uses it,
+   * so a cell cannot be re-cut for one of them without moving the other.
+   * This lets a single asset keep its own ratio where the cell would
+   * otherwise destroy it: a 3:2 palette board cropped into a square
+   * loses its end swatches, and no amount of good layout is worth that.
+   *
+   * Use it when the material demands it. Reach for it for every asset
+   * and the grid stops being designed.
+   */
+  ratio?: string;
 }
 
 /** An image bold enough to read inside letterforms. */
@@ -683,12 +697,26 @@ export const labContent: LabContent = {
           title: "IDENTITY",
           note: "Mark, colour, type, and voice — built to hold from a business card to a trade-show hall without losing itself.",
           layout: "bleeds",
-          aperture: { src: "/hero/petrolas-branding.jpg", position: "50% 45%" },
+          /* Each keeps its own shape: a 16:9 board squeezed into the
+             layout's 4:3 would lose a quarter of its width, and the
+             square gadget shot would lose its edges. */
           assets: [
             {
-              src: "/work/petrolas/booth.jpg",
-              alt: "Petrolas exhibition booth staffed and busy with visitors, the full identity applied at trade-show scale",
+              src: "/work/petrolas/identity-mark.jpg",
+              alt: "The Petrolas mark and its construction — the drop and the connected circuit, set out on a dark board",
               form: "bleed",
+            },
+            {
+              src: "/work/petrolas/identity-board.jpg",
+              alt: "The Petrolas identity applied across a spread of brand surfaces",
+              form: "bleed",
+              ratio: "aspect-[16/9]",
+            },
+            {
+              src: "/work/petrolas/identity-gadget.jpg",
+              alt: "The Petrolas mark on a device screen",
+              form: "bleed",
+              ratio: "aspect-square",
             },
           ],
         },
@@ -706,9 +734,54 @@ export const labContent: LabContent = {
           assets: [
             {
               slot: 1,
-              src: "/work/petrolas/brand-guidelines.jpg",
-              alt: "Petrolas brand guidelines page detailing the primary, secondary, and accent colour system",
+              src: "/work/petrolas/system-pump.jpg",
+              alt: "A Petrolas fuel pump carrying the identity",
               form: "bleed",
+              ratio: "aspect-[4/3]",
+            },
+            {
+              slot: 2,
+              src: "/work/petrolas/system-story.jpg",
+              alt: "A Petrolas story frame — the identity at 9:16, built for a phone",
+              form: "bleed",
+            },
+            {
+              slot: 3,
+              src: "/work/petrolas/system-palette.jpg",
+              alt: "The Petrolas palette, its blues set out with their values",
+              form: "bleed",
+              ratio: "aspect-[3/2]",
+            },
+            {
+              slot: 4,
+              src: "/work/petrolas/system-type.jpg",
+              alt: "The Petrolas type specimen — the grotesque and the serif italic that answers it",
+              form: "bleed",
+            },
+            {
+              /* 0.73 against the cell's 0.75 — a three per cent trim, so
+                 it takes the cell as it is rather than spending the
+                 ratio override on a crop nobody can see. */
+              slot: 5,
+              src: "/work/petrolas/system-idcard.jpg",
+              alt: "A Petrolas staff ID card on a branded lanyard",
+              form: "bleed",
+            },
+            {
+              slot: 7,
+              src: "/work/petrolas/system-favicon.jpg",
+              alt: "The Petrolas mark as a browser favicon beside the address bar",
+              form: "bleed",
+              ratio: "aspect-[4/3]",
+            },
+            {
+              /* 5:4 into the cell's 3:2 would take seventeen per cent off
+                 the sides, and the figures sit near them. */
+              slot: 10,
+              src: "/work/petrolas/system-stats.jpg",
+              alt: "A Petrolas statistics board — the identity applied to figures and charts",
+              form: "bleed",
+              ratio: "aspect-[5/4]",
             },
             {
               /* The charger belongs to the system rather than to PLACE:
@@ -727,7 +800,6 @@ export const labContent: LabContent = {
           title: "CAMPAIGN",
           note: "One argument, carried across every format the business actually buys — not three unrelated adverts.",
           layout: "plates",
-          aperture: { src: "/work/petrolas/campaign-plastic.jpg", position: "70% 50%" },
           assets: [
             {
               src: "/work/petrolas/campaign-plastic.jpg",
@@ -752,7 +824,6 @@ export const labContent: LabContent = {
           title: "SCREEN",
           note: "The same language carried into screens — social, site, and a live operations view built in the identity, not beside it. The partnership page is the argument at its sharpest: a serif italic against the grotesque, and a brief set as a document rather than a pitch.",
           layout: "plates",
-          aperture: { src: "/hero/petrolas-digital.jpg", position: "55% 45%" },
           /* Captured from the live build 2026-08-12, at Ali's
              instruction. The URL is a preview deployment, so it is the
              one link on this site that can rot — swap it for the
@@ -803,7 +874,6 @@ export const labContent: LabContent = {
               form: "bleed",
             },
           ],
-          aperture: { src: "/work/petrolas/hoarding-wide.jpg", position: "38% 50%" },
         },
       ],
     },

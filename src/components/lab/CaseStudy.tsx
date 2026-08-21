@@ -121,8 +121,10 @@ function Bleed({
   if (!asset) {
     return <Slot palette={palette} label={label} className={`${ratio} rounded-[1.4rem]`} />;
   }
+  /* The asset may keep its own shape where the layout's would ruin it. */
+  const shape = asset.ratio ?? ratio;
   return (
-    <div className={`relative w-full overflow-hidden rounded-[1.4rem] ${ratio}`}>
+    <div className={`relative w-full overflow-hidden rounded-[1.4rem] ${shape}`}>
       <Image src={asset.src} alt={asset.alt} fill sizes={sizes} className="object-cover" />
     </div>
   );
@@ -186,9 +188,9 @@ function Bento({
             className={cell.span}
           >
             <div
-              className={`relative w-full overflow-hidden rounded-[1.2rem] ${cell.ratio} ${
-                asset ? "bg-lab-haze" : FIELD[palette]
-              }`}
+              className={`relative w-full overflow-hidden rounded-[1.2rem] ${
+                asset?.ratio ?? cell.ratio
+              } ${asset ? "bg-lab-haze" : FIELD[palette]}`}
             >
               {asset ? (
                 <Image
