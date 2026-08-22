@@ -61,7 +61,16 @@ export default function LiveSite({ site }: { site: LabSite }) {
             </span>
           </div>
 
-          <div className="relative aspect-[16/10] w-full bg-lab-haze">
+          {/* 16:10 is the browser-shaped default; a capture that is a
+              different shape keeps its own, the same escape hatch the
+              bleeds, plates and bento layouts honour. Petrolas' landing
+              capture is 1.97 — in a 16:10 frame it lost a fifth of its
+              width off the sides. */}
+          <div
+            className={`relative w-full bg-lab-haze ${
+              site.desktop.ratio ?? "aspect-[16/10]"
+            }`}
+          >
             <Image
               src={site.desktop.src}
               alt={site.desktop.alt}

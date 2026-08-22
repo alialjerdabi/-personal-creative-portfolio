@@ -95,9 +95,12 @@ function Plate({
   if (!asset) {
     return <Slot palette={palette} label={label} className="aspect-[2/3] rounded-[1.4rem]" />;
   }
+  /* The plate is 2:3 unless the artefact says otherwise — same escape
+     hatch Bleed and the bento honour. */
+  const shape = asset.ratio ?? "aspect-[2/3]";
   return (
     <div className="rounded-[1.4rem] border border-lab-hairline bg-white/70 p-3 shadow-[0_14px_44px_-30px_rgb(19_23_30/0.5)] sm:p-4">
-      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-[1rem]">
+      <div className={`relative w-full overflow-hidden rounded-[1rem] ${shape}`}>
         <Image src={asset.src} alt={asset.alt} fill sizes={sizes} className="object-cover" />
       </div>
     </div>
@@ -230,9 +233,17 @@ function SpreadAssets({
     // Equal widths, unequal tops. The stagger is what keeps three
     // posters from reading as a card grid.
     const offsets = ["sm:mt-0", "sm:mt-16", "sm:mt-8"];
+    /* AS MANY AS THERE ARE, not always three. A spread that has two
+       things to show should show two; the three labelled slots are for a
+       spread that has nothing yet and needs its shape judged. */
+    const cells = spread.assets.length ? spread.assets.slice(0, 3) : [first, second, third];
     return (
-      <div className="grid gap-6 sm:grid-cols-3 sm:gap-8">
-        {[first, second, third].map((asset, index) => (
+      <div
+        className={`grid gap-6 sm:gap-8 ${
+          cells.length === 2 ? "sm:grid-cols-2" : "sm:grid-cols-3"
+        }`}
+      >
+        {cells.map((asset, index) => (
           <Reveal
             key={asset?.src ?? `plate-${index}`}
             variant="mask"
@@ -247,6 +258,50 @@ function SpreadAssets({
             />
           </Reveal>
         ))}
+      </div>
+    );
+  }
+
+  /*
+   * One wide card, then a row of plates beneath it.
+   *
+   * Added for Petrolas' CAMPAIGN (Ali, 2026-08-22): a key visual that
+   * has to be seen at size, and the posts it produced shown as objects
+   * underneath. `plates` alone gave three equal posters with nothing to
+   * lead them; `bleeds` leads but only carries two behind it.
+   */
+  if (spread.layout === "bleed-plates") {
+    const [lead, ...rest] = spread.assets;
+    return (
+      <div>
+        <Reveal variant="mask">
+          <Bleed
+            asset={lead}
+            ratio="aspect-[16/9]"
+            sizes="92vw"
+            palette={palette}
+            label="01 · Wide"
+          />
+        </Reveal>
+        <div className="mt-6 grid gap-6 sm:grid-cols-3 sm:gap-8 lg:mt-8">
+          {(rest.length ? rest.slice(0, 3) : [undefined, undefined, undefined]).map(
+            (asset, index) => (
+              <Reveal
+                key={asset?.src ?? `bp-${index}`}
+                variant="mask"
+                index={index + 1}
+                className={["sm:mt-0", "sm:mt-10", "sm:mt-4"][index]}
+              >
+                <Plate
+                  asset={asset}
+                  sizes="(max-width: 640px) 90vw, 30vw"
+                  palette={palette}
+                  label={`${String(index + 2).padStart(2, "0")} · Poster`}
+                />
+              </Reveal>
+            )
+          )}
+        </div>
       </div>
     );
   }

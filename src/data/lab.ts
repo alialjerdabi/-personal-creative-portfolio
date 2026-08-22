@@ -150,7 +150,7 @@ export interface LabSpread {
    * layout from the data" is exactly how a portfolio ends up looking
    * like a grid again.
    */
-  layout: "bleed-plate" | "plates" | "bleeds" | "bento";
+  layout: "bleed-plate" | "bleed-plates" | "plates" | "bleeds" | "bento";
   /**
    * Absent until this spread's imagery exists. The title then sets in
    * solid ink instead of being cut out of a photograph — the mechanic is
@@ -815,22 +815,34 @@ export const labContent: LabContent = {
           label: "03 — Campaign",
           title: "CAMPAIGN",
           note: "One argument, carried across every format the business actually buys — not three unrelated adverts.",
-          layout: "plates",
+          /* A holding shape (Ali, 2026-08-22) — the lead card and three
+             posts now, a fuller campaign layout once the rest of the
+             mockups exist. */
+          layout: "bleed-plates",
           assets: [
             {
-              src: "/work/petrolas/campaign-plastic.jpg",
-              alt: "Petrolas campaign poster: Turning plastic into possibility",
-              form: "plate",
+              src: "/work/petrolas/campaign-hero.jpg",
+              alt: "The Petrolas campaign key visual",
+              form: "bleed",
+              ratio: "aspect-[4/3]",
             },
             {
-              src: "/work/petrolas/campaign-waste-fuel.jpg",
-              alt: "Petrolas campaign poster: Waste today. Fuel tomorrow.",
+              src: "/work/petrolas/campaign-post-01.jpg",
+              alt: "A Petrolas campaign post",
               form: "plate",
+              ratio: "aspect-[3/4]",
             },
             {
-              src: "/work/petrolas/refinery.jpg",
-              alt: "Petrolas campaign poster: Built for a cleaner future, over the refining facility",
+              src: "/work/petrolas/campaign-post-02.jpg",
+              alt: "A Petrolas campaign post",
               form: "plate",
+              ratio: "aspect-[3/4]",
+            },
+            {
+              src: "/work/petrolas/campaign-post-03.jpg",
+              alt: "A Petrolas campaign post",
+              form: "plate",
+              ratio: "aspect-[3/4]",
             },
           ],
         },
@@ -845,12 +857,17 @@ export const labContent: LabContent = {
              one link on this site that can rot — swap it for the
              production domain the moment Petrolas has one. */
           site: {
-            url: "https://petrolas-v2-git-feature-process-ignition-redesign-ali-aljardabi.vercel.app/partnership",
-            label: "Open the Petrolas partnership page",
+            /* The frame shows the landing page now, so the address bar
+               and the link have to say so — a browser chrome captioned
+               with a page it is not showing is a small lie in the middle
+               of a case study about getting details right. */
+            url: "https://petrolas-v2-git-feature-process-ignition-redesign-ali-aljardabi.vercel.app/",
+            label: "Open the Petrolas site",
             desktop: {
-              src: "/work/petrolas/site-partnership.jpg",
-              alt: "The Petrolas partnership page: the right capital, the right capability, one industrial direction",
+              src: "/work/petrolas/site-landing.jpg",
+              alt: "The Petrolas landing page: Waste is not the end. It is potential.",
               form: "bleed",
+              ratio: "aspect-[1969/1000]",
             },
           },
           /*
@@ -859,15 +876,24 @@ export const labContent: LabContent = {
             call it the work. As plates they are objects on a page at a
             size their resolution can carry.
           */
+          /*
+            TWO PAGES, NOT THREE (Ali, 2026-08-22).
+
+            Both are full-page captures — 18,214px and 7,113px tall — so
+            any card shows a fraction of them. They are cropped to their
+            opening screen at the plate's own 2:3, which is the part a
+            visitor would recognise; the live link above carries anyone
+            who wants the rest.
+          */
           assets: [
             {
-              src: "/work/petrolas/dashboard.jpg",
-              alt: "Petrolas operations dashboard interface showing live production and feedstock data",
+              src: "/work/petrolas/site-process.jpg",
+              alt: "The top of the Petrolas process page",
               form: "plate",
             },
             {
-              src: "/work/petrolas/loop-diagram.jpg",
-              alt: "Petrolas diagram showing the loop from plastic waste through refining to clean fuel",
+              src: "/work/petrolas/site-partnership-page.jpg",
+              alt: "The top of the Petrolas partnership page",
               form: "plate",
             },
           ],
@@ -885,8 +911,16 @@ export const labContent: LabContent = {
               form: "bleed",
             },
             {
+              /* 1.79 in a 4:3 cell was cutting a quarter off the tank —
+                 the length of the thing is what the shot is about. */
               src: "/work/petrolas/fleet-systems.jpg",
               alt: "Petrolas-branded tanker truck with a connected circuit graphic along its tank",
+              form: "bleed",
+              ratio: "aspect-[16/9]",
+            },
+            {
+              src: "/work/petrolas/system-station.jpg",
+              alt: "A Petrolas service station — the canopy, the pumps and the shopfront carrying the identity",
               form: "bleed",
             },
           ],
@@ -1144,8 +1178,8 @@ export const labContent: LabContent = {
             },
             {
               slot: 8,
-              src: "/work/qobban/brand-appstore.jpg",
-              alt: "The Qobban app listing on a store page — the mark as an app icon, Metal solutions & services beneath it",
+              src: "/work/qobban/brand-panel.jpg",
+              alt: "The Qobban identity applied to a panel",
               form: "bleed",
             },
             {
