@@ -528,7 +528,10 @@ export const labContent: LabContent = {
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ],
-  navCta: { label: "Start a project", href: "/#contact" },
+  /* The button says "Start a project", so it goes to the brief rather
+     than to a contact section further down the homepage. /start was
+     built and then left unreachable when /services reverted. */
+  navCta: { label: "Start a project", href: "/start" },
 
   /*
    * Written in the first person and said out loud. Ali is one person,

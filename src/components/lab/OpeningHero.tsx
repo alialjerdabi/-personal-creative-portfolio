@@ -85,7 +85,9 @@ export default function OpeningHero({ content }: { content: LabContent }) {
             <span key={line}>{line}</span>
           ))}
         </p>
-        <Link href="/contact" className="opening__cta">
+        {/* The hero CTA carries the same label as the nav, so it has
+            to reach the same place. */}
+        <Link href="/start" className="opening__cta">
           <span>{opening.cta}</span>
           <span aria-hidden="true">→</span>
         </Link>
