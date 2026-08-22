@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import FloatingNav from "@/components/lab/FloatingNav";
-import ServiceDiagram from "@/components/lab/ServiceDiagram";
 import ContactClose from "@/components/lab/ContactClose";
 import FaqList from "@/components/lab/FaqList";
 import Reveal from "@/components/ui/Reveal";
@@ -171,14 +169,21 @@ export default function ServicesPage() {
                   </h2>
                   <p className="lab-service-card__outcome">{detail.lede}</p>
 
-                  {/*
-                    Scope and diagram on the narrow side, the argument on
-                    the wide one. The left column used to end after five
-                    bullets and leave half a screen of nothing; the
-                    diagram now fills it with the part of the service
-                    that is hardest to say in a sentence.
-                  */}
-                  <div className="mt-8 grid gap-10 lg:grid-cols-[0.8fr_1.5fr] lg:gap-14">
+                  <div className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
+                    <div className="space-y-4">
+                      {detail.body.map((paragraph) => (
+                        <p key={paragraph} className="lab-prose">
+                          {paragraph}
+                        </p>
+                      ))}
+                      <p className="lab-prose">
+                        <strong className="font-bold text-lab-ink-warm">
+                          Who it is for:{" "}
+                        </strong>
+                        {detail.forWho}
+                      </p>
+                    </div>
+
                     <div>
                       <p className="lab-placard border-t border-lab-hairline pt-5">
                         Scope of work
@@ -194,46 +199,15 @@ export default function ServicesPage() {
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-8">
-                        <ServiceDiagram
-                          index={service.index}
-                          palette={service.palette}
-                          caption={detail.diagram}
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="lab-service-question">{detail.question}</p>
-                      <span aria-hidden="true" className="lab-service-rule block" />
-                      <div className="space-y-4">
-                        {detail.body.map((paragraph) => (
-                          <p key={paragraph} className="lab-prose">
-                            {paragraph}
-                          </p>
-                        ))}
-                        <p className="lab-prose">
-                          <strong className="font-bold text-lab-ink-warm">
-                            Who it is for:{" "}
-                          </strong>
-                          {detail.forWho}
-                        </p>
-                      </div>
-                      {/* Arrives at the brief with this service already
-                          chosen — a visitor who clicked "Branding" should
-                          not be asked what they clicked. */}
-                      <Link
-                        href={`/start?service=${service.index}`}
-                        className="lab-service-cta group"
-                      >
-                        Brief me on {service.name.toLowerCase()}
+                      <a href="#contact" className="lab-service-cta group">
+                        Start a project
                         <span
                           aria-hidden="true"
                           className="inline-block transition-transform duration-300 group-hover:translate-x-1.5"
                         >
                           →
                         </span>
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </section>
