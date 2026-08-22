@@ -3078,3 +3078,212 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 
 
+
+/* ---------------------- service diagrams & brief ---------------------- */
+
+/*
+ * The diagram card. Drawn in the page's own tokens so it reads as part
+ * of the system rather than as an illustration dropped into it.
+ */
+.lab-diagram {
+  margin: 0;
+  border: 1px solid var(--lab-hairline);
+  border-radius: 1.2rem;
+  background: var(--lab-air);
+  padding: 1.25rem 1.25rem 1rem;
+}
+
+.lab-diagram__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--lab-ink-soft);
+}
+
+.lab-diagram__axis {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.28;
+}
+
+.lab-diagram__bar {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.4;
+}
+
+.lab-diagram__dot {
+  fill: currentColor;
+  opacity: 0.35;
+}
+
+.lab-diagram__label {
+  fill: currentColor;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Inside the filled step, where the ground is the accent. */
+.lab-diagram__label--in {
+  fill: #fff;
+}
+
+.lab-diagram__caption {
+  margin-top: 0.75rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--lab-ink-soft);
+  opacity: 0.75;
+}
+
+/* The question that opens a service — set as a statement, not a heading. */
+.lab-service-question {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--lab-ink-warm);
+}
+
+.lab-service-rule {
+  width: 2.5rem;
+  height: 2px;
+  margin: 1.25rem 0;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* --------------------------- the brief -------------------------------- */
+
+.brief {
+  display: grid;
+  gap: 1rem;
+}
+
+.brief__group {
+  border-top: 1px solid var(--lab-hairline);
+  padding-top: 1.5rem;
+}
+
+.brief__legend {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lab-ink-soft);
+}
+
+.brief__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+/*
+ * A real checkbox and radio underneath, visually hidden rather than
+ * removed: the control keeps its keyboard behaviour, its focus ring and
+ * its announcement, and the pill is only what it looks like.
+ */
+.brief__pill input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.brief__pill span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 1.1rem;
+  border: 1px solid var(--lab-hairline);
+  border-radius: 999px;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--lab-ink-warm);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-quick) var(--ease-motion),
+    border-color var(--dur-quick) var(--ease-motion),
+    color var(--dur-quick) var(--ease-motion);
+}
+
+.brief__pill:hover span {
+  border-color: var(--lab-ink-warm);
+}
+
+.brief__pill input:checked + span {
+  background: var(--lab-ink-warm);
+  border-color: var(--lab-ink-warm);
+  color: var(--lab-air);
+}
+
+.brief__pill input:focus-visible + span {
+  outline: 2px solid var(--lab-ink-warm);
+  outline-offset: 2px;
+}
+
+.brief__field {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--lab-hairline);
+  border-radius: 0.9rem;
+  background: var(--lab-air);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1rem;
+  color: var(--lab-ink-warm);
+}
+
+.brief__field:focus {
+  border-color: var(--lab-ink-warm);
+  outline: none;
+}
+
+.brief__field::placeholder {
+  color: var(--lab-ink-soft);
+  opacity: 0.7;
+}
+
+.brief__submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  margin-top: 2rem;
+  padding: 0 1.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lab-ink-warm);
+  color: var(--lab-air);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 120ms var(--ease-motion);
+}
+
+.brief__submit:active {
+  transform: scale(0.98);
+}
+
+.brief__submit[disabled] {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.brief__note {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--lab-ink-soft);
+}

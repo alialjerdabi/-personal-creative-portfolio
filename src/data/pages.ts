@@ -65,6 +65,12 @@ export const servicesPage = {
      room for. */
   detail: {
     "01": {
+      diagram: "Schematic — where a business sits against the others in its market.",
+      /* The question the service answers, asked from the buyer's side.
+         Not a claim — a claim invites scepticism, a question invites
+         them to check their own experience against it. */
+      question:
+        "How many customers decided against you before they ever spoke to you?",
       lede: "Look credible to someone who has never heard of you.",
       body: [
         "Branding is the part a customer judges before they have spoken to anyone. It decides whether a business looks like it can be trusted with the job, and it is the difference between being remembered and being one of several.",
@@ -74,6 +80,9 @@ export const servicesPage = {
         "Businesses launching, businesses that have outgrown the identity they started with, and businesses whose look no longer matches what they now sell.",
     },
     "02": {
+      diagram: "Schematic — where visitors fall away before they ever enquire.",
+      question:
+        "Your website gets visits. How many of them turn into enquiries?",
       lede: "Turn attention into enquiries.",
       body: [
         "A website is where interest either becomes a message or evaporates. Most of the ones I am asked to replace are not ugly — they are unclear: the visitor cannot tell in five seconds what is on offer, who it is for, or what to do next.",
@@ -83,6 +92,9 @@ export const servicesPage = {
         "Businesses with no site, businesses whose site does not bring enquiries, and businesses whose site was built before the business changed.",
     },
     "03": {
+      diagram: "Schematic — which channels are actually carrying the work.",
+      question:
+        "When someone here needs what you sell, do they think of you first?",
       lede: "Be the one they think of, and the one they call.",
       body: [
         "Branding makes a business recognisable. Marketing is what puts it in front of people often enough for that to matter. I direct campaigns as one system — the idea, the creative, and the channel it runs on — rather than producing posts to fill a calendar.",
@@ -91,7 +103,18 @@ export const servicesPage = {
       forWho:
         "Businesses already trading who need consistent presence, campaign creative, or someone to run the channel properly.",
     },
-  } as Record<string, { lede: string; body: string[]; forWho: string }>,
+  } as Record<
+    string,
+    {
+      lede: string;
+      body: string[];
+      forWho: string;
+      /** The question the service answers, asked from the buyer's side. */
+      question: string;
+      /** What the diagram beside it is, said plainly — it is schematic. */
+      diagram: string;
+    }
+  >,
 
   /*
    * The process, in Ali's own account (2026-08-14). Six stages, not the
