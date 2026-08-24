@@ -3339,6 +3339,19 @@ html[data-aperture-seen="true"] #aperture-loader {
     color: var(--lab-ink-warm);
   }
 
+  /*
+   * BREATHING ROOM ABOVE THE NAME (Ali, 2026-08-24).
+   *
+   * The section gap alone left 24px between the last card and the
+   * wordmark, which read as the two colliding rather than following one
+   * another. `svh` rather than a fixed value so it stays the same
+   * proportion of the screen on a small phone and a large one — roughly
+   * seven per cent of the viewport either way.
+   */
+  .opening__word {
+    margin-top: 4svh;
+  }
+
   .offer__list {
     margin-top: 1.1rem;
     display: grid;
@@ -3417,6 +3430,7 @@ html[data-aperture-seen="true"] #aperture-loader {
     background: var(--lab-haze);
   }
 }
+
 
 
 

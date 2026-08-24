@@ -15,12 +15,11 @@ is an independent designer in Manama, Bahrain, working alone end to end,
 selling branding, websites and social media design to small and growing
 businesses. First person, always — never "we", never an agency voice.
 
-**Read these two before touching anything:**
+**Read these before touching anything:**
 
-- `docs/master-brief.md` — locked. The design system, the honesty rules,
-  the page structure, and §6, a list of traps in this codebase that have
-  each already cost a round of rework. If anything conflicts with it, the
-  brief wins.
+- `docs/master-brief.md` — locked. Design system, honesty rules, page
+  structure, and §6, the traps that have each already cost a round of
+  rework. If anything conflicts with it, the brief wins.
 - `docs/motion.md` — the motion rules, measured off symbolstudio.pl and
   noth.in rather than guessed. One easing, three durations, three
   distances, enter once and never leave.
@@ -35,28 +34,39 @@ businesses. First person, always — never "we", never an agency voice.
 node scripts/shots.mjs /work/qobban
 ```
 
-Read the PNGs in `.shots/`. Every visual defect this project has shipped
-was invisible to `tsc`, to eslint and to DOM measurement, and obvious in
-a screenshot: a grey frame around a "full bleed", amber cells that were
-grey because a component class beat a utility, a stale image served from
-the Next cache after the file was overwritten in place, white buttons on
-a white ground in dark mode. My own contrast audit produced two false
-positives; what actually found the bug was Ali looking at the page.
+Read the PNGs in `.shots/`, or drive the page with Playwright and
+measure. Every visual defect this project has shipped was invisible to
+`tsc`, invisible to eslint, and obvious the moment someone looked: a grey
+frame around a "full bleed", amber cells that rendered grey because a
+component class beat a utility, a stale image served from the Next cache,
+white-on-white buttons in dark mode, a wordmark that solved for 1.0
+because it measured its own box instead of its glyphs.
+
+**Measurement beats opinion, and looking beats both.** Several times a
+metric said one thing and the render said another — in both directions.
+Check the pixels.
 
 ---
 
 ## Where the build is
 
-The museum is built and the case-study system is stable. Qobban runs
-five spreads: **01 MARK · 02 BRANDING · 03 STREET · 04 SITE · 05
-SOCIAL**.
+**The homepage** opens with `OpeningHero`: Ali's drawn wordmark as an SVG
+mask, a clip-path wipe, a scroll-scrubbed zoom. Below it `ShowreelPanel`,
+then `WorksBoard`, then the museum hall, then the closing sections.
 
-- `Reveal` (`src/components/ui/Reveal.tsx`) is the only entrance
-  primitive. Variants `text | block | morph | mask`, `index` for the
-  60ms stagger capped at six steps. Timing is a token, not a prop — do
-  not pass hand-written delays.
-**The five roles.** Every case study reads in the same order, and each
-project keeps its own words for them:
+**On a phone the hero carries the offer.** Three cards — service name,
+the outcome with one word in the service's colour, and two pieces of real
+work. Content lives in `services.items[].fold`. This won an A/B test on
+2026-08-24 against a proof-first and a sticky-bar variant; the losers were
+deleted rather than left lying around.
+
+**`/start`** is the brief: service, timeline, budget band, the business,
+the problem, who they are. Arrives pre-selected from `?service=01`. Posts
+to Web3Forms when a key exists and composes a WhatsApp message when it
+does not, so it can never silently swallow an enquiry.
+
+**Case studies follow five roles**, same order, each project keeping its
+own words:
 
 | # | Role | Qobban | Petrolas | Delivery Point |
 |---|------|--------|----------|----------------|
@@ -66,82 +76,98 @@ project keeps its own words for them:
 | 4 | the screen | SITE | SCREEN | TRACK |
 | 5 | the place | STREET | PLACE | ROAD |
 
-The sequence is unified; the vocabulary is not. Three case studies using
-the same five words would read as one template filled in three times.
+Qobban and Petrolas are complete. Delivery Point is five spreads of
+labelled placeholders waiting on files.
 
-**Every layout slot tolerates a missing asset.** `Slot` in `CaseStudy.tsx`
-renders the project's colour and names the shape that belongs there, so a
-spread can be composed before its files exist. The guard lives in `Bleed`
-and `Plate` rather than in each layout — a spread with one asset in a
-three-slot layout used to return a 500.
+**Every layout slot tolerates a missing asset** — `Slot` renders the
+project's colour and names the shape that belongs there. **Any asset may
+override its cell's ratio** with `ratio`, and that is an escape hatch,
+not a default: use it where the cell would destroy the material, and if
+it appears on every asset the grid has stopped being designed.
 
-- `Bento` in `CaseStudy.tsx` declares ten fixed slots. Assets choose
-  their cell with `slot` in `src/data/lab.ts`; the grid never rearranges
-  itself around what happened to arrive. Empty slots render the
-  project's colour and say what belongs there.
-- `SocialShowreel` runs one alternating post→story rail plus one film
-  screen. The rail pairs every post with a story and cycles the shorter
-  list, so the alternation survives the loop seam.
-- `MuseumScreen` pins with CSS `position: sticky` and reads
-  `getBoundingClientRect()` live in a rAF loop. **Never GSAP
-  ScrollTrigger here** — it caches positions that late image decode
-  invalidates.
+---
+
+## Traps this codebase has already paid for
+
+- **Turbopack serves stale CSS.** New classes routinely need one or two
+  extra rebuilds. Symptoms have included an element at zero height, a
+  wholly unstyled component, and a mask pointing at the previous file. If
+  a change "did not work", check the served stylesheet before debugging
+  the code.
+- **`clip-path` reaches further than it looks.** It clips an element's
+  pseudo-elements, and Chromium applies a target's own clip when
+  computing an IntersectionObserver rect — so an element hidden with
+  `clip-path: inset(100%)` can never observe itself into view. Cost two
+  separate bugs.
+- **`min-height` does not stop flex shrinking.** The hero crushed its own
+  wordmark to 49px while the artwork inside kept its aspect ratio and
+  spilled out. `flex: none` on children that must not compress.
+- **Never overwrite an image in place** — Next serves the stale optimised
+  render. Give the new file a new name.
+- **`↗` (U+2197) has an emoji presentation** and iOS picks it. Draw
+  arrows as SVG.
+- **Open a file before placing it.** A Petrolas hard hat was published
+  inside Qobban's branding board because a filename was trusted. That is
+  the one rule this site cannot break.
+- **Never `git add -A`.** Stage explicit paths.
+- **Never edit files with PowerShell** `Get-Content`/`Set-Content` — 5.1
+  double-encodes every em dash. Use the editing tools, Node, or Python.
 
 ---
 
 ## Blocked on Ali — ask, do not design around it
 
-1. **`brand-profile-temp.jpg` in bento slot 02 is a temporary Instagram
-   screenshot.** Remind him. It needs a designed 9:16 asset.
-2. **The stationery set in bento slot 08 uses an ochre**, not the
-   construction yellow `#FFC400` the palette board two cells away
-   declares. They sit on the same board. Ali's asset, Ali's call — but
-   he should know it is visible.
-3. **SOCIAL showreel assets** — six posts at 4:5, five stories at 9:16,
-   three desktop films.
-4. **Petrolas and Delivery Point are skeletons waiting on files.**
-   Petrolas needs its SYSTEM bento filled (nine of ten cells empty) —
-   Ali has said there are many more assets, and little motion. Delivery
-   Point is empty in all five spreads.
-5. **Six Petrolas files are 418px wide** — `campaign-*`, `dashboard`,
-   `loop-diagram`, `refinery`, `ev-charging`. They are only usable small.
-   Ask for the originals.
-6. **Kids Island, Nextshoot and Shawarma & Sauce have no case study at
-   all** and were deliberately left that way — five empty spreads each
-   would publish three near-identical placeholder pages. Add them when
-   the first real asset for each arrives.
-7. The About page start year. Ali said mid-2020 for the first design
-   course; the years figure is still deliberately absent from the page
-   because his anchor and his figure disagreed by a year.
+1. **`NEXT_PUBLIC_WEB3FORMS_KEY` is not set in this repo.** If it is unset
+   in Vercel too, `/contact`'s form renders nothing in production. `/start`
+   falls back to WhatsApp; `/contact` does not.
+2. **The Qobban numbers.** He reports 1–2 enquiries a day before the work
+   and 8–12 after, from branding and marketing alone, before the site
+   shipped. Needs the periods, what "client" counts as, the owner's name
+   and role, and permission — plus whether a launch offer was running,
+   because naming it makes the claim stronger, not weaker.
+3. **Qobban has no testimonial** and is the lead card on the homepage.
+4. **The app card in Qobban's branding board shows "12K RATINGS · 4.9".**
+   Qobban has no app. Invented metrics on a client's case study.
+5. **`brand-profile-temp.jpg`** is an Instagram screenshot standing in for
+   a designed 9:16 asset.
+6. **Delivery Point** is empty across all five spreads.
+7. **Kids Island, Nextshoot, Shawarma & Sauce** have no case study at all,
+   deliberately — five empty spreads each would publish three
+   near-identical placeholder pages.
+8. **Petrolas' palette board** renders 257×171 in a quarter-width cell;
+   its hex values are unreadable. **Its wayfinding set** is 347×139 and
+   its labels cannot be read — Ali chose that placement with the
+   measurement in front of him.
+9. **`/start` is `noindex`.** That was right when it sat behind
+   `/services`; it is now the destination for every CTA.
+10. **Orphaned files** — `system-story.jpg`, `ev-charging.jpg`,
+    `campaign-plastic/waste-fuel/refinery`, `dashboard`, `loop-diagram`,
+    `system-hardhat`, `opening-wordmark-v2/v3.svg`, both `feature-square`.
+11. **Six Petrolas files are 418px wide** and only usable small.
 
 ---
 
 ## Do not
 
-- **Do not add a dependency** without stating its cost and getting a yes.
-  Runtime deps are `gsap`, `next`, `react`, `react-dom`. Motion and Lenis
-  were both considered and rejected — a second animation runtime, and a
-  smooth-scroll hijack that fights CSS sticky.
-- **Do not invent** clients, metrics, testimonials, awards, dates or
-  years — and never use one client's imagery to fill another's empty slot.
-- **Do not edit files with PowerShell** `Get-Content`/`Set-Content` or
-  `[IO.File]`. PowerShell 5.1 reads BOM-less UTF-8 as ANSI and
-  double-encodes every em dash. Use the editing tools, Node, or Python.
-- **Do not overwrite an image in place.** Next serves the stale optimised
-  render. Give the new file a new name.
-- **Do not `git add -A`.** Stage explicit paths. A blanket add once swept
-  in-progress work into an unrelated commit and pushed it.
-- **Do not redesign** anything Ali has not asked you to redesign.
+- **Add a dependency** without stating its cost and getting a yes. Runtime
+  deps are `gsap`, `next`, `react`, `react-dom` — and **gsap is imported
+  nowhere**; it should be removed, but not as a side effect of other work.
+- **Invent** clients, metrics, testimonials, awards, packages, prices,
+  dates or years — and never use one client's imagery for another.
+- **Redesign** anything Ali has not asked you to redesign.
 
 ---
 
 ## How this session runs
 
 One thing at a time. State the plan in three or four lines, build it,
-then `npx tsc --noEmit`, `npx eslint src --max-warnings=0`,
-`node scripts/shots.mjs <route>` — **open the screenshot** — then show
-what changed and what you are unsure about, and wait for a yes before
-starting the next.
+then `npx tsc --noEmit`, `npx eslint src --max-warnings=0`, and **look at
+it** — then show what changed and what you are unsure about, and wait for
+a yes.
+
+Before anything goes live, run `npx next build`. A failing build means
+Vercel deploys nothing and Ali sees a stale site — which has already
+cost an evening of confusion.
 
 When you find a real problem with what Ali asked for, say so in a
 sentence or two and then build it anyway under stated assumptions. Do not
