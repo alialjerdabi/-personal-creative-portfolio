@@ -68,11 +68,18 @@ const SHOWS: Record<
 > = {
   "01": {
     keyword: "credible",
-    /* Both 1.333 — the tile is 4:3 and neither image loses a pixel. */
+    /* Both 1.333 at source — the tile is 4:3 and neither loses a pixel. */
     ratio: "4 / 3",
     shots: [
       { src: "/work/qobban/brand-signage.jpg", alt: "The Qobban projecting sign on a building" },
-      { src: "/work/petrolas/system-pump.jpg", alt: "A Petrolas fuel pump carrying the identity" },
+      {
+        /* Ali's pick, 2026-08-24. 16:9 at source, cut to the tile's 4:3
+           from the centre at encode time — the booth reads from its
+           middle, and a runtime crop would have taken the same 25% with
+           nobody choosing which 25%. */
+        src: "/work/petrolas/booth-stand.jpg",
+        alt: "The Petrolas exhibition stand — the identity applied at trade-show scale",
+      },
     ],
   },
   "02": {

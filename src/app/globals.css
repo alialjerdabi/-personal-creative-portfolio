@@ -2446,6 +2446,20 @@ html[data-aperture-seen="true"] #aperture-loader {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /*
+   * NOTHING SHRINKS.
+   *
+   * `min-height` sets a floor, not a ceiling — but flex still shrinks
+   * children to fit when the content exceeds it, and the offer band
+   * pushed this hero to 955px inside a 678px screen. The wordmark was
+   * compressed from its natural 64px to 49px while the artwork inside
+   * kept its aspect ratio, so it spilled out of its own box and met the
+   * button above it with zero gap between them.
+   *
+   * Letting the section grow is the correct behaviour: the hero is
+   * "at least one screen", never "exactly one screen".
+   */
+  gap: 1.5rem;
   padding: 7.5rem 1.5rem 1.5rem;
   background: var(--lab-air);
   overflow: hidden;
@@ -2454,6 +2468,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .opening__intro {
   position: relative;
+  flex: none;
   z-index: 2;
   max-width: 30rem;
 }
@@ -2518,6 +2533,7 @@ html[data-aperture-seen="true"] #aperture-loader {
  */
 .opening__word {
   position: relative;
+  flex: none;
   z-index: 1;
   display: block;
   width: 100%;
@@ -2575,6 +2591,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 .opening__foot {
   position: relative;
+  flex: none;
   z-index: 2;
   /* Clears the WhatsApp button, which is fixed bottom-right on every
      page and was sitting on top of the social links. It rests with its
@@ -3600,6 +3617,7 @@ html[data-aperture-seen="true"] #aperture-loader {
     transform: none;
   }
 }
+
 
 
 
