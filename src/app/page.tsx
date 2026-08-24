@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import OpeningHero from "@/components/lab/OpeningHero";
-import ShowreelPanel from "@/components/lab/ShowreelPanel";
-import MuseumScreen from "@/components/lab/MuseumScreen";
-import FloatingNav from "@/components/lab/FloatingNav";
-import ClientStrip from "@/components/lab/ClientStrip";
-import WorksBoard from "@/components/lab/WorksBoard";
-import ServiceIndex from "@/components/lab/ServiceIndex";
-import Testimonials from "@/components/lab/Testimonials";
-import PromiseSection from "@/components/lab/PromiseSection";
-import NotesSection from "@/components/lab/NotesSection";
-import ContactClose from "@/components/lab/ContactClose";
 import ApertureLoader from "@/components/lab/ApertureLoader";
+import HomeComposition from "@/components/lab/HomeComposition";
 import { labContent } from "@/data/lab";
 
 export const metadata: Metadata = {
@@ -55,25 +45,10 @@ export default function HomePage() {
   return (
     <>
       <ApertureLoader imageSources={imageSources} videoSources={videoSources} />
-      <main id="main">
-        <FloatingNav content={labContent} />
-        {/* THE OPENING — a visual test, 2026-08-19. HeroScreen and
-            FeaturedWork are untouched on disk; the homepage just points
-            somewhere else, so this reverts by swapping four lines. */}
-        <OpeningHero content={labContent} />
-        <ShowreelPanel content={labContent} />
-        <WorksBoard content={labContent} />
-        <MuseumScreen content={labContent} />
-        {/* Was StatsBand. Names beat counts — see ClientStrip. */}
-        <ClientStrip content={labContent} />
-        <Testimonials content={labContent} />
-        <ServiceIndex services={labContent.services} />
-        {/* What is for sale, then what the visitor ends up with. The promise
-            only lands once the services have said what the work actually is. */}
-        <PromiseSection promise={labContent.promise} />
-        <NotesSection notes={labContent.notes} />
-        <ContactClose content={labContent} />
-      </main>
+      {/* The body lives in HomeComposition so the mobile A/B routes can
+          render exactly this page with one change each, instead of a
+          second copy that drifts. */}
+      <HomeComposition />
     </>
   );
 }

@@ -64,6 +64,10 @@ export default function ContactClose({ content }: { content: LabContent }) {
 
   return (
     <section
+      /* Variant C's sticky bar hides over this section — the page makes
+         the same offer here at full size, and a duplicate would only
+         compete with it. */
+      data-contact-close
       id="contact"
       aria-labelledby="lab-contact-heading"
       className="scroll-mt-24 bg-lab-haze px-5 pb-10 pt-20 sm:px-8 sm:pb-12 sm:pt-28"

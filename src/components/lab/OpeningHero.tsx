@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import OfferBand from "@/components/lab/mobile/OfferBand";
 import type { LabContent } from "@/data/lab";
 
 /**
@@ -32,7 +33,15 @@ import type { LabContent } from "@/data/lab";
  * removed at Ali's request — the drawn wordmark carries the screen on
  * its own and did not need decorating.
  */
-export default function OpeningHero({ content }: { content: LabContent }) {
+export default function OpeningHero({
+  content,
+  /* Variant A only. On a phone the abstract lede gives way to the offer
+     in plain words; desktop keeps the lede, which has room for both. */
+  offer = false,
+}: {
+  content: LabContent;
+  offer?: boolean;
+}) {
   const rootRef = useRef<HTMLElement>(null);
   const wordRef = useRef<HTMLHeadingElement>(null);
   const { opening, contact } = content;
@@ -79,12 +88,13 @@ export default function OpeningHero({ content }: { content: LabContent }) {
 
   return (
     <section ref={rootRef} className="opening" aria-label="Introduction">
-      <div className="opening__intro">
+      <div className="opening__intro" data-offer={offer || undefined}>
         <p className="opening__lede">
           {opening.lede.map((line) => (
             <span key={line}>{line}</span>
           ))}
         </p>
+        {offer && <OfferBand content={content} />}
         {/* The hero CTA carries the same label as the nav, so it has
             to reach the same place. */}
         <Link href="/start" className="opening__cta">
