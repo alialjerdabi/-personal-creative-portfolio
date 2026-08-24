@@ -3078,7 +3078,9 @@ html[data-aperture-seen="true"] #aperture-loader {
   .opening__mark,
   .opening__lede,
   .opening__cta,
-  .opening__foot {
+  .opening__foot,
+  .offer__line,
+  .offer__list > li {
     animation: none;
   }
 
@@ -3340,6 +3342,38 @@ html[data-aperture-seen="true"] #aperture-loader {
   }
 
   /*
+   * THE FOLD ENTERS LIKE THE REST OF THE SITE (Ali, 2026-08-24).
+   *
+   * The band shipped with no entrance at all while the lede, the CTA and
+   * the footer around it all had one, so on a phone the cards simply
+   * existed while everything near them arrived.
+   *
+   * ON A CSS DELAY, NOT AN OBSERVER — the same reason the rest of this
+   * hero uses one: the loader may have just handed over, and a
+   * scroll-triggered entrance that fires while the overlay is still up
+   * plays to nobody. See OpeningHero.
+   *
+   * 60ms between cards, the site's stagger. See docs/motion.md.
+   */
+  .offer__line {
+    animation: opening-rise var(--dur-slow) var(--ease-opening) 120ms both;
+  }
+
+  .offer__list > li {
+    animation: opening-rise var(--dur-slow) var(--ease-opening) both;
+  }
+
+  .offer__list > li:nth-child(1) { animation-delay: 200ms; }
+  .offer__list > li:nth-child(2) { animation-delay: 260ms; }
+  .offer__list > li:nth-child(3) { animation-delay: 320ms; }
+
+  /* The button now follows three cards rather than two lines, so it
+     arrives after them instead of on the desktop timing. */
+  .opening__intro[data-offer] .opening__cta {
+    animation-delay: 400ms;
+  }
+
+  /*
    * BREATHING ROOM ABOVE THE NAME (Ali, 2026-08-24).
    *
    * The section gap alone left 24px between the last card and the
@@ -3430,6 +3464,7 @@ html[data-aperture-seen="true"] #aperture-loader {
     background: var(--lab-haze);
   }
 }
+
 
 
 

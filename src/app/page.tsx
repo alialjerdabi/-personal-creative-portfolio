@@ -45,9 +45,9 @@ export default function HomePage() {
   return (
     <>
       <ApertureLoader imageSources={imageSources} videoSources={videoSources} />
-      {/* The body lives in HomeComposition so the mobile A/B routes can
-          render exactly this page with one change each, instead of a
-          second copy that drifts. */}
+      {/* The body lives in HomeComposition, extracted for the mobile A/B
+          test and kept after it: a page body worth testing is a page body
+          worth naming. */}
       <HomeComposition />
     </>
   );
