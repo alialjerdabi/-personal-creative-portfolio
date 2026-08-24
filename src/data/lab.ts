@@ -1181,8 +1181,8 @@ export const labContent: LabContent = {
             },
             {
               slot: 8,
-              src: "/work/qobban/brand-panel.jpg",
-              alt: "The Qobban identity applied to a panel",
+              src: "/work/qobban/brand-appstore.jpg",
+              alt: "The Qobban app listing on a store page — the mark as an app icon, Metal solutions & services beneath it",
               form: "bleed",
             },
             {
