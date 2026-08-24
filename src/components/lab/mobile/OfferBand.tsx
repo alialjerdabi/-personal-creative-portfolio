@@ -12,6 +12,11 @@ import type { LabContent, LabPalette } from "@/data/lab";
  * identity — the name, two brand lines, a button, a role, two social
  * links. A stranger learns Ali exists and is a designer in Manama.
  *
+ * PROMOTED (Ali, 2026-08-24) — variant A won the mobile test and this is
+ * now the homepage's fold, not a test route. Its content moved to
+ * `services.items[].fold` in lab.ts, so the work shown here is edited the
+ * same way as everything else on the site.
+ *
  * THIRD CUT (Ali, 2026-08-23). The first listed services and floors,
  * which anchored on price before any work had been seen. The second
  * replaced the floors with scope lines, which was honest but read as a
@@ -33,7 +38,8 @@ import type { LabContent, LabPalette } from "@/data/lab";
  * the services index already uses, so the card is recognisably part of
  * the system rather than a new thing to learn.
  *
- * MOBILE ONLY. The desktop hero is not the problem.
+ * MOBILE ONLY, and it renders nothing for a service with no `fold`. The
+ * desktop hero is not the problem this solves.
  */
 
 const ACCENT: Record<LabPalette, string> = {
@@ -45,75 +51,6 @@ const ACCENT: Record<LabPalette, string> = {
   teal: "var(--lab-teal)",
   sun: "var(--lab-sun)",
   amber: "var(--lab-amber)",
-};
-
-/*
- * Two pieces of real work per service, the ratio their tile takes, and
- * the word in the outcome line that carries the promise.
- *
- * Test scaffolding, so it lives here rather than in the content layer —
- * if this variant wins, it moves to `lab.ts` with the rest of the
- * content. Every file is already published elsewhere on the site; none
- * of it is borrowed from one client to illustrate another's service.
- */
-const SHOWS: Record<
-  string,
-  {
-    keyword: string;
-    ratio: string;
-    /* `poster` marks a shot as film. Cropped to the tile's ratio at
-       encode time, so nothing is trimmed when it plays. */
-    shots: { src: string; alt: string; poster?: string }[];
-  }
-> = {
-  "01": {
-    keyword: "credible",
-    /* Both 1.333 at source — the tile is 4:3 and neither loses a pixel. */
-    ratio: "4 / 3",
-    shots: [
-      { src: "/work/qobban/brand-signage.jpg", alt: "The Qobban projecting sign on a building" },
-      {
-        /* Ali's pick, 2026-08-24. 16:9 at source, cut to the tile's 4:3
-           from the centre at encode time — the booth reads from its
-           middle, and a runtime crop would have taken the same 25% with
-           nobody choosing which 25%. */
-        src: "/work/petrolas/booth-stand.jpg",
-        alt: "The Petrolas exhibition stand — the identity applied at trade-show scale",
-      },
-    ],
-  },
-  "02": {
-    keyword: "enquiries",
-    /* Both 1.600 — browser-shaped, and exact. */
-    ratio: "16 / 10",
-    shots: [
-      { src: "/work/qobban/site-landing-dark-v3.jpg", alt: "The Qobban store landing page" },
-      { src: "/work/petrolas/site-partnership.jpg", alt: "The Petrolas partnership page" },
-    ],
-  },
-  "03": {
-    keyword: "think of",
-    /*
-     * FILM, NOT STILLS (Ali, 2026-08-23). This card sells campaign film,
-     * and a frozen frame of a film argues for it less well than the film
-     * does. Both were shot 9:16 and are cropped to 4:5 in the encode —
-     * centre, because both are centre-weighted — so the tile never has
-     * to trim them at runtime.
-     */
-    ratio: "4 / 5",
-    shots: [
-      {
-        src: "/reel/marketing-retail.mp4",
-        poster: "/reel/marketing-retail.jpg",
-        alt: "A fragrance campaign film — the retail interior and its shelves",
-      },
-      {
-        src: "/reel/marketing-product.mp4",
-        poster: "/reel/marketing-product.jpg",
-        alt: "A fragrance campaign film — the bottle and its atomiser in close-up",
-      },
-    ],
-  },
 };
 
 /** Splits the outcome so one word can carry the service's colour. */
@@ -139,7 +76,7 @@ export default function OfferBand({ content }: { content: LabContent }) {
 
       <ul className="offer__list">
         {content.services.items.map((service) => {
-          const show = SHOWS[service.index];
+          const show = service.fold;
           return (
             <li key={service.index}>
               <Link
@@ -148,7 +85,7 @@ export default function OfferBand({ content }: { content: LabContent }) {
                 style={
                   {
                     "--accent": ACCENT[service.palette],
-                    "--shot": show?.ratio ?? "4 / 3",
+                    "--shot": show?.shotRatio ?? "4 / 3",
                   } as CSSProperties
                 }
               >

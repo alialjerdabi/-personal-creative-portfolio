@@ -262,6 +262,27 @@ export interface LabService {
   outcome: string;
   scope: string[];
   /**
+   * THE MOBILE FOLD (Ali, 2026-08-24 — variant A, promoted).
+   *
+   * On a phone the hero shows each service as a card: the outcome with
+   * one word carrying the service's colour, and two pieces of real work
+   * beneath it. Measured before this existed, the first price on the
+   * mobile homepage was 9.4 screens down and nothing above the fold said
+   * what was for sale.
+   *
+   * `keyword` must appear verbatim in `outcome` — it is found by string
+   * match, and a miss simply leaves the line unhighlighted.
+   *
+   * `shotRatio` is the pair's shared native ratio. Both shots are cut to
+   * it before they ship, so the tile never trims anything at runtime.
+   * `poster` marks a shot as film.
+   */
+  fold?: {
+    keyword: string;
+    shotRatio: string;
+    shots: { src: string; alt: string; poster?: string }[];
+  };
+  /**
    * Starting price, supplied by Ali 2026-08-10.
    *
    * A number here does two jobs at once: it reassures the business that
@@ -1471,6 +1492,20 @@ export const labContent: LabContent = {
     items: [
       {
         index: "01",
+        fold: {
+          keyword: "credible",
+          shotRatio: "4 / 3",
+          shots: [
+            {
+              src: "/work/qobban/brand-signage.jpg",
+              alt: "The Qobban projecting sign on a building",
+            },
+            {
+              src: "/work/petrolas/booth-stand.jpg",
+              alt: "The Petrolas exhibition stand — the identity applied at trade-show scale",
+            },
+          ],
+        },
         name: "Branding",
         palette: "orange",
         outcome: "Look as credible as you already are.",
@@ -1485,6 +1520,14 @@ export const labContent: LabContent = {
       },
       {
         index: "02",
+        fold: {
+          keyword: "enquiries",
+          shotRatio: "16 / 10",
+          shots: [
+            { src: "/work/qobban/site-landing-dark-v3.jpg", alt: "The Qobban store landing page" },
+            { src: "/work/petrolas/site-partnership.jpg", alt: "The Petrolas partnership page" },
+          ],
+        },
         name: "Websites",
         palette: "blue",
         outcome: "Turn attention into enquiries.",
@@ -1516,6 +1559,22 @@ export const labContent: LabContent = {
       */
       {
         index: "03",
+        fold: {
+          keyword: "think of",
+          shotRatio: "4 / 5",
+          shots: [
+            {
+              src: "/reel/marketing-retail.mp4",
+              poster: "/reel/marketing-retail.jpg",
+              alt: "A fragrance campaign film — the retail interior and its shelves",
+            },
+            {
+              src: "/reel/marketing-product.mp4",
+              poster: "/reel/marketing-product.jpg",
+              alt: "A fragrance campaign film — the bottle and its atomiser in close-up",
+            },
+          ],
+        },
         name: "Marketing & advertising",
         palette: "lime",
         outcome: "Be the one they think of, and the one they call.",

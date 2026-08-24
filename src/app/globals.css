@@ -3305,15 +3305,15 @@ html[data-aperture-seen="true"] #aperture-loader {
   color: var(--lab-ink-soft);
 }
 
-/* ===================== mobile A/B variants ===========================
- * Three tests, one hypothesis each, all additive and all mobile-only.
- * Measured on the live mobile homepage before any of this: 13,195px tall
- * (15.6 screens), first work card at 3.05 screens, first client quote at
- * 8.35, first price at 9.39, and nothing above the fold naming what is
- * for sale.
+/* ======================= the mobile fold =============================
+ * Won the A/B test on 2026-08-24 and became the homepage's fold.
+ *
+ * Measured on the mobile homepage before it existed: 13,195px tall —
+ * 15.6 screens — with the first work card 3.05 screens down, the first
+ * client quote 8.35, the first price 9.39, and nothing above the fold
+ * naming what was for sale. The two losing variants and their routes are
+ * removed; this is the survivor.
  * ==================================================================== */
-
-/* ------------------------- A · the offer ---------------------------- */
 
 .offer {
   display: none;
@@ -3418,205 +3418,6 @@ html[data-aperture-seen="true"] #aperture-loader {
   }
 }
 
-/* ------------------------- B · the proof ---------------------------- */
-
-.proof {
-  display: none;
-}
-
-@media (max-width: 767px) {
-  .proof {
-    display: block;
-    padding: 3rem 1.5rem 3.5rem;
-    background: var(--lab-haze);
-  }
-
-  .proof__placard {
-    font-family: var(--font-geist-mono), monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--lab-ink-soft);
-  }
-
-  .proof__cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    margin-top: 1rem;
-  }
-
-  .proof__card {
-    display: block;
-    color: var(--lab-ink-warm);
-  }
-
-  .proof__frame {
-    position: relative;
-    display: block;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: 0.9rem;
-    background: var(--lab-air);
-  }
-
-  .proof__name {
-    display: block;
-    margin-top: 0.6rem;
-    font-family: var(--font-display), sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 700;
-  }
-
-  .proof__sector {
-    display: block;
-    font-family: var(--font-display), sans-serif;
-    font-size: 0.8125rem;
-    color: var(--lab-ink-soft);
-  }
-
-  .proof__quote {
-    margin: 1.75rem 0 0;
-  }
-
-  .proof__quote blockquote {
-    margin: 0;
-    font-family: var(--font-display), sans-serif;
-    font-size: 1.0625rem;
-    line-height: 1.45;
-    letter-spacing: -0.01em;
-    color: var(--lab-ink-warm);
-  }
-
-  .proof__quote figcaption {
-    margin-top: 0.6rem;
-    font-family: var(--font-display), sans-serif;
-    font-size: 0.8125rem;
-    color: var(--lab-ink-soft);
-  }
-
-  .proof__who {
-    font-weight: 700;
-    color: var(--lab-ink-warm);
-  }
-
-  .proof__caveat {
-    margin-top: 0.5rem;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    color: var(--lab-ink-soft);
-    opacity: 0.8;
-  }
-
-  .proof__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    min-height: 3.25rem;
-    margin-top: 1.75rem;
-    padding: 0 1.4rem;
-    border-radius: 999px;
-    background: var(--lab-ink-warm);
-    color: var(--lab-air);
-    font-family: var(--font-display), sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 700;
-  }
-}
-
-/* ------------------------ C · the sticky bar ------------------------ */
-
-.sticky-actions,
-.sticky-actions__sentinel {
-  display: none;
-}
-
-@media (max-width: 767px) {
-  .sticky-actions__sentinel {
-    display: block;
-    height: 1px;
-  }
-
-  .sticky-actions {
-    position: fixed;
-    inset-inline: 0.75rem;
-    bottom: 0.75rem;
-    z-index: 45;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 0.6rem 0.6rem 1rem;
-    border-radius: 999px;
-    background: var(--lab-ink-warm);
-    box-shadow: 0 12px 34px -18px rgb(0 0 0 / 0.7);
-    opacity: 0;
-    transform: translate3d(0, 120%, 0);
-    pointer-events: none;
-    transition:
-      opacity var(--dur-quick) var(--ease-motion),
-      transform var(--dur-base) var(--ease-motion);
-  }
-
-  .sticky-actions[data-shown] {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-  }
-
-  .sticky-actions__from {
-    font-family: var(--font-geist-mono), monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
-    color: var(--lab-air);
-    opacity: 0.7;
-    white-space: nowrap;
-  }
-
-  .sticky-actions__buttons {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-left: auto;
-  }
-
-  .sticky-actions__ghost,
-  .sticky-actions__solid {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    padding: 0 1rem;
-    border-radius: 999px;
-    font-family: var(--font-display), sans-serif;
-    font-size: 0.875rem;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .sticky-actions__ghost {
-    border: 1px solid rgb(255 255 255 / 0.3);
-    color: var(--lab-air);
-  }
-
-  .sticky-actions__solid {
-    background: var(--lab-air);
-    color: var(--lab-ink-warm);
-  }
-
-  /* One affordance, not two. The bar carries WhatsApp itself, so the
-     floating button stands down rather than sharing the corner — the
-     collision this project has already fixed twice. */
-  [data-variant="c"] ~ .wa-fab,
-  [data-variant="c"] .wa-fab {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sticky-actions {
-    transition: opacity var(--dur-quick) linear;
-    transform: none;
-  }
-}
 
 
 

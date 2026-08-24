@@ -9,35 +9,22 @@ import Testimonials from "@/components/lab/Testimonials";
 import PromiseSection from "@/components/lab/PromiseSection";
 import NotesSection from "@/components/lab/NotesSection";
 import ContactClose from "@/components/lab/ContactClose";
-import ProofStrip from "@/components/lab/mobile/ProofStrip";
-import StickyActions from "@/components/lab/mobile/StickyActions";
 import { labContent } from "@/data/lab";
 
-export type Variant = "a" | "b" | "c";
-
 /**
- * The homepage body, shared by `/` and by the mobile A/B routes.
+ * The homepage body.
  *
- * Extracted so a variant can be tested without a second copy of the
- * composition drifting away from the first. `/` renders this with no
- * variant and is byte-for-byte what it was; `/ab/a`, `/ab/b` and `/ab/c`
- * render it with one mobile change each.
- *
- * EVERY VARIANT IS ADDITIVE AND MOBILE-ONLY. None of them removes a
- * section, reorders the desktop page, or touches the museum hall. A test
- * that changes several things at once cannot tell you which one moved
- * the number.
+ * Extracted for the mobile A/B test (2026-08-22) so a variant could
+ * render exactly this page with one change rather than a second copy
+ * that drifts. Variant A won and became the fold itself, so the routes
+ * and the two losing variants are gone — this stays because a page body
+ * worth testing is a page body worth naming.
  */
-export default function HomeComposition({ variant }: { variant?: Variant }) {
+export default function HomeComposition() {
   return (
-    <main id="main" data-variant={variant}>
+    <main id="main">
       <FloatingNav content={labContent} />
-      <OpeningHero content={labContent} offer={variant === "a"} />
-
-      {/* B lifts the work and one client's words to the second screen,
-          where the live page puts them at 3.05 and 8.35 screens. */}
-      {variant === "b" && <ProofStrip content={labContent} />}
-
+      <OpeningHero content={labContent} />
       <ShowreelPanel content={labContent} />
       <WorksBoard content={labContent} />
       <MuseumScreen content={labContent} />
@@ -47,10 +34,6 @@ export default function HomeComposition({ variant }: { variant?: Variant }) {
       <PromiseSection promise={labContent.promise} />
       <NotesSection notes={labContent.notes} />
       <ContactClose content={labContent} />
-
-      {/* C carries the offer down the page. Rendered last so it sits over
-          everything without needing a z-index argument. */}
-      {variant === "c" && <StickyActions content={labContent} />}
     </main>
   );
 }
