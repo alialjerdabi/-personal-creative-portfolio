@@ -75,62 +75,74 @@ export default function OfferBand({ content }: { content: LabContent }) {
       </p>
 
       <ul className="offer__list">
-        {content.services.items.map((service) => {
-          const show = service.fold;
-          return (
-            <li key={service.index}>
-              <Link
-                href={`/start?service=${service.index}`}
-                className="offer__pack"
-                data-featured={service.featured || undefined}
-                style={
-                  {
-                    "--accent": ACCENT[service.palette],
-                    "--shot": show?.shotRatio ?? "4 / 3",
-                  } as CSSProperties
-                }
-              >
-                <span className="offer__head">
-                  <span className="offer__name">{service.name}</span>
-                  <span aria-hidden="true" className="offer__arrow">
-                    →
+        {/* A service with no `fold` has nothing to show here, so it does
+            not appear. That is how the bundle stays on /services and
+            /start while the opening screen keeps one card per service
+            type. Previously this mapped every service and rendered the
+            ones without art as a bare title, which is the opposite of
+            what this band is for. */}
+        {content.services.items
+          .filter((service) => service.fold)
+          .map((service) => {
+            const show = service.fold;
+            return (
+              <li key={service.index}>
+                <Link
+                  href={`/start?service=${service.index}`}
+                  className="offer__pack"
+                  data-featured={service.featured || undefined}
+                  style={
+                    {
+                      "--accent": ACCENT[service.palette],
+                      "--shot": show?.shotRatio ?? "4 / 3",
+                    } as CSSProperties
+                  }
+                >
+                  <span className="offer__head">
+                    <span className="offer__name">{service.name}</span>
+                    <span aria-hidden="true" className="offer__arrow">
+                      →
+                    </span>
                   </span>
-                </span>
 
-                <span className="offer__outcome">
-                  {show ? (
-                    <Outcome text={service.outcome} keyword={show.keyword} />
-                  ) : (
-                    service.outcome
-                  )}
-                </span>
+                  <span className="offer__outcome">
+                    {show ? (
+                      <Outcome text={service.outcome} keyword={show.keyword} />
+                    ) : (
+                      service.outcome
+                    )}
+                  </span>
 
-                {/* The proof, at thumbnail size. On a phone an image is
+                  {/* The proof, at thumbnail size. On a phone an image is
                     read before a sentence, so the scope is shown rather
                     than listed. */}
-                {show && (
-                  <span className="offer__shots">
-                    {show.shots.map((shot) => (
-                      <span key={shot.src} className="offer__shot">
-                        {shot.poster ? (
-                          <ShotVideo src={shot.src} poster={shot.poster} alt={shot.alt} />
-                        ) : (
-                          <Image
-                            src={shot.src}
-                            alt={shot.alt}
-                            fill
-                            sizes="170px"
-                            className="object-cover"
-                          />
-                        )}
-                      </span>
-                    ))}
-                  </span>
-                )}
-              </Link>
-            </li>
-          );
-        })}
+                  {show && (
+                    <span className="offer__shots">
+                      {show.shots.map((shot) => (
+                        <span key={shot.src} className="offer__shot">
+                          {shot.poster ? (
+                            <ShotVideo
+                              src={shot.src}
+                              poster={shot.poster}
+                              alt={shot.alt}
+                            />
+                          ) : (
+                            <Image
+                              src={shot.src}
+                              alt={shot.alt}
+                              fill
+                              sizes="170px"
+                              className="object-cover"
+                            />
+                          )}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                </Link>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

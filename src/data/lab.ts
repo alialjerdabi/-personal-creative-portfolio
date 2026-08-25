@@ -1564,20 +1564,12 @@ export const labContent: LabContent = {
            brand and the site are decided together rather than handed
            between two people. */
         featured: true,
-        fold: {
-          keyword: "built once",
-          shotRatio: "4 / 3",
-          shots: [
-            {
-              src: "/work/qobban/cover-idcards-v2.jpg",
-              alt: "Qobban staff ID cards on branded lanyards",
-            },
-            {
-              src: "/work/petrolas/system-favicon.jpg",
-              alt: "The Petrolas mark as a browser favicon beside the address bar",
-            },
-          ],
-        },
+        /* NO `fold` (Ali, 2026-08-25). The bundle is off the mobile
+           opening screen and lives on /services and /start instead. The
+           fold is back to three cards, one per service type — the
+           bundle is a combination of two of them, so on a phone it read
+           as a fourth thing to choose between rather than as the easy
+           answer, and four cards is a menu where three is an offer. */
         name: "Brand + Website",
         palette: "violet",
         outcome: "One system, built once — the brand and the site that carries it.",
