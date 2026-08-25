@@ -12,10 +12,12 @@
  *    project's stable production domain (no protocol), so previews still
  *    point their share cards at production rather than at a throwaway
  *    deployment URL.
- * 3. The current production domain, as a last resort, so a local build
- *    still produces valid absolute URLs.
+ * 3. The custom domain, as a last resort, so a local build still
+ *    produces valid absolute URLs — and so a missing environment
+ *    variable can never put a *.vercel.app host into a canonical tag,
+ *    which is the one failure here that search engines act on.
  */
-const FALLBACK = "https://personal-creative-portfolio-steel.vercel.app";
+const FALLBACK = "https://alialjardabi.com";
 
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ??

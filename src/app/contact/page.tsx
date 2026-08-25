@@ -5,19 +5,16 @@ import FaqList from "@/components/lab/FaqList";
 import Reveal from "@/components/ui/Reveal";
 import { labContent } from "@/data/lab";
 import { contactPage } from "@/data/pages";
+import { pageMetadata } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: contactPage.metaTitle,
-  description: contactPage.metaDescription,
-  keywords: contactPage.keywords,
-  alternates: { canonical: "/contact" },
-  openGraph: {
+  ...pageMetadata({
+    path: "/contact",
     title: contactPage.metaTitle,
     description: contactPage.metaDescription,
-    url: `${siteUrl}/contact`,
-    type: "website",
-  },
+  }),
+  keywords: contactPage.keywords,
 };
 
 /**

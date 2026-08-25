@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import ApertureLoader from "@/components/lab/ApertureLoader";
 import HomeComposition from "@/components/lab/HomeComposition";
 import { labContent } from "@/data/lab";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
+  path: "/",
   title: "Ali Aljardabi — Brand, Web & Social Design",
   description:
     "Brand identity, websites, and social media design for small and growing businesses.",
-};
+});
 
 /**
  * The homepage.

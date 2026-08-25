@@ -6,19 +6,17 @@ import FaqList from "@/components/lab/FaqList";
 import Reveal from "@/components/ui/Reveal";
 import { labContent } from "@/data/lab";
 import { aboutPage } from "@/data/pages";
+import { pageMetadata } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: aboutPage.metaTitle,
-  description: aboutPage.metaDescription,
-  keywords: aboutPage.keywords,
-  alternates: { canonical: "/about" },
-  openGraph: {
+  ...pageMetadata({
+    path: "/about",
     title: aboutPage.metaTitle,
     description: aboutPage.metaDescription,
-    url: `${siteUrl}/about`,
     type: "profile",
-  },
+  }),
+  keywords: aboutPage.keywords,
 };
 
 /** The four story sections, in the order a stranger needs them. */

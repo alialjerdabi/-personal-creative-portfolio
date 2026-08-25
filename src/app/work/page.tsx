@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
 import FloatingNav from "@/components/lab/FloatingNav";
 import ProjectMosaic from "@/components/lab/ProjectMosaic";
 import ContactClose from "@/components/lab/ContactClose";
 import Reveal from "@/components/ui/Reveal";
 import { labContent } from "@/data/lab";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
+  path: "/work",
   title: "Work — Ali Aljardabi",
   description:
     "Selected branding, website and social media design projects for small and growing businesses in Bahrain and the Gulf.",
-};
+});
 
 /**
  * The work index.

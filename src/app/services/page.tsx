@@ -5,6 +5,7 @@ import FaqList from "@/components/lab/FaqList";
 import Reveal from "@/components/ui/Reveal";
 import { labContent } from "@/data/lab";
 import { servicesPage } from "@/data/pages";
+import { pageMetadata } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 import type { LabPalette } from "@/data/lab";
 
@@ -20,16 +21,12 @@ const FIELD: Record<LabPalette, string> = {
 };
 
 export const metadata: Metadata = {
-  title: servicesPage.metaTitle,
-  description: servicesPage.metaDescription,
-  keywords: servicesPage.keywords,
-  alternates: { canonical: "/services" },
-  openGraph: {
+  ...pageMetadata({
+    path: "/services",
     title: servicesPage.metaTitle,
     description: servicesPage.metaDescription,
-    url: `${siteUrl}/services`,
-    type: "website",
-  },
+  }),
+  keywords: servicesPage.keywords,
 };
 
 /**
