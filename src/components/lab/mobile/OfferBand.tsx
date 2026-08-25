@@ -82,6 +82,7 @@ export default function OfferBand({ content }: { content: LabContent }) {
               <Link
                 href={`/start?service=${service.index}`}
                 className="offer__pack"
+                data-featured={service.featured || undefined}
                 style={
                   {
                     "--accent": ACCENT[service.palette],

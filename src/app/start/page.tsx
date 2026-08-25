@@ -67,7 +67,11 @@ export default async function StartPage({
             <Reveal index={3}>
               <dl className="mt-10 grid gap-4 border-t border-lab-hairline pt-6">
                 {services.items.map((item) => (
-                  <div key={item.index} className="flex items-baseline justify-between gap-6">
+                  <div
+                    key={item.index}
+                    className="flex items-baseline justify-between gap-6"
+                    data-featured={item.featured || undefined}
+                  >
                     <dt className="font-display text-[15px] font-bold text-lab-ink-warm">
                       {item.name}
                     </dt>

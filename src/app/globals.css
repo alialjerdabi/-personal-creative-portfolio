@@ -3472,3 +3472,38 @@ html[data-aperture-seen="true"] #aperture-loader {
 
 
 
+
+
+/* ---------------------- the featured offer ---------------------------
+ * Brand + Website is the one Ali leads with (2026-08-24).
+ *
+ * EMPHASIS, NOT A BADGE. A "most popular" or "best value" label would be
+ * a claim about demand that nobody has measured, and this site does not
+ * put unearned claims next to prices. The card is simply louder: a
+ * heavier edge and a faint tint of its own colour.
+ * ==================================================================== */
+
+.lab-service-card[data-featured] {
+  border-color: var(--lab-ink-warm);
+  box-shadow: 0 18px 50px -34px rgb(19 23 30 / 0.55);
+}
+
+.lab-service-card[data-featured] .lab-service-card__price {
+  font-weight: 700;
+  color: var(--lab-ink-warm);
+}
+
+[data-featured] > dt,
+[data-featured] > dd {
+  color: var(--lab-ink-warm);
+}
+
+@media (max-width: 767px) {
+  .offer__pack[data-featured] {
+    border-width: 1px 1px 1px 4px;
+    border-color: var(--lab-hairline);
+    border-left-color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 7%, var(--lab-air));
+  }
+}
+

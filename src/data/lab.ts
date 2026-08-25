@@ -258,6 +258,11 @@ export interface LabService {
   name: string;
   /** Each service owns a field colour too, carrying the mosaic downward. */
   palette: LabPalette;
+  /**
+   * The offer Ali wants led with (2026-08-24). Exactly one should carry
+   * it — a page where everything is featured has featured nothing.
+   */
+  featured?: boolean;
   /** The business outcome, in the client's own words — not the deliverable. */
   outcome: string;
   scope: string[];
@@ -1490,6 +1495,16 @@ export const labContent: LabContent = {
     label: "What I do",
     heading: "Three things, done properly.",
     items: [
+      /*
+        REPRICED 2026-08-24 (Ali). Four offers, not three: branding and
+        websites separately, the two together as the offer to lead with,
+        and ongoing support monthly. Marketing at BHD 100 is gone — that
+        number priced a deliverable and invited a negotiation about
+        deliverables.
+
+        Every figure here is Ali's own. Nothing on this site quotes a
+        price he has not set.
+      */
       {
         index: "01",
         fold: {
@@ -1516,7 +1531,7 @@ export const labContent: LabContent = {
           "Guidelines & applications",
           "Campaign direction",
         ],
-        from: "From BHD 250",
+        from: "From BHD 400",
       },
       {
         index: "02",
@@ -1528,7 +1543,7 @@ export const labContent: LabContent = {
             { src: "/work/petrolas/site-partnership.jpg", alt: "The Petrolas partnership page" },
           ],
         },
-        name: "Websites",
+        name: "Website Design + Development",
         palette: "blue",
         outcome: "Turn attention into enquiries.",
         scope: [
@@ -1538,29 +1553,56 @@ export const labContent: LabContent = {
           "Responsive implementation",
           "Launch support",
         ],
-        /* Design AND development — the 400 covers both, which is the
+        /* Design AND development — the figure covers both, which is the
            whole "one person, end to end" argument priced. */
-        from: "From BHD 400",
+        from: "From BHD 600",
       },
-      /*
-        REPOSITIONED 2026-08-12 (Ali's call): "Social media design" became
-        "Marketing & advertising".
-
-        The old name priced the deliverable — templates and posts — and a
-        business buying templates negotiates on templates. This one names
-        the job: campaigns that bring people in. Same work, described at
-        the altitude it is actually practised at, which is what makes a
-        higher number a discussion rather than a refusal.
-
-        Nothing invented: every scope line below is work already
-        evidenced on this site — Kids Island's campaigns, Delivery Point's
-        marketing plan built from market and competitor analysis, and the
-        four campaign films in the reel.
-      */
       {
         index: "03",
+        /* The one to lead with. It is also the only offer where the
+           "one person, end to end" claim is worth what it costs: the
+           brand and the site are decided together rather than handed
+           between two people. */
+        featured: true,
         fold: {
-          keyword: "think of",
+          keyword: "built once",
+          shotRatio: "4 / 3",
+          shots: [
+            {
+              src: "/work/qobban/cover-idcards-v2.jpg",
+              alt: "Qobban staff ID cards on branded lanyards",
+            },
+            {
+              src: "/work/petrolas/system-favicon.jpg",
+              alt: "The Petrolas mark as a browser favicon beside the address bar",
+            },
+          ],
+        },
+        name: "Brand + Website",
+        palette: "violet",
+        outcome: "One system, built once — the brand and the site that carries it.",
+        scope: [
+          "Brand strategy & positioning",
+          "Visual identity & logo systems",
+          "Website strategy",
+          "UX & UI design",
+          "Design & build, end to end",
+          "Guidelines & launch support",
+        ],
+        from: "From BHD 950",
+      },
+      /*
+        The old "Marketing & advertising" scope, priced as ongoing work
+        rather than per piece. The lines below are unchanged because the
+        work is unchanged — every one is already evidenced on this site:
+        Kids Island's campaigns, Delivery Point's marketing plan built
+        from market and competitor analysis, and the campaign films in
+        the reel.
+      */
+      {
+        index: "04",
+        fold: {
+          keyword: "consistent",
           shotRatio: "4 / 5",
           shots: [
             {
@@ -1575,9 +1617,9 @@ export const labContent: LabContent = {
             },
           ],
         },
-        name: "Marketing & advertising",
+        name: "Ongoing Brand & Creative Support",
         palette: "lime",
-        outcome: "Be the one they think of, and the one they call.",
+        outcome: "Stay consistent after launch, without hiring in.",
         scope: [
           "Campaign strategy & art direction",
           "Advertising creative — film, motion, still",
@@ -1585,8 +1627,8 @@ export const labContent: LabContent = {
           "Paid campaign creative",
           "Channel management",
         ],
-        from: "From BHD 100",
-      },
+        from: "From BHD 350/month",
+      }
     ],
   },
 

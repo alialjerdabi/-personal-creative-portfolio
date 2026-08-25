@@ -40,7 +40,7 @@ export const servicesPage = {
   metaTitle:
     "Branding, Website Design & Marketing in Bahrain — Ali Aljardabi",
   metaDescription:
-    "Independent brand, website and marketing design in Manama, Bahrain. Strategy, identity, UX/UI and advertising creative — briefed, designed and built by one person. From BHD 100.",
+    "Independent brand, website and marketing design in Manama, Bahrain. Strategy, identity, UX/UI and advertising creative — briefed, designed and built by one person. From BHD 400.",
   keywords: [
     "branding Bahrain",
     "brand identity design Bahrain",
@@ -92,6 +92,20 @@ export const servicesPage = {
         "Businesses with no site, businesses whose site does not bring enquiries, and businesses whose site was built before the business changed.",
     },
     "03": {
+      diagram: "Schematic — one decision made twice, or made once.",
+      /* NEW OFFER (Ali, 2026-08-24). The copy is written for it because
+         it did not exist before; nothing else on this page moved. */
+      question:
+        "How much of a rebrand gets lost by the time it reaches the website?",
+      lede: "The brand and the site, decided together.",
+      body: [
+        "Most businesses buy these separately, and the join is where the work leaks. The identity is agreed with one person, the site is built by another months later, and half of what made the brand distinctive quietly does not survive the handover.",
+        "Taken together they are one decision rather than two. The positioning that settles the mark also settles what the homepage has to say first, and because I design and build both, nothing has to be explained to a second party or approximated by them.",
+      ],
+      forWho:
+        "Businesses launching, and businesses replacing an identity and a site that no longer match what they sell.",
+    },
+    "04": {
       diagram: "Schematic — which channels are actually carrying the work.",
       question:
         "When someone here needs what you sell, do they think of you first?",
@@ -160,7 +174,7 @@ export const servicesPage = {
   faq: [
     {
       q: "How much does branding cost in Bahrain?",
-      a: "My branding work starts from BHD 250, websites from BHD 400, and marketing and advertising from BHD 100. Those are starting points rather than quotes — the figure for a specific project depends on scope, which we agree before anything is designed.",
+      a: "Branding starts from BHD 400, website design and development from BHD 600, and the two together from BHD 950. Ongoing brand and creative support is from BHD 350 a month. Those are starting points rather than quotes — the figure for a specific project depends on scope, which we agree before anything is designed.",
     },
     {
       q: "Do you design and build websites yourself?",
@@ -257,7 +271,7 @@ export const contactPage = {
     },
     {
       q: "Do you take on small projects?",
-      a: "Yes. Marketing and advertising work starts from BHD 100, and a single piece of work is a reasonable way for both of us to find out whether this is a good fit.",
+      a: "Yes. Ongoing brand and creative support starts from BHD 350 a month, and a single month is a reasonable way for both of us to find out whether this is a good fit.",
     },
   ] as FaqEntry[],
 };

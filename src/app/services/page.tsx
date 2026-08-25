@@ -66,7 +66,7 @@ export default function ServicesPage() {
         },
         email: contact.email,
         telephone: `+${contact.whatsapp}`,
-        priceRange: "From BHD 100",
+        priceRange: "From BHD 400",
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Design services",
@@ -153,6 +153,7 @@ export default function ServicesPage() {
                   id={service.index}
                   aria-labelledby={`svc-${service.index}`}
                   className="lab-service-card scroll-mt-28"
+                  data-featured={service.featured || undefined}
                 >
                   <span
                     aria-hidden="true"

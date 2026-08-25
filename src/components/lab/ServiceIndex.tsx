@@ -163,7 +163,7 @@ export default function ServiceIndex({
                    so they gather into a stack instead of sliding past. */
                 style={{ top: `calc(7rem + ${index * 1.5}rem)` }}
               >
-                <article className="lab-service-card">
+                <article className="lab-service-card" data-featured={service.featured || undefined}>
                   <span
                     aria-hidden="true"
                     className={`lab-service-card__edge ${FIELD[service.palette]}`}
