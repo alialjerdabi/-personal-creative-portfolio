@@ -23,11 +23,13 @@ const CYCLE_MS = 2200;
 function galleryFor(project: LabProject): LabAsset[] {
   const assets = project.spreads?.flatMap((spread) => spread.assets) ?? [];
   const seen = new Set<string>();
-  const unique = [project.cover, ...assets].filter((asset): asset is LabAsset => {
-    if (!asset || seen.has(asset.src)) return false;
-    seen.add(asset.src);
-    return true;
-  });
+  const unique = [project.feature, project.cover, ...assets].filter(
+    (asset): asset is LabAsset => {
+      if (!asset || seen.has(asset.src)) return false;
+      seen.add(asset.src);
+      return true;
+    },
+  );
   return unique;
 }
 
@@ -164,7 +166,13 @@ export default function ProjectModal({
                     alt={index === frame ? asset.alt : ""}
                     fill
                     sizes="(max-width: 640px) 92vw, 40vw"
-                    className="object-cover"
+                    /* CONTAIN, NOT COVER (Ali, 2026-08-25). The gallery
+                       is every still the project has — 4:5 films, 16:10
+                       site shots, square cards — played through one
+                       fixed tile. Cover trimmed the edges off most of
+                       them, which on a card whose whole job is to show
+                       the work meant showing a cropped version of it. */
+                    className="object-contain"
                   />
                 </div>
               ))

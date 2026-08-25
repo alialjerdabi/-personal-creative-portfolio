@@ -35,7 +35,12 @@ function ProjectCard({
   priority: boolean;
   onOpen: (element: HTMLButtonElement) => void;
 }) {
-  const hasCover = Boolean(project.cover);
+  /* The same still the homepage board shows (Ali, 2026-08-25). Both
+     pages list the same projects, so picking different art for each made
+     one project look like two. `feature` is the shot chosen to represent
+     the project; `cover` is the fallback for anything without one. */
+  const art = project.feature ?? project.cover;
+  const hasCover = Boolean(art);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   return (
@@ -57,10 +62,10 @@ function ProjectCard({
             wide ? "aspect-[16/11]" : "aspect-[16/12]"
           } ${hasCover ? "bg-lab-haze" : FIELD[project.palette]}`}
         >
-          {project.cover ? (
+          {art ? (
             <Image
-              src={project.cover.src}
-              alt={project.cover.alt}
+              src={art.src}
+              alt={art.alt}
               fill
               preload={priority}
               sizes="(max-width: 1024px) 92vw, 55vw"
