@@ -78,12 +78,31 @@ export default function ServicesPage() {
             },
             /* The number is a floor, and priceSpecification is the only
                honest way to say so in schema. A bare `price` reads to a
-               parser as the price. */
-            priceSpecification: {
-              "@type": "PriceSpecification",
-              priceCurrency: "BHD",
-              minPrice: service.from.replace(/\D/g, ""),
-            },
+               parser as the price.
+
+               A RETAINER IS NOT A PROJECT FEE. Stripping non-digits out
+               of "From BHD 350/month" left a bare 350 that any parser
+               reads as the cost of the whole engagement, which
+               undersells it by a factor of however long it runs.
+               UnitPriceSpecification with a one-month reference
+               quantity is how schema.org says "per month"; `MON` is the
+               UN/CEFACT code for it. */
+            priceSpecification: service.from.includes("/month")
+              ? {
+                  "@type": "UnitPriceSpecification",
+                  priceCurrency: "BHD",
+                  minPrice: Number(service.from.replace(/\D/g, "")),
+                  referenceQuantity: {
+                    "@type": "QuantitativeValue",
+                    value: 1,
+                    unitCode: "MON",
+                  },
+                }
+              : {
+                  "@type": "PriceSpecification",
+                  priceCurrency: "BHD",
+                  minPrice: Number(service.from.replace(/\D/g, "")),
+                },
           })),
         },
       },
