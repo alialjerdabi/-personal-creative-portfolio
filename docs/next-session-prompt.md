@@ -46,30 +46,29 @@ metric said one thing and the render said another, in both directions.
 
 ---
 
-## THE DOMAIN IS LIVE — start here
+## The domain is live — what is left
 
-Ali bought and configured a custom domain (2026-08-24). The site was
-built for this and needs almost nothing in code, but it does need these,
-in order:
+`alialjardabi.com` is attached, serving, and correct as of 2026-08-25.
+Verified on the live site, not assumed: `www` 301s to the apex, robots
+and `sitemap.xml` name the real host, OG cards resolve against it, and
+all four prices render there. `siteUrl` is resolving it, so nothing in
+code needs the domain hardcoded — leave `src/lib/site.ts` alone.
 
-1. **Set `NEXT_PUBLIC_SITE_URL` in Vercel** to the new origin, no
-   trailing slash. `src/lib/site.ts` resolves canonicals, the sitemap,
-   robots and every OG card from it. Until it is set, the fallback is the
-   old `personal-creative-portfolio-steel.vercel.app` and every share
-   card and canonical points at the wrong host.
-2. **Verify after deploy** — `/sitemap.xml` and `/robots.txt` should name
-   the new domain, and each page's canonical should match.
-3. **Two email subject lines are hardcoded** to `alialjardabi.com` —
-   `BriefForm.tsx:100` and `ContactForm.tsx:37`. If the domain differs,
-   correct them; they are what Ali sees in his inbox.
-4. **`NEXT_PUBLIC_WEB3FORMS_KEY` is still not set here.** If it is unset
-   in Vercel, `/contact`'s form renders nothing in production. `/start`
-   falls back to a pre-filled WhatsApp message; `/contact` does not.
-5. **Decide `/start`'s `noindex`.** It was right when the brief sat behind
-   `/services`; it is now the destination for every CTA on the site.
-6. **The retainer's structured data reads as a one-off.** `/services`
-   emits `minPrice: 350` for a monthly price with no billing period, so a
-   crawler prices it wrong. Worth fixing before any SEO push.
+What the domain does *not* yet have:
+
+1. **`NEXT_PUBLIC_WEB3FORMS_KEY` is unset.** `/contact`'s form renders
+   nothing without it. `/start` degrades to a pre-filled WhatsApp
+   message; `/contact` does not, so it is currently a dead end. This is
+   the only defect on the live site that loses an enquiry.
+2. **`/start` is `noindex`.** That was right when the brief sat behind
+   `/services`. It is now the destination of every CTA on the site, so
+   the decision is worth re-taking rather than inheriting.
+3. **The retainer's structured data reads as a one-off.** `/services`
+   emits `minPrice: 350` for a monthly price with no billing period, so
+   a crawler prices the retainer wrong.
+4. **Two email subject lines hardcode `alialjardabi.com`** —
+   `BriefForm.tsx:100` and `ContactForm.tsx:37`. They happen to be
+   correct. If the domain ever changes, they will not follow.
 
 ---
 
@@ -89,7 +88,7 @@ the problem, who they are. Arrives pre-selected from `?service=01`. Posts
 to Web3Forms when a key exists, composes a WhatsApp message when it does
 not, so it can never silently swallow an enquiry.
 
-**Pricing, repriced 2026-08-24 and currently UNCOMMITTED in the tree:**
+**Pricing, repriced and live 2026-08-25:**
 
 | # | Offer | From |
 |---|-------|------|
