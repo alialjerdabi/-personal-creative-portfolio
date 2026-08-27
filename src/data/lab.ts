@@ -1867,9 +1867,13 @@ export const labContent: LabContent = {
     body: "A first conversation is a conversation — what the business is, where it’s going, and whether the way it looks is keeping up.",
     /* +973 35665422, Bahrain. Digits only for wa.me. */
     whatsapp: "97335665422",
-    /* Ali's brand account (2026-08-10). If this handle changes, every
-       copy of the link already sent in a DM breaks — change it here and
-       nowhere else. */
-    instagram: "the_brandgrid",
+    /* Ali's account. Was `the_brandgrid` until 2026-08-26, when it moved
+       to his own name — which is also what the site, the domain and the
+       Person schema are called, so the `sameAs` link now actually
+       corroborates the identity rather than pointing at a second one.
+
+       If this handle changes again, every copy of the link already sent
+       in a DM breaks — change it here and nowhere else. */
+    instagram: "alialjardabi",
   },
 };
