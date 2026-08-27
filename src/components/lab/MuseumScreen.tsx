@@ -355,8 +355,26 @@ export default function MuseumScreen({ content }: { content: LabContent }) {
           </p>
         </div>
 
+        {/*
+          THE RIGHT INSET IS THE WHATSAPP BUTTON (Ali, 2026-08-26).
+
+          `.wa-fab` is `position: fixed` at the bottom-right with z-60,
+          and this caption is z-20 at the bottom of the room — so
+          whenever the room fills the viewport they occupy the same
+          corner and the button wins. Measured before the fix, the
+          overlap was 56px on a phone and 149px at 1440, where the
+          button also carries its label. On a phone that clipped the
+          caption mid-word.
+
+          So the caption ends where the button begins: 6rem clears the
+          icon-only button (16px inset + 61px wide), 13rem clears the
+          labelled one. The left inset drops to the page's own gutter on
+          a phone — 4rem there was a quarter of the screen spent on
+          nothing, and the text needs it back now the right side is
+          reserved.
+        */}
         <div
-          className="pointer-events-none absolute bottom-7 left-16 right-5 z-20 sm:bottom-9 sm:left-20 sm:right-8"
+          className="pointer-events-none absolute bottom-7 left-5 right-24 z-20 sm:bottom-9 sm:left-20 sm:right-52"
           style={{ opacity: "var(--room)" }}
         >
           <p className="font-display text-[clamp(0.875rem,1.6vw,1.25rem)] font-bold tracking-[-0.02em] [text-shadow:0_1px_16px_rgb(0_0_0/0.95)]">
