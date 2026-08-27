@@ -696,11 +696,39 @@ html[data-aperture-seen="true"] #aperture-loader {
 
   /* Lit per edge, because the room is: two ceiling strips above and a
      polished floor below. The bottom edge takes the floor bounce — it is
-     the one that tells you the panel has thickness. */
+     the one that tells you the panel has thickness.
+
+     These are the mid-move values, and the fallback for any engine
+     without color-mix(). */
   border-top-color: #4c473f;
   border-right-color: #383430;
   border-left-color: #383430;
   border-bottom-color: #5a544b;
+
+  /*
+   * IT HAS TO ARRIVE AS THE PAINTED BEZEL (Ali, 2026-08-26).
+   *
+   * The film lands on the painted screen to within a pixel — measured —
+   * but this frame is drawn 1vmin outside that hole, on top of the
+   * recess the render already has, and it was three to six times too
+   * bright to be it. Sampled immediately outside the panel, the portrait
+   * render's bezel is #0d0a06 at the top where this drew #4c473f. The
+   * result was a pale ring around a picture that is supposed to be
+   * sitting in a dark recess — the join Ali could see.
+   *
+   * Fading it out is not the fix: the frame exists because without it
+   * the film is an edgeless rectangle for the whole pull-back, which he
+   * caught twice. So it travels instead. `--room` already runs 0 -> 1
+   * as the architecture arrives, so the frame starts as the lit panel
+   * edge and ends as the bezel it is standing on.
+   *
+   * Per orientation because the two renders are lit differently: the
+   * wide one's bezel is roughly twice the tall one's.
+   */
+  border-top-color: color-mix(in srgb, #1b160f calc(var(--room, 0) * 100%), #4c473f);
+  border-right-color: color-mix(in srgb, #261f17 calc(var(--room, 0) * 100%), #383430);
+  border-left-color: color-mix(in srgb, #2d251c calc(var(--room, 0) * 100%), #383430);
+  border-bottom-color: color-mix(in srgb, #30281f calc(var(--room, 0) * 100%), #5a544b);
 
   box-shadow:
     0 0.9vmin 2vmin rgb(0 0 0 / 0.55),
@@ -754,6 +782,16 @@ html[data-aperture-seen="true"] #aperture-loader {
     top: calc(50vh - 19.251vw);
     width: 40.374vw;
     height: 29.412vw;
+  }
+}
+
+/* The tall render's bezel, sampled the same way. */
+@media (orientation: portrait) {
+  .museum-screen-aperture {
+    border-top-color: color-mix(in srgb, #0d0a06 calc(var(--room, 0) * 100%), #4c473f);
+    border-right-color: color-mix(in srgb, #16110c calc(var(--room, 0) * 100%), #383430);
+    border-left-color: color-mix(in srgb, #16120b calc(var(--room, 0) * 100%), #383430);
+    border-bottom-color: color-mix(in srgb, #1c160e calc(var(--room, 0) * 100%), #5a544b);
   }
 }
 
