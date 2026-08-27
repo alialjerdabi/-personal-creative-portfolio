@@ -1,10 +1,14 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import FloatingNav from "@/components/lab/FloatingNav";
 import ContactClose from "@/components/lab/ContactClose";
 import FaqList from "@/components/lab/FaqList";
 import Reveal from "@/components/ui/Reveal";
 import { labContent } from "@/data/lab";
 import { servicesPage } from "@/data/pages";
+import Keyed, { ACCENT_INK } from "@/components/lab/Keyed";
+import { AREA_SERVED, servicePages } from "@/data/service-pages";
 import { pageMetadata } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 import type { LabPalette } from "@/data/lab";
@@ -19,6 +23,16 @@ const FIELD: Record<LabPalette, string> = {
   sun: "bg-lab-sun",
   amber: "bg-lab-amber",
 };
+
+/** Service index -> its landing page slug. */
+const SLUG: Record<string, string> = Object.fromEntries(
+  servicePages.map((page) => [page.index, page.slug]),
+);
+
+/** Service index -> the phrases to set in the service's colour. */
+const HIGHLIGHT = Object.fromEntries(
+  servicePages.map((page) => [page.index, page.highlight]),
+);
 
 export const metadata: Metadata = {
   ...pageMetadata({
@@ -55,7 +69,11 @@ export default function ServicesPage() {
         name: identity,
         description: servicesPage.metaDescription,
         url: siteUrl,
-        areaServed: { "@type": "Country", name: "Bahrain" },
+        /* THE GULF, NOT ONLY BAHRAIN. The address stays Manama because
+           that is where Ali is; areaServed is where the work is offered,
+           and the work is remote-capable. /work already describes these
+           projects as being for businesses "in Bahrain and the Gulf". */
+        areaServed: AREA_SERVED.map((name) => ({ "@type": "Country", name })),
         address: {
           "@type": "PostalAddress",
           addressLocality: "Manama",
@@ -74,7 +92,8 @@ export default function ServicesPage() {
               name: service.name,
               description: service.outcome,
               serviceType: service.scope,
-              areaServed: "Bahrain",
+              areaServed: AREA_SERVED,
+              url: `${siteUrl}/services/${SLUG[service.index]}`,
             },
             /* The number is a floor, and priceSpecification is the only
                honest way to say so in schema. A bare `price` reads to a
@@ -142,9 +161,9 @@ export default function ServicesPage() {
             <Reveal index={3}>
               <p className="mt-9 flex flex-wrap gap-2.5">
                 {services.items.map((service) => (
-                  <a
+                  <Link
                     key={service.index}
-                    href={`#${service.index}`}
+                    href={`/services/${SLUG[service.index]}`}
                     className="lab-chip"
                   >
                     <span
@@ -152,7 +171,7 @@ export default function ServicesPage() {
                       className={`lab-chip__dot ${FIELD[service.palette]}`}
                     />
                     {service.name}
-                  </a>
+                  </Link>
                 ))}
               </p>
             </Reveal>
@@ -170,6 +189,9 @@ export default function ServicesPage() {
                   aria-labelledby={`svc-${service.index}`}
                   className="lab-service-card scroll-mt-28"
                   data-featured={service.featured || undefined}
+                  style={
+                    { "--accent": ACCENT_INK[service.palette] } as CSSProperties
+                  }
                 >
                   <span
                     aria-hidden="true"
@@ -184,7 +206,9 @@ export default function ServicesPage() {
                   <h2 id={`svc-${service.index}`} className="lab-service-card__name">
                     {service.name}
                   </h2>
-                  <p className="lab-service-card__outcome">{detail.lede}</p>
+                  <p className="lab-service-card__outcome">
+                    <Keyed text={detail.lede} keyword={HIGHLIGHT[service.index]?.lede} />
+                  </p>
 
                   <div className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
                     <div className="space-y-4">
@@ -216,15 +240,21 @@ export default function ServicesPage() {
                           </li>
                         ))}
                       </ul>
-                      <a href="#contact" className="lab-service-cta group">
-                        Start a project
+                      {/* The card summarises; the page argues. Without
+                          this link the detail pages are reachable only
+                          from search, which is the wrong way round. */}
+                      <Link
+                        href={`/services/${SLUG[service.index]}`}
+                        className="lab-service-cta group"
+                      >
+                        More on {service.name.toLowerCase()}
                         <span
                           aria-hidden="true"
                           className="inline-block transition-transform duration-300 group-hover:translate-x-1.5"
                         >
                           →
                         </span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </section>

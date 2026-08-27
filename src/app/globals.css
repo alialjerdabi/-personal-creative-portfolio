@@ -67,6 +67,31 @@
    * no glows. Every pairing below clears 4.5:1 against its own ink
    * (measured: orange 6.7, blue 7.4, violet 5.6, lime and cream >12).
    */
+  /*
+   * THE SAME PALETTE, SOLVED FOR TEXT (Ali, 2026-08-26).
+   *
+   * The fields above are measured against their OWN ink — a dark word on
+   * a lime card. As TEXT on the page ground they are a different problem
+   * and most of them fail it badly: measured on #f1efe9, lime is 1.13:1,
+   * sun 1.41, amber 1.54, teal 2.03 and orange 2.71. Anything under
+   * 4.5:1 is not a styling preference, it is a word a person cannot
+   * read, and the mobile fold has been setting one keyword in raw lime
+   * since it shipped.
+   *
+   * These are the same hues darkened until each clears 4.5:1 against
+   * both light grounds. Blue and violet already passed and are
+   * unchanged, so a highlight still reads as the project's colour rather
+   * than as a new palette.
+   */
+  --lab-orange-ink: #bf4317;
+  --lab-blue-ink: #1b3fe0;
+  --lab-lime-ink: #5f7425;
+  --lab-violet-ink: #6e3bff;
+  --lab-teal-ink: #007a6a;
+  --lab-sun-ink: #896811;
+  --lab-amber-ink: #8a6700;
+  --lab-cream-ink: #6d6c6a;
+
   --lab-orange: #ff5a1f;
   --lab-blue: #1b3fe0;
   --lab-lime: #c6f24e;
@@ -205,6 +230,18 @@
 
   /* Ink flips with the ground. Off-white rather than #fff, which buzzes
      against charcoal at body size, and a true grey for the soft ink. */
+  /* On a dark ground the bright fields are the readable ones — lime is
+     15.2:1 there. Blue and violet are the two that fail, so they are
+     lightened rather than darkened. */
+  --lab-orange-ink: #ff5a1f;
+  --lab-blue-ink: #5a74e8;
+  --lab-lime-ink: #c6f24e;
+  --lab-violet-ink: #885eff;
+  --lab-teal-ink: #00bfa6;
+  --lab-sun-ink: #ffc220;
+  --lab-amber-ink: #f8b800;
+  --lab-cream-ink: #eeece7;
+
   --lab-ink-warm: #f4f4f4;
   --lab-ink-soft: #a3a3a3;
   --lab-hairline: rgb(255 255 255 / 0.13);
@@ -1290,27 +1327,64 @@ html[data-aperture-seen="true"] #aperture-loader {
   }
 }
 
+/*
+ * A BUTTON, NOT A TEXT LINK (Ali, 2026-08-26).
+ *
+ * It was 15px of bold text with an arrow, which at a glance is
+ * indistinguishable from the body copy above it — on the service cards
+ * it is the only way through to the page that actually sells, and it was
+ * disappearing. It is now a pill with a real target: 44px minimum
+ * height, which is also the smallest thing a thumb hits reliably.
+ *
+ * `--accent` is set per card, so the button carries the service's own
+ * colour and fills with it on hover. Where nothing sets it, it falls
+ * back to the page ink and behaves as it always did.
+ */
 .lab-service-cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   margin-top: 2.25rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.4rem;
+  border: 1.5px solid var(--accent, var(--lab-ink-warm));
+  border-radius: 999px;
   font-family: var(--font-text), sans-serif;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: var(--lab-ink-warm);
-  transition: color 240ms ease;
+  line-height: 1.2;
+  color: var(--accent, var(--lab-ink-warm));
+  background: transparent;
+  transition:
+    background-color 240ms ease,
+    color 240ms ease,
+    border-color 240ms ease;
 }
 
 .lab-service-cta:hover,
 .lab-service-cta:focus-visible {
-  color: var(--lab-orange);
+  background: var(--accent, var(--lab-ink-warm));
+  /* The fields are all light enough to take dark ink; the solved text
+     values are dark enough to take white. Either way the pill is filled
+     with the accent and the label is the page's opposite ink. */
+  color: var(--lab-on-ink);
+  border-color: var(--accent, var(--lab-ink-warm));
 }
 
 .lab-service-cta:focus-visible {
-  outline: 2px solid var(--lab-orange);
-  outline-offset: 4px;
-  border-radius: 0.4rem;
+  outline: 2px solid var(--accent, var(--lab-ink-warm));
+  outline-offset: 3px;
+}
+
+/*
+ * The scanning aid. One phrase per card in the service's own colour, so
+ * someone moving down the page at speed gets the point of each service
+ * without reading the sentence. Same idea as the mobile fold's
+ * `.offer__key`, which is where the pattern started.
+ */
+.lab-key {
+  font-weight: 700;
+  color: var(--accent, var(--lab-ink-warm));
 }
 
 /* -------------------------------- close -------------------------------- */
@@ -3440,9 +3514,11 @@ html[data-aperture-seen="true"] #aperture-loader {
    * thing in the line, so it still reads as emphasis to anyone who
    * cannot separate these hues.
    */
+  /* --accent-ink, not --accent: the raw field colours are unreadable as
+     text on this ground (lime measured 1.13:1). Same hue, solved. */
   .offer__key {
     font-weight: 700;
-    color: var(--accent);
+    color: var(--accent-ink, var(--accent));
   }
 
   /* Three thumbnails: the proof, at a size a thumb can still parse. */

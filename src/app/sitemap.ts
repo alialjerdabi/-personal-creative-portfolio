@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { labContent } from "@/data/lab";
+import { servicePages } from "@/data/service-pages";
 import { siteUrl } from "@/lib/site";
 
 /**
@@ -18,6 +19,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
     }));
+
+  /* One page per service. These are the pages meant to rank for the
+     individual queries, so they sit at the same priority as the hub
+     that lists them. Derived, so adding a service adds its URL. */
+  const servicePageUrls = servicePages.map((page) => ({
+    url: `${siteUrl}/services/${page.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
 
   return [
     {
@@ -57,6 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.7,
     },
+    ...servicePageUrls,
     ...caseStudies,
   ];
 }

@@ -1,8 +1,21 @@
 "use client";
+import Link from "next/link";
 
 import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/ui/Reveal";
 import type { LabContent, LabPalette } from "@/data/lab";
+import Keyed, { ACCENT_INK } from "@/components/lab/Keyed";
+import { servicePages } from "@/data/service-pages";
+
+/** Service index -> its landing page slug. */
+const SLUG: Record<string, string> = Object.fromEntries(
+  servicePages.map((page) => [page.index, page.slug]),
+);
+
+/** Service index -> the phrases to set in the service's colour. */
+const HIGHLIGHT = Object.fromEntries(
+  servicePages.map((page) => [page.index, page.highlight]),
+);
 
 /** Whole class strings, not interpolated fragments, so Tailwind sees them. */
 const FIELD: Record<LabPalette, string> = {
@@ -163,7 +176,14 @@ export default function ServiceIndex({
                    so they gather into a stack instead of sliding past. */
                 style={{ top: `calc(7rem + ${index * 1.5}rem)` }}
               >
-                <article className="lab-service-card" data-featured={service.featured || undefined}>
+                <article
+                  className="lab-service-card"
+                  data-featured={service.featured || undefined}
+                  /* Both the button and the highlighted phrase read this. */
+                  style={
+                    { "--accent": ACCENT_INK[service.palette] } as React.CSSProperties
+                  }
+                >
                   <span
                     aria-hidden="true"
                     className={`lab-service-card__edge ${FIELD[service.palette]}`}
@@ -176,7 +196,12 @@ export default function ServiceIndex({
 
                   <h3 className="lab-service-card__name">{service.name}</h3>
 
-                  <p className="lab-service-card__outcome">{service.outcome}</p>
+                  <p className="lab-service-card__outcome">
+                    <Keyed
+                      text={service.outcome}
+                      keyword={HIGHLIGHT[service.index]?.outcome}
+                    />
+                  </p>
 
                   <p className="lab-placard mt-9 border-t border-lab-hairline pt-6">
                     Scope of work
@@ -195,15 +220,24 @@ export default function ServiceIndex({
                     ))}
                   </ul>
 
-                  <a href="#contact" className="lab-service-cta group">
-                    Start a project
+                  {/* To the service's own page, not to the contact
+                      anchor. The homepage is the strongest page on the
+                      site, so what it links to is how the new service
+                      pages get found at all — and a reader who has just
+                      read five scope lines wants more about that
+                      service, not a form. */}
+                  <Link
+                    href={`/services/${SLUG[service.index]}`}
+                    className="lab-service-cta group"
+                  >
+                    More on {service.name.toLowerCase()}
                     <span
                       aria-hidden="true"
                       className="inline-block transition-transform duration-300 group-hover:translate-x-1.5"
                     >
                       →
                     </span>
-                  </a>
+                  </Link>
                 </article>
               </li>
             ))}

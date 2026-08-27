@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { ACCENT_INK } from "@/components/lab/Keyed";
 import ShotVideo from "@/components/lab/mobile/ShotVideo";
 import type { LabContent, LabPalette } from "@/data/lab";
 
@@ -94,6 +95,10 @@ export default function OfferBand({ content }: { content: LabContent }) {
                   style={
                     {
                       "--accent": ACCENT[service.palette],
+                    /* The field colour paints the edge; the solved value
+                       sets the keyword. Lime as text measured 1.13:1 on
+                       this ground — unreadable since the fold shipped. */
+                    "--accent-ink": ACCENT_INK[service.palette],
                       "--shot": show?.shotRatio ?? "4 / 3",
                     } as CSSProperties
                   }

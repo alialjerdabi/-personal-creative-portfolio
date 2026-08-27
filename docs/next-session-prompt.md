@@ -46,29 +46,47 @@ metric said one thing and the render said another, in both directions.
 
 ---
 
-## The domain is live — what is left
+## Search: what is done, and what is Ali's
 
-`alialjardabi.com` is attached, serving, and correct as of 2026-08-25.
-Verified on the live site, not assumed: `www` 301s to the apex, robots
-and `sitemap.xml` name the real host, OG cards resolve against it, and
-all four prices render there. `siteUrl` is resolving it, so nothing in
-code needs the domain hardcoded — leave `src/lib/site.ts` alone.
+The domain, the metadata and Search Console are finished as of
+2026-08-26. Verified on the live site rather than assumed.
 
-What the domain does *not* yet have:
+**Done and live:** `alialjardabi.com` serving, `www` 301ing to the apex,
+robots allowing crawl, sitemap valid, every page carrying a unique title,
+description, canonical, Open Graph and Twitter card, case studies sharing
+their own cover art, and valid `Service` / `FAQPage` / `BreadcrumbList`
+structured data. Search Console is verified by DNS TXT, sitemap
+submitted, key routes queued for indexing. `NEXT_PUBLIC_WEB3FORMS_KEY` is
+set, so `/contact` renders its form again.
 
-1. **`NEXT_PUBLIC_WEB3FORMS_KEY` is unset.** `/contact`'s form renders
-   nothing without it. `/start` degrades to a pre-filled WhatsApp
-   message; `/contact` does not, so it is currently a dead end. This is
-   the only defect on the live site that loses an enquiry.
-2. **`/start` is `noindex`.** That was right when the brief sat behind
-   `/services`. It is now the destination of every CTA on the site, so
-   the decision is worth re-taking rather than inheriting.
-3. **The retainer's structured data reads as a one-off.** `/services`
-   emits `minPrice: 350` for a monthly price with no billing period, so
-   a crawler prices the retainer wrong.
-4. **Two email subject lines hardcode `alialjardabi.com`** —
-   `BriefForm.tsx:100` and `ContactForm.tsx:37`. They happen to be
-   correct. If the domain ever changes, they will not follow.
+**One page per service (2026-08-26, UNCOMMITTED).** `/services` was
+aiming at ten queries from one URL and therefore placing for none of
+them. There are now four landing pages — `/services/branding`,
+`/website-design`, `/brand-and-website`, `/ongoing-support` — each with
+its own H1, keywords, FAQ, proof and `Service` schema, linked from the
+homepage index and the hub. `areaServed` widened from Bahrain to the six
+GCC countries.
+
+**What still decides the ranking, and none of it is code:**
+
+1. **Google Business Profile.** The map pack sits above every organic
+   result for "branding Bahrain" and its neighbours. No amount of markup
+   enters it. This is the single biggest lever and it is Ali's to pull.
+2. **Reviews on that profile.** Qobban, Petrolas, Delivery Point and Kids
+   Island are four possible asks.
+3. **Backlinks.** A "site by Ali Aljardabi" credit in the footer of
+   client sites he builds is the highest-value one available. Behance,
+   Dribbble, LinkedIn and the Instagram bio are the rest.
+4. **The domain is days old.** Expect months, not weeks. Nothing is
+   broken if nothing ranks in September.
+
+**Still open on the site itself:**
+
+- **`/start` is `noindex`** while being every CTA's destination.
+- **`/work/delivery-point` is in the sitemap** but is placeholder art on
+  all five spreads.
+- **Nobody has confirmed a contact-form email actually arrives.** The
+  form renders and holds a valid key; the round trip is untested.
 
 ---
 
