@@ -251,6 +251,29 @@ export interface LabProject {
   sector?: string;
   /** Present only when a case study has actually been built. */
   spreads?: LabSpread[];
+  /**
+   * The spreads exist but are still placeholders.
+   *
+   * A project can have its five spreads laid out and labelled long
+   * before the imagery arrives, and `spreads` alone cannot tell the two
+   * apart — which is how Delivery Point ended up with a public case
+   * study made of empty boxes, listed in the sitemap and offered a "See
+   * work" button. Setting this keeps the layout in place for whoever
+   * finishes it while the page stays unpublished.
+   */
+  wip?: boolean;
+}
+
+/**
+ * Does this project have a case study a stranger should be able to read?
+ *
+ * The route, the sitemap and the popup's button all ask this, and each
+ * used to ask it in its own words (`project.spreads`). One of them
+ * changing its mind is how a 404 gets into a sitemap, so they now share
+ * an answer.
+ */
+export function hasCaseStudy(project: LabProject): boolean {
+  return Boolean(project.spreads) && !project.wip;
 }
 
 export interface LabService {
@@ -964,6 +987,10 @@ export const labContent: LabContent = {
     */
     {
       slug: "delivery-point",
+      /* Ali, 2026-08-26 — until the imagery lands. The five spreads
+         below are laid out and labelled, and stay that way; what this
+         turns off is publishing them. */
+      wip: true,
       name: "Delivery Point",
       palette: "lime",
       disciplines: ["Branding", "Strategy"],

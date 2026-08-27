@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CaseStudy from "@/components/lab/CaseStudy";
 import { pageMetadata } from "@/lib/seo";
-import { labContent } from "@/data/lab";
+import { hasCaseStudy, labContent } from "@/data/lab";
 
 /** Only projects that actually have a case study are routable. */
-const builtProjects = labContent.projects.filter((project) => project.spreads);
+const builtProjects = labContent.projects.filter(hasCaseStudy);
 
 export function generateStaticParams() {
   return builtProjects.map((project) => ({ slug: project.slug }));

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ArrowOut from "@/components/ui/ArrowOut";
+import { hasCaseStudy } from "@/data/lab";
 import type { LabAsset, LabContent, LabPalette, LabProject } from "@/data/lab";
 
 const FIELD: Record<LabPalette, string> = {
@@ -232,7 +233,7 @@ export default function ProjectModal({
                 </a>
               )}
 
-              {project.spreads ? (
+              {hasCaseStudy(project) ? (
                 <Link
                   href={`/work/${project.slug}`}
                   className={

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { labContent } from "@/data/lab";
+import { hasCaseStudy, labContent } from "@/data/lab";
 import { servicePages } from "@/data/service-pages";
 import { siteUrl } from "@/lib/site";
 
@@ -12,7 +12,7 @@ import { siteUrl } from "@/lib/site";
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const caseStudies = labContent.projects
-    .filter((project) => project.spreads)
+    .filter(hasCaseStudy)
     .map((project) => ({
       url: `${siteUrl}/work/${project.slug}`,
       lastModified: new Date(),
