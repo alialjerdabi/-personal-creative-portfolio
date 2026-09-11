@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
  */
 export default function WhatsAppButton({ number }: { number: string }) {
   const [shown, setShown] = useState(false);
+  const [overHero, setOverHero] = useState(false);
 
   useEffect(() => {
     /*
@@ -30,12 +31,63 @@ export default function WhatsAppButton({ number }: { number: string }) {
     return () => window.clearTimeout(timer);
   }, []);
 
+  /*
+   * IT STAYS OFF THE HERO (Ali, 2026-09-11).
+   *
+   * The desktop hero now ends in three cards that reach the full width
+   * of the page, and this button is fixed to the bottom-right of the
+   * VIEWPORT — so it has no fixed relationship to them at all. Measured
+   * at 1440 and 1920 it sat 160x56px on top of the third card, and no
+   * amount of padding fixes that, because where it lands is decided by
+   * scroll position rather than by layout.
+   *
+   * So it waits. While any part of the opening screen is on screen the
+   * button is hidden, and it arrives once the hero is behind you — which
+   * is also the first moment the page has nothing else asking to be
+   * pressed. The hero carries its own "Start a project", so nothing is
+   * lost up there.
+   *
+   * DESKTOP ONLY. On a phone the button is icon-sized, the cards stack,
+   * and the collision does not happen — and that layout is already
+   * approved. `matchMedia` keeps the phone exactly as it was.
+   *
+   * Pages with no `.opening` — every page but the homepage — never set
+   * `overHero`, so the button behaves as it always has.
+   */
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 768px)");
+    let observer: IntersectionObserver | null = null;
+
+    const attach = () => {
+      observer?.disconnect();
+      observer = null;
+      if (!wide.matches) {
+        setOverHero(false);
+        return;
+      }
+      const hero = document.querySelector(".opening");
+      if (!hero) return;
+      observer = new IntersectionObserver(
+        ([entry]) => setOverHero(entry.isIntersecting),
+        { threshold: 0 },
+      );
+      observer.observe(hero);
+    };
+
+    attach();
+    wide.addEventListener("change", attach);
+    return () => {
+      observer?.disconnect();
+      wide.removeEventListener("change", attach);
+    };
+  }, []);
+
   return (
     <a
       href={`https://wa.me/${number}`}
       target="_blank"
       rel="noreferrer"
-      data-shown={shown || undefined}
+      data-shown={(shown && !overHero) || undefined}
       className="wa-fab"
       aria-label="Message me on WhatsApp"
     >

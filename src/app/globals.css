@@ -1065,6 +1065,12 @@ html[data-aperture-seen="true"] #aperture-loader {
      there, which is the correct fallback for the site's main CTA. */
   opacity: 0;
   transform: translateY(0.75rem) scale(0.92);
+  /* An opacity-0 anchor still swallows clicks, and this one covers the
+     bottom-right corner of every page. It was harmless while the only
+     hidden state was the 900ms before first paint; now that it also
+     hides for the whole length of the hero, it has to stop being a
+     target as well as stop being visible. */
+  pointer-events: none;
   transition:
     opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -1074,6 +1080,7 @@ html[data-aperture-seen="true"] #aperture-loader {
 .wa-fab[data-shown] {
   opacity: 1;
   transform: none;
+  pointer-events: auto;
 }
 
 .wa-fab__mark {
@@ -3618,6 +3625,222 @@ html[data-aperture-seen="true"] #aperture-loader {
     border-color: var(--lab-hairline);
     border-left-color: var(--accent);
     background: color-mix(in oklab, var(--accent) 7%, var(--lab-air));
+  }
+}
+
+/* ======================================================================
+ * LOCKUP HERO — local, uncommitted. 2026-09-11.
+ *
+ * Ali's direction: the lockup without the word DESIGN, with the three
+ * offer cards directly beneath it.
+ *
+ * `lockup-name.svg` is the supplied lockup with the DESIGN line removed
+ * and the viewBox re-tightened to the remaining artwork — measured with
+ * getBBox rather than guessed, which is why the ratio is 1177.2/381.6
+ * exactly. Dropping a line changed the shape from 2.14:1 to 3.09:1, so
+ * the mark sits much closer to the old wordmark's proportions than the
+ * full lockup did.
+ * ==================================================================== */
+
+@media (min-width: 768px) {
+  /* The lockup replaces the drawn wordmark. */
+  .opening__mark {
+    aspect-ratio: 1177.2 / 381.6;
+    -webkit-mask-image: url("/brand/lockup-name.svg");
+    mask-image: url("/brand/lockup-name.svg");
+  }
+
+  /* The cards carry the fold, so the abstract lede steps aside — the
+     same trade the phone already makes. */
+  .opening__intro[data-offer] .opening__lede {
+    display: none;
+  }
+
+  /*
+   * ONE BAND, REORDERED — NOT A SECOND COPY.
+   *
+   * The first pass rendered OfferBand twice: once inside the intro for
+   * the phone and once after the wordmark for desktop, hidden at the
+   * other breakpoint. `display: none` hides an element; it does not stop
+   * it existing. Measured on a 390px viewport that cost a phone eight
+   * <video> elements instead of four and a second download of both
+   * campaign films — marketing-retail.mp4 and marketing-product.mp4
+   * requested twice on a page that shows them once.
+   *
+   * `display: contents` on the intro drops that box from the layout and
+   * promotes the lede, the band and the CTA to direct flex children of
+   * `.opening`, where `order` can put the cards under the wordmark. The
+   * phone never enters this query, so its DOM order stands untouched.
+   */
+  .opening__intro[data-offer] {
+    display: contents;
+  }
+
+  /* Promoting the intro to `display: contents` makes the CTA a direct
+     flex child of `.opening`, which stretches its children by default —
+     the button went the full width of the page. It sizes to its label. */
+  .opening__intro[data-offer] .opening__cta {
+    order: 1;
+    align-self: start;
+  }
+
+  .opening__word {
+    order: 2;
+  }
+
+  .opening__intro[data-offer] .offer {
+    order: 3;
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin-top: 2.5rem;
+  }
+
+  .opening__foot {
+    order: 4;
+  }
+
+  /* The band's own intro line is already carried above; under the
+     lockup the cards should speak for themselves. */
+  .opening__intro[data-offer] .offer__line {
+    display: none;
+  }
+
+  /*
+   * SUBGRID, SO THE CARDS ARE A SET.
+   *
+   * The three cards carry different content heights — "Ongoing Brand &
+   * Creative Support" wraps to two lines where the others take one, and
+   * its shots are 4:5 against the others' 4:3 and 16:10. Left to
+   * themselves the cards ended at three different depths and nothing
+   * inside them lined up across the row.
+   *
+   * The list declares three rows — head, outcome, shots — and every card
+   * opts into them with `grid-template-rows: subgrid`. Each row is then
+   * as tall as its tallest occupant across all three cards, so the
+   * service names sit on one line, the outcomes sit on one line, and the
+   * thumbnails all start at the same y.
+   *
+   * NOTHING IS CROPPED TO ACHIEVE THIS. The tiles keep the native ratio
+   * of the pair they hold — the rule this component was built on. The
+   * shots row is sized by the tallest pair and the shorter pairs sit at
+   * the top of it, which is the honest trade: alignment where it is
+   * visible, no trimming of the work.
+   */
+  .opening__intro[data-offer] .offer__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 1.5rem;
+    margin-top: 0;
+  }
+
+  .opening__intro[data-offer] .offer__list > li {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+  }
+
+  /* The card's appearance lives inside the mobile query, so it has to be
+     restated here — scaled for a 1440 column rather than a 390 one. */
+  .opening__intro[data-offer] .offer__pack {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    /* The card's own padding cannot come from the grid, so the row gap
+       does the vertical rhythm and the padding only holds the edges. */
+    row-gap: 0.35rem;
+    height: 100%;
+    padding: 1.35rem 1.4rem 1.5rem;
+    border: 1px solid var(--lab-hairline);
+    border-left: 3px solid var(--accent);
+    border-radius: 1.1rem;
+    background: var(--lab-card);
+    font-family: var(--font-display), sans-serif;
+    color: var(--lab-ink-warm);
+  }
+
+  .opening__intro[data-offer] .offer__head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .opening__intro[data-offer] .offer__name {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .opening__intro[data-offer] .offer__arrow {
+    margin-left: auto;
+    font-size: 1.0625rem;
+    opacity: 0.45;
+  }
+
+  .opening__intro[data-offer] .offer__outcome {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 1.0625rem;
+    line-height: 1.32;
+  }
+
+  .opening__intro[data-offer] .offer__key {
+    font-weight: 700;
+    color: var(--accent-ink, var(--accent));
+  }
+
+  .opening__intro[data-offer] .offer__shots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.65rem;
+    align-self: start;
+  }
+
+  .opening__intro[data-offer] .offer__shot {
+    position: relative;
+    display: block;
+    aspect-ratio: var(--shot, 4 / 3);
+    overflow: hidden;
+    border-radius: 0.55rem;
+    background: var(--lab-haze);
+  }
+
+  /*
+   * THE PORTRAIT PAIR IS SIZED BY HEIGHT, NOT WIDTH.
+   *
+   * The retainer's two films are 4:5 where the other cards carry 4:3 and
+   * 16:10. At equal width a 4:5 tile is 242px tall against 147 and 121,
+   * so it set the height of the shared row and left the other two cards
+   * with a third of their space empty.
+   *
+   * Two tiles at 29.5% of the card reach exactly the height of a 4:3
+   * pair, and that figure is scale-invariant — a pair is ((W - g)/2)x3/4
+   * tall and a 4:5 tile of width w is w x 5/4, which meet at w = 0.295W
+   * for any W. Checked at 1440 and 1920 rather than assumed.
+   *
+   * The films stay vertical and uncropped, which is the point: they were
+   * shot for a phone and they should still look like it.
+   */
+  .opening__intro[data-offer] .offer__shots[data-portrait] {
+    grid-template-columns: repeat(2, 29.5%);
+    justify-content: start;
+  }
+
+  /*
+   * Lockup plus three cards does not fit one viewport. Ali's call: the
+   * wordmark keeps its size and the hero grows.
+   *
+   * The bottom padding is the WhatsApp button's landing space. It is
+   * fixed to the bottom-right of the viewport, so the only way it reads
+   * as sitting UNDER the cards rather than on them is for the hero to
+   * carry a clear band beneath the row — 8rem covers the button's 3.5rem
+   * height plus its inset with room to spare.
+   */
+  .opening {
+    height: auto;
+    padding-bottom: 8rem;
   }
 }
 

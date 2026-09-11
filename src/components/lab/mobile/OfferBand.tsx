@@ -121,8 +121,22 @@ export default function OfferBand({ content }: { content: LabContent }) {
                   {/* The proof, at thumbnail size. On a phone an image is
                     read before a sentence, so the scope is shown rather
                     than listed. */}
+                  {/* The proof, at thumbnail size. On a phone an image is
+                    read before a sentence, so the scope is shown rather
+                    than listed.
+
+                    `data-portrait` is the hook the desktop fold needs: a
+                    4:5 pair is far taller than a 4:3 one at the same
+                    width, and on desktop the three cards share a row, so
+                    the portrait pair has to be sized by height instead.
+                    The phone stacks and ignores it. */}
                   {show && (
-                    <span className="offer__shots">
+                    <span
+                      className="offer__shots"
+                      data-portrait={
+                        show.shotRatio.replace(/\s/g, "") === "4/5" || undefined
+                      }
+                    >
                       {show.shots.map((shot) => (
                         <span key={shot.src} className="offer__shot">
                           {shot.poster ? (
