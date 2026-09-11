@@ -71,7 +71,7 @@ export default function OfferBand({ content }: { content: LabContent }) {
   return (
     <div className="offer">
       <p className="offer__line">
-        Branding, websites and marketing for small businesses in Bahrain —
+        Branding, websites and marketing for leading businesses in Bahrain —
         researched, designed and built by one person.
       </p>
 
