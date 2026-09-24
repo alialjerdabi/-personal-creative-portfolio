@@ -14,9 +14,15 @@ a second, unrelated product; this one contains only the site that ships.
 | `/` | Home — hero, showcase, work, proof, services, promise, contact |
 | `/studio` | About: the "just me" argument |
 | `/work/[slug]` | Case studies — `petrolas`, `qobban`, `delivery-point` |
+| `/brand/[slug]` | Interactive brand guideline — copy any value, type tester, live motion, token export |
+| `/brand/[slug]/present` | The same guide as a 16:9 deck — ← → / space, F for full screen, print to PDF |
 
 Only projects with a `spreads` array are routable, so a project can be
 listed on the home page long before it has a case study.
+
+Brand guides live in `src/data/brands/`, one file per brand. Add the file,
+add it to `brandGuides` in `index.ts`, and both the guide and the deck
+exist. `ali-aljardabi` is Ali's own system, read from the site's tokens.
 
 ## Running it
 

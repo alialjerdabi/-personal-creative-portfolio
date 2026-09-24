@@ -29,6 +29,7 @@ const ROUTES = [
   "/work/petrolas",
   "/work/qobban",
   "/work/delivery-point",
+  "/brand/ali-aljardabi",
 ];
 const WIDTHS = [
   { w: 390, h: 844, name: "mobile" },
