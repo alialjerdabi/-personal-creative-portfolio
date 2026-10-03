@@ -1681,24 +1681,36 @@ export const labContent: LabContent = {
           id: "social",
           label: "05 — Social & campaigns",
           title: "SOCIAL",
-          note: "The identity at post scale, where most of a local audience meets a cookie brand: a cookie pulled apart, a poll that makes Loop the one with the decision to make, a fill-in-the-blank the audience finishes, and Arabic-led lines that work as messages before they work as ads.",
+          note: "The identity at post scale, where most of a local audience meets a cookie brand. Loop does the talking and the brand never has to: he hoards the box, gets caught with the crumbs, runs off with the share box. Half the rail asks the audience something rather than telling them — a poll, a fill-in-the-blank, a confession box — and the Arabic-led lines work as messages before they work as ads.",
           /*
             THE SHOWREEL BAND, as Qobban's social spread uses (Ali,
             2026-10-03). `assets` is empty and stays empty — the band
             replaces the asset grid entirely, because 4:5 and 9:16 are
             two ratios a `plates` row cannot hold together without
-            cropping one of them. The contact-sheet board that stood
-            here is gone with it: a picture of six posts is a weaker
-            thing than the six posts.
+            cropping one of them.
 
-            THE RAIL EXPECTS SIX OF EACH and interleaves them, because
-            six is what makes it read as continuous rather than as a
-            short list. Three of each have arrived, so three post slots
-            and three story slots render as labelled pending cells. That
-            is the component doing its job — the composition is
-            judgeable now and the rest drop in without the layout
-            changing shape — but it is visibly short, and the fix is
-            three more posts and three more stories, not a change here.
+            SIX POSTS, NOT THE TEN THAT EXIST. The rail pairs every
+            post with a story and cycles the shorter list, so the story
+            count caps what can be shown without repeating: ten posts
+            against five stories would put four stories on screen twice,
+            which reads as a loop artefact rather than as a body of
+            work. Six against five is Qobban's own composition and shows
+            each story once.
+
+            Held in the folder, unreferenced, ready to swap or to join
+            the rail the moment more stories arrive: post-04 (emotional
+            support), post-07 (the share box), post-08 (cookie
+            research), post-10 (the Arabic "if I don't reply"). Five
+            more stories and all ten posts fit with nothing repeated.
+
+            Five stories against an expected six leaves exactly one
+            labelled pending cell. One more story closes it and nothing
+            here changes.
+
+            post-09 is the Arabic-led still and the only referenced file
+            still at 540px; the rest are 1601px. It stays because it is
+            the only Arabic in the rail and the note above commits to
+            it. Re-export it larger and it drops straight in.
           */
           layout: "plates",
           assets: [],
@@ -1707,17 +1719,32 @@ export const labContent: LabContent = {
               {
                 kind: "image",
                 src: "/work/kiko-melt/social/post-01.webp",
-                alt: "An Arabic-led post reading \"I opened my wallet and found cookie crumbs\" — Loop holding an empty wallet beside a Kiko Melt carton of stacked cookies, with badges reading great decisions and balance: zero",
+                alt: "A post headed The Happy Pair — cookie and coffee made for the moment — a molten chocolate chip cookie on a yellow napkin linked by a red line to a Kiko Melt cup with a red lid",
               },
               {
                 kind: "image",
                 src: "/work/kiko-melt/social/post-02.webp",
-                alt: "A post reading \"My emotional support cookie — do not disturb\", Loop lying face down on a molten chocolate chunk cookie beside a Kiko Melt carry box",
+                alt: "A post reading The Last Cookie — a trust test in a box — two hands reaching into an open red and kraft box for a single molten cookie, with the question Who gets it?",
               },
               {
                 kind: "image",
                 src: "/work/kiko-melt/social/post-03.webp",
-                alt: "An Arabic-led post reading \"If I don't reply, I'm eating\" — Loop's eyes peering over the top of a half-eaten molten cookie",
+                alt: "A post reading \"I'll just have one\" with the caption Narrator: it was never one — Loop hugging a stack of six cookies inside an open Kiko Melt box",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/post-05.webp",
+                alt: "A post reading The box was full five minutes ago — no witnesses, only crumbs — Loop in a detective cap covered in crumbs beside an emptied Kiko Melt carry box, asking for your alibi",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/post-06.webp",
+                alt: "A post reading POV: you said \"we can share\" — Loop sprinting off with the box as a hand grabs at empty air, captioned Loop has left the chat",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/post-09.webp",
+                alt: "An Arabic-led post reading \"I opened my wallet and found cookie crumbs\" — Loop holding an empty wallet beside a Kiko Melt carton of stacked cookies, with badges reading great decisions and balance: zero",
               },
             ],
             stories: [
@@ -1735,6 +1762,16 @@ export const labContent: LabContent = {
                 kind: "image",
                 src: "/work/kiko-melt/social/story-03.webp",
                 alt: "An open-question story reading \"Finish the sentence: I deserve a cookie because...\" — Loop drawing the line with a pencil beside a molten cookie, over a blank answer panel",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/story-04.webp",
+                alt: "A poll story asking \"Be honest. Do you share the last cookie?\" — Loop clutching a cookie away from a reaching hand, with the options Yes, I'm nice and No, it's mine",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/story-05.webp",
+                alt: "A confessions story asking \"What's the most unhinged thing you've done for a cookie?\" — Loop beside a half-eaten molten cookie over a blank answer panel labelled Tell Loop",
               },
             ],
           },
