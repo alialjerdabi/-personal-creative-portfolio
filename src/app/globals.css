@@ -296,6 +296,28 @@
   --color-lab-lime: var(--lab-lime);
   --color-lab-violet: var(--lab-violet);
   --color-lab-cream: var(--lab-cream);
+
+  /*
+   * THE INKS, AS UTILITIES. The fields above are chosen to be seen as
+   * areas; the inks beside them are the same identities solved for
+   * contrast as TYPE, in both grounds. Only the fields had been exposed
+   * to Tailwind, so anything that wanted a project's colour for text had
+   * no choice but to reach for the field and hope.
+   *
+   * It did not hold. Cream as a title set #eeece7 on a #f0efec ground
+   * and Kiko Melt's spread headings were not on the page at all; Qobban's
+   * amber sat near 1.5:1 in light mode, chosen back when the case study
+   * ground was near-black. Both are the same fault and both are fixed by
+   * reading from here instead.
+   */
+  --color-lab-orange-ink: var(--lab-orange-ink);
+  --color-lab-blue-ink: var(--lab-blue-ink);
+  --color-lab-lime-ink: var(--lab-lime-ink);
+  --color-lab-violet-ink: var(--lab-violet-ink);
+  --color-lab-cream-ink: var(--lab-cream-ink);
+  --color-lab-teal-ink: var(--lab-teal-ink);
+  --color-lab-sun-ink: var(--lab-sun-ink);
+  --color-lab-amber-ink: var(--lab-amber-ink);
   --color-lab-teal: var(--lab-teal);
   --color-lab-sun: var(--lab-sun);
   --color-lab-amber: var(--lab-amber);
@@ -1608,6 +1630,55 @@ html[data-aperture-seen="true"] #aperture-loader {
 .lab-channel:focus-visible .lab-channel__arrow {
   transform: translateX(0.4rem);
   color: #fff;
+}
+
+/*
+ * "Add me as a preferred source on Google."
+ *
+ * Google's own drop-in renders a Google-styled button; this is the advanced
+ * SDK bound to one of ours, so the footer stays Ali's. Sized as a quiet
+ * action rather than a CTA — it is a favour to ask of someone who already
+ * likes the work, not a conversion.
+ *
+ * The dot is a marker, not a logo. Google's brand assets are for their own
+ * button, and putting a facsimile of one here would be worse than none.
+ */
+.lab-preferred {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.95rem 0.55rem 0.75rem;
+  border: 1px solid var(--lab-hairline);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-text), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--lab-ink-soft);
+  cursor: pointer;
+  transition:
+    color 240ms ease,
+    border-color 240ms ease;
+}
+
+.lab-preferred:hover,
+.lab-preferred:focus-visible {
+  color: var(--lab-ink-warm);
+  border-color: var(--lab-ink-warm);
+}
+
+.lab-preferred:focus-visible {
+  outline: 2px solid var(--lab-ink-warm);
+  outline-offset: 3px;
+}
+
+.lab-preferred__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--lab-orange);
 }
 
 .lab-footer-link {

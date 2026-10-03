@@ -32,16 +32,29 @@ const FIELD: Record<LabPalette, string> = {
  * Solid titles inherited the page ink, which made the loudest element on
  * every case study the same colour on all of them. The project already
  * owns a colour; this was the one place it was not being spent.
+ *
+ * INKS, NOT FIELDS. These were the field colours, which are solved to be
+ * seen as an area behind dark text — not to BE the text. Two projects
+ * proved it: cream set Kiko Melt's titles in #eeece7 on a #f0efec ground
+ * and they were simply not on the page, and Qobban's amber sits near
+ * 1.5:1 in light mode, a value chosen back when this ground was
+ * near-black. The ink beside each field is the same identity solved for
+ * contrast in both grounds, which is exactly what a title needs.
+ *
+ * Blue and violet are the same value in both maps, so Petrolas and
+ * Sweetest Days do not move. Qobban keeps #f8b800 on the dark ground —
+ * Ali's own choice, sampled from the live site — and gains a readable
+ * #8a6700 on the light one.
  */
 const TITLE: Record<LabPalette, string> = {
-  orange: "text-lab-orange",
-  blue: "text-lab-blue",
-  lime: "text-lab-lime",
-  violet: "text-lab-violet",
-  cream: "text-lab-cream",
-  teal: "text-lab-teal",
-  sun: "text-lab-sun",
-  amber: "text-lab-amber",
+  orange: "text-lab-orange-ink",
+  blue: "text-lab-blue-ink",
+  lime: "text-lab-lime-ink",
+  violet: "text-lab-violet-ink",
+  cream: "text-lab-cream-ink",
+  teal: "text-lab-teal-ink",
+  sun: "text-lab-sun-ink",
+  amber: "text-lab-amber-ink",
 };
 
 /**
