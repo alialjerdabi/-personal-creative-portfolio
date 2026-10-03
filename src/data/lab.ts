@@ -1899,18 +1899,27 @@ export const labContent: LabContent = {
             visitor has to take on trust; this is the one thing they can
             check in a single click, so the page ends on it.
 
-            THE HERO ONLY, AT BOTH SIZES. The store still ships "4.9
-            from 1,240 verified orders" and six named five-star reviews
-            that do not exist — raised with Ali three times now, and
-            his call to link it. What is NOT his call is me putting a
-            photograph of invented testimonials on his portfolio, so
-            both frames are captured above the fold and both were
-            checked, element by element, for that text before they
-            shipped. The reviews begin at y=6888 on desktop; these stop
-            at 900.
+            THE WHOLE LANDING PAGE (Ali, 2026-10-04), 1440x7208, hero
+            through to the footer. The frame was never cropping it —
+            the capture was simply one screen deep.
 
-            Delete that section from alialjerdabi/kiko-melt-store and
-            the whole caveat goes with it.
+            TWO THINGS WERE REMOVED FROM THE DOM BEFORE THE SHUTTER,
+            and the image therefore differs from the live page: the
+            reviews section, and the "4.9 from 1,240 orders · 96%
+            reorder" line sitting in the hero at y=986. Both are
+            invented, MASTER.md already says they must not ship as
+            real, and they are placeholder dummy content rather than
+            design — so taking them out shows the work and ships no
+            fabricated social proof. The capture was then re-scanned,
+            element by element, and came back clean.
+
+            That is a patch over the real problem, which is that the
+            live store still serves both to anyone who clicks through.
+            Delete them from alialjerdabi/kiko-melt-store, redeploy,
+            and this capture can simply be retaken untouched.
+
+            The phone keeps the hero screen: the inset is 9:19 and a
+            full-page mobile capture in it would be a thread.
           */
           label: "10 — Website",
           title: "STORE",
@@ -1920,9 +1929,13 @@ export const labContent: LabContent = {
             url: "https://kiko-melt-store.vercel.app/",
             label: "Open the Kiko Melt store",
             desktop: {
-              src: "/work/kiko-melt/site-desktop.jpg",
-              alt: "The Kiko Melt store on desktop: a red ticker over a cream header, the headline Warm cookies, at your door in 45 minutes with its Arabic line beneath, and a flat-lay of the packaging filling the right half",
+              src: "/work/kiko-melt/site-desktop-full.jpg",
+              alt: "The whole Kiko Melt landing page: a red ticker and cream header, the headline Warm cookies, at your door in 45 minutes beside a flat-lay of the packaging, then the two doors, the cookie menu with prices in Bahraini dinar, the build-your-own-box step, the merch grid, the Collect Your Loops club panel, a four-point service band and a cocoa footer reading Design mockup — not a live store",
               form: "bleed",
+              /* Its own shape. The 16:10 browser default would crop a
+                 full-page capture to its first screen, which is the
+                 thing this replaced. */
+              ratio: "aspect-[1440/7208]",
             },
             mobile: {
               src: "/work/kiko-melt/site-mobile.jpg",
