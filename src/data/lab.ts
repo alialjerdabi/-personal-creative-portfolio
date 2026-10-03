@@ -1899,27 +1899,27 @@ export const labContent: LabContent = {
             visitor has to take on trust; this is the one thing they can
             check in a single click, so the page ends on it.
 
-            THE WHOLE LANDING PAGE (Ali, 2026-10-04), 1440x7208, hero
-            through to the footer. The frame was never cropping it —
-            the capture was simply one screen deep.
+            THE HERO SCREEN, WHOLE (Ali, 2026-10-04). Not one screen
+            cut at 900px, and not the full 7208px page either — the
+            hero exactly as it stands, header through to the wave that
+            closes it at y=1171, which is the frame Ali drew on.
 
-            TWO THINGS WERE REMOVED FROM THE DOM BEFORE THE SHUTTER,
-            and the image therefore differs from the live page: the
-            reviews section, and the "4.9 from 1,240 orders · 96%
-            reorder" line sitting in the hero at y=986. Both are
-            invented, MASTER.md already says they must not ship as
-            real, and they are placeholder dummy content rather than
-            design — so taking them out shows the work and ships no
-            fabricated social proof. The capture was then re-scanned,
-            element by element, and came back clean.
+            ONE THING WAS REMOVED BEFORE THE SHUTTER, so the image
+            differs from the live page by a single line: the "4.9 from
+            1,240 orders · 96% reorder" rating under the buttons at
+            y=986. It is invented, MASTER.md already says so, and it is
+            placeholder dummy content rather than design. Its absence
+            leaves a small gap under the CTA row and that is the whole
+            cost. The clip was re-scanned element by element afterwards
+            and came back clean.
 
-            That is a patch over the real problem, which is that the
-            live store still serves both to anyone who clicks through.
-            Delete them from alialjerdabi/kiko-melt-store, redeploy,
-            and this capture can simply be retaken untouched.
+            That is a patch over the real problem: the live store still
+            serves that line, and six invented reviews further down, to
+            anyone who clicks through. Delete them from
+            alialjerdabi/kiko-melt-store, redeploy, and this capture
+            can be retaken untouched.
 
-            The phone keeps the hero screen: the inset is 9:19 and a
-            full-page mobile capture in it would be a thread.
+            The phone carries the same hero at 390.
           */
           label: "10 — Website",
           title: "STORE",
@@ -1929,13 +1929,13 @@ export const labContent: LabContent = {
             url: "https://kiko-melt-store.vercel.app/",
             label: "Open the Kiko Melt store",
             desktop: {
-              src: "/work/kiko-melt/site-desktop-full.jpg",
-              alt: "The whole Kiko Melt landing page: a red ticker and cream header, the headline Warm cookies, at your door in 45 minutes beside a flat-lay of the packaging, then the two doors, the cookie menu with prices in Bahraini dinar, the build-your-own-box step, the merch grid, the Collect Your Loops club panel, a four-point service band and a cocoa footer reading Design mockup — not a live store",
+              src: "/work/kiko-melt/site-desktop.jpg",
+              alt: "The Kiko Melt store hero: a red ticker over a cream header, the headline Warm cookies, at your door in 45 minutes with its Arabic line beneath, an Order the Melt Box button at 7.500 BD beside Build your own, and a flat-lay of the full packaging range filling the right half",
               form: "bleed",
-              /* Its own shape. The 16:10 browser default would crop a
-                 full-page capture to its first screen, which is the
-                 thing this replaced. */
-              ratio: "aspect-[1440/7208]",
+              /* Its own shape. The 16:10 browser default would cut the
+                 CTA row and the wave off the bottom, which is the crop
+                 this replaced. */
+              ratio: "aspect-[1440/1171]",
             },
             mobile: {
               src: "/work/kiko-melt/site-mobile.jpg",
