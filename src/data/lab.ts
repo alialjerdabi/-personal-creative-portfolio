@@ -1671,15 +1671,16 @@ export const labContent: LabContent = {
               src: "/work/kiko-melt/menu-boards.jpg",
               alt: "The three Kiko Melt menu boards laid out flat on cream — bakery in red, cookies in yellow, drinks in powder blue — under the word MENU with Loop in a baker's apron",
               form: "plate",
-              /* The artwork itself, landscape, rather than the
-                 presentation board that photographs it. */
+              /*
+                THE ARTWORK ITSELF, ALONE (Ali, 2026-10-04). The
+                presentation board that photographed it stood beside
+                this and won the space while saying less — a picture of
+                a menu next to the menu. Landscape and on its own, the
+                plate takes the whole row, which is the first time the
+                bilingual price lists are actually readable on this
+                page.
+              */
               ratio: "aspect-[2000/1351]",
-            },
-            {
-              src: "/work/kiko-melt/menu.jpg",
-              alt: "The Kiko Melt menu boards shown in use, held above a red cookie box",
-              form: "plate",
-              ratio: "aspect-[3/4]",
             },
           ],
         },

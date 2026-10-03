@@ -229,6 +229,23 @@ function Bento({
   );
 }
 
+/**
+ * Is this asset wider than it is tall?
+ *
+ * Read off the Tailwind class `ratio` already carries — `aspect-[3/4]`,
+ * `aspect-[2000/1351]`, `aspect-square`. A second field on LabAsset
+ * saying the same thing twice is a field that will one day disagree
+ * with itself. No ratio means the layout's own default, which is the
+ * 2:3 plate, so portrait.
+ */
+function isLandscape(ratio?: string): boolean {
+  if (!ratio) return false;
+  if (ratio === "aspect-video") return true;
+  const pair = ratio.match(/aspect-\[(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)\]/);
+  if (!pair) return false;
+  return Number(pair[1]) > Number(pair[2]);
+}
+
 function SpreadAssets({
   spread,
   palette,
@@ -250,15 +267,31 @@ function SpreadAssets({
        things to show should show two; the three labelled slots are for a
        spread that has nothing yet and needs its shape judged. */
     const cells = spread.assets.length ? spread.assets.slice(0, 3) : [first, second, third];
-    /* A LONE PLATE GETS HALF THE ROW, not a third. Kiko Melt's colour
-       board is six swatches with their hex values set small; at a third
-       of the column they were about 7px tall and the artefact became a
-       picture of an artefact. Nothing else in the data has a one-asset
-       plates spread, so this widens that case and leaves two and three
-       exactly where they were. */
-    const columns = cells.length <= 2 ? "sm:grid-cols-2" : "sm:grid-cols-3";
-    const sizes =
-      cells.length <= 2 ? "(max-width: 640px) 90vw, 45vw" : "(max-width: 640px) 90vw, 30vw";
+    /*
+     * A LONE PLATE IS SIZED BY ITS OWN SHAPE, not by the grid's habit.
+     *
+     * At a third of the column, Kiko Melt's colour board set its hex
+     * values about 7px tall and the artefact became a picture of an
+     * artefact; its menu artwork, which is landscape, was a postage
+     * stamp with a bilingual price list in it. But the two do not want
+     * the same answer — a 3:4 board run full width is a wall, and a
+     * 3:2 board at half width is still too small to read.
+     *
+     * So: alone and landscape, take the row; alone and portrait, take
+     * half of it. Two and three are untouched.
+     */
+    const lone = cells.length === 1 ? cells[0] : undefined;
+    const loneIsWide = lone ? isLandscape(lone.ratio) : false;
+    const columns = loneIsWide
+      ? "sm:grid-cols-1"
+      : cells.length <= 2
+        ? "sm:grid-cols-2"
+        : "sm:grid-cols-3";
+    const sizes = loneIsWide
+      ? "92vw"
+      : cells.length <= 2
+        ? "(max-width: 640px) 90vw, 45vw"
+        : "(max-width: 640px) 90vw, 30vw";
     return (
       <div className={`grid gap-6 sm:gap-8 ${columns}`}>
         {cells.map((asset, index) => (
