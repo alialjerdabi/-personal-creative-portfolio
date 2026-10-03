@@ -1892,6 +1892,46 @@ export const labContent: LabContent = {
             },
           ],
         },
+        {
+          id: "store",
+          /*
+            LAST, AND DELIBERATELY SO. Everything above it is a claim a
+            visitor has to take on trust; this is the one thing they can
+            check in a single click, so the page ends on it.
+
+            THE HERO ONLY, AT BOTH SIZES. The store still ships "4.9
+            from 1,240 verified orders" and six named five-star reviews
+            that do not exist — raised with Ali three times now, and
+            his call to link it. What is NOT his call is me putting a
+            photograph of invented testimonials on his portfolio, so
+            both frames are captured above the fold and both were
+            checked, element by element, for that text before they
+            shipped. The reviews begin at y=6888 on desktop; these stop
+            at 900.
+
+            Delete that section from alialjerdabi/kiko-melt-store and
+            the whole caveat goes with it.
+          */
+          label: "10 — Website",
+          title: "STORE",
+          note: "A storefront built on three rules: one red thing per screen, because red takes money and nothing else; never more than three choices at a single decision; and the price always touches the button. Bilingual, baked-to-order rather than stocked — the headline sells the forty-five minutes, not the cookie.",
+          layout: "bleeds",
+          site: {
+            url: "https://kiko-melt-store.vercel.app/",
+            label: "Open the Kiko Melt store",
+            desktop: {
+              src: "/work/kiko-melt/site-desktop.jpg",
+              alt: "The Kiko Melt store on desktop: a red ticker over a cream header, the headline Warm cookies, at your door in 45 minutes with its Arabic line beneath, and a flat-lay of the packaging filling the right half",
+              form: "bleed",
+            },
+            mobile: {
+              src: "/work/kiko-melt/site-mobile.jpg",
+              alt: "The same store on a phone: the packaging photograph on top, the headline and Arabic beneath it, and a single red button reading Order the Melt Box with its price fixed to the bottom of the screen",
+              form: "bleed",
+            },
+          },
+          assets: [],
+        },
       ],
     },
     /*
