@@ -1516,6 +1516,214 @@ export const labContent: LabContent = {
       summary:
         "A shawarma business that needed to taste like something before you ate it — an identity carried through packaging and uniforms so the promise of quality and generous portions shows up at the counter.",
     },
+    /*
+      KIKO MELT — 2026-10-03.
+
+      NOT A CLIENT PROJECT, and the copy has to keep saying so. Ali's
+      instruction the day this was added: treat it as a case study, not
+      as commissioned work. Every other project on this page was paid
+      for by the business named on it; this one was not, and a visitor
+      who cannot tell the difference has been misled by omission. The
+      summary leads with "Self-initiated" for that reason and the lede
+      is not to be trimmed to make the list read more evenly.
+
+      Cream, because cream and violet were the two field colours no
+      project owned, the brand's own ground is cream, and a cookie brand
+      is not violet.
+
+      PUBLISHED on Ali's call, 2026-10-03 — `wip` was set and he took it
+      off knowingly. Two things were open when he did, and they are
+      still open: the Arabic across the social plate, the menu and the
+      packaging was drafted by Claude and has not been read by anyone
+      who reads Arabic, and all five boards label themselves "KIKI
+      MELT" in the corner while the wordmark says KIKO. Re-export fixes
+      the second; only Ali fixes the first.
+
+      `live` points at the store, which he supplied himself the same
+      day. It is a concept store for a concept brand, which is fair to
+      show as long as nothing calls it a client's — and the summary
+      does not.
+
+      IT STILL CARRIES INVENTED SOCIAL PROOF. index.html in
+      alialjerdabi/kiko-melt-store ships "4.9 from 1,240 orders · 96%
+      reorder" and six named five-star reviews — Noor A., Hussain M.,
+      Layla S., Dana K., Ahmed R., Fatima A. None of them exist, and
+      MASTER.md already says they must not ship as real. This link
+      sends a prospective client straight at them. Raised twice; Ali's
+      call to link it anyway. Delete that section, redeploy, and the
+      objection goes away — until then the honest fix is at the store,
+      not here.
+    */
+    {
+      slug: "kiko-melt",
+      name: "Kiko Melt",
+      palette: "cream",
+      disciplines: ["Branding", "Social & campaigns", "Websites"],
+      year: "2026",
+      sector: "Bakery & desserts",
+      live: "https://kiko-melt-store.vercel.app",
+      summary:
+        "Self-initiated, not a client job. A cookie and bakery brand carried by Loop — one red stroke that reads as a bird — across the wordmark, the packaging, the menu, the merch and the social.",
+      cover: {
+        src: "/work/kiko-melt/cover.jpg",
+        alt: "Kiko Melt packaging on a cream ground: a red cookie box, a paper bag in Arabic and English, a cup carrying the Loop bird, and a chocolate chip cookie on branded wrap",
+        form: "bleed",
+      },
+      /*
+        Five plates, one spread each. They are designed boards with
+        their own typography and footer credits, so every one is a
+        `plate` at its native 3:4 — bleeding a poster full-width puts
+        its type in a fight with the page's own, and cropping it to the
+        2:3 the layout would otherwise impose cuts the credit line off.
+      */
+      spreads: [
+        {
+          id: "identity",
+          label: "01 — Brand identity",
+          title: "MARK",
+          note: "A wordmark with a smile cut into the O, and Loop — a single continuous red stroke that resolves into a bird with powder-blue feet. One drawing does the mascot, the icon and the seal.",
+          layout: "plates",
+          assets: [
+            {
+              src: "/work/kiko-melt/identity.jpg",
+              alt: "The Kiko Melt lockup in red on cream above the packaging set: cookie box, paper bag, cup, branded wrap and a cut-out of the Loop mascot",
+              form: "plate",
+              ratio: "3 / 4",
+            },
+          ],
+        },
+        {
+          id: "packaging",
+          label: "02 — Packaging",
+          title: "CUPS",
+          note: "The same mark at three temperatures — cream with a red lid, blue with the wordmark outlined, yellow carrying Loop at full size. Colour does the flavour coding so the cup never needs a label.",
+          layout: "plates",
+          assets: [
+            {
+              src: "/work/kiko-melt/cups.jpg",
+              alt: "Three Kiko Melt takeaway cups on a red ground: cream with a red lid and red wordmark, powder blue with an outlined wordmark, and yellow carrying the red Loop bird",
+              form: "plate",
+              ratio: "3 / 4",
+            },
+          ],
+        },
+        {
+          id: "menu",
+          label: "03 — Menu",
+          title: "MENU",
+          note: "Three boards, three colours, three decisions — bakery, cookies, drinks — each in Arabic and English with the item and its price on one line. Prices sit at zeros in the artwork — there is no client here to set them, and a made-up number on a menu board is still a made-up number.",
+          layout: "plates",
+          assets: [
+            {
+              src: "/work/kiko-melt/menu.jpg",
+              alt: "Three Kiko Melt menu boards in red, yellow and powder blue — bakery, cookies and drinks — each bilingual with illustrated hero items, held above a red cookie box",
+              form: "plate",
+              ratio: "3 / 4",
+            },
+          ],
+        },
+        {
+          id: "social",
+          label: "04 — Social & campaigns",
+          title: "SOCIAL",
+          note: "The identity at post scale, where most of a local audience meets a cookie brand: a pull-apart shot, a two-way poll, a fill-in-the-blank, and Arabic-led lines that work as messages before they work as ads.",
+          layout: "plates",
+          assets: [
+            {
+              src: "/work/kiko-melt/social.jpg",
+              alt: "Six Kiko Melt social posts laid out on a dark cocoa ground — a cookie pulled apart, a poll asking what Loop does next, a fill-in-the-blank card, and three Arabic-led posts",
+              form: "plate",
+              ratio: "3 / 4",
+            },
+          ],
+        },
+        {
+          id: "merch",
+          label: "05 — Merch",
+          title: "MERCH",
+          note: "Stickers and enamel pins built from the same drawings — an iced chocolate, a filled cookie, the smile on its own, and Loop in an apron. The parts of a brand a customer chooses to carry.",
+          layout: "plates",
+          assets: [
+            {
+              src: "/work/kiko-melt/merch.jpg",
+              alt: "Kiko Melt stickers on a blue laptop lid and a cream bottle, with matching enamel pins on a brown tote, beside a chocolate chip cookie on a plate",
+              form: "plate",
+              ratio: "3 / 4",
+            },
+          ],
+        },
+      ],
+    },
+    /*
+      SWEETEST DAYS — 2026-10-03. A real client, unlike the one above.
+
+      The site is live and was captured from it at 1440 and at 390 the
+      day this was written; those two screenshots are the whole of the
+      evidence so far. Violet because it was the last field colour free
+      and the brand's own accent is magenta.
+
+      PUBLISHED on Ali's call, 2026-10-03. `disciplines` lists Websites
+      only, and the identity spread below says "In development." rather
+      than going quiet about it — this is one discipline of a job that
+      is still running, and the page has to read that way or it
+      describes the engagement wrongly.
+
+      The cover is a browser capture, not a designed presentation shot
+      like Qobban's. It is honest and it is a placeholder; swap it the
+      moment there is a mockup to swap in.
+    */
+    {
+      slug: "sweetest-days",
+      name: "Sweetest Days",
+      palette: "violet",
+      disciplines: ["Websites"],
+      year: "2026",
+      sector: "Children's parties & events",
+      live: "https://sweetest-days.com",
+      summary:
+        "A children's party and events business in Bahrain — given an Arabic-first site where a parent answers three questions and is shown the games that fit their party, instead of being handed a rental catalogue to sort out themselves.",
+      cover: {
+        src: "/work/sweetest-days/site-desktop.jpg",
+        alt: "The Sweetest Days homepage in Arabic: the headline over photographs of a garden swing set, a candy-themed bouncy castle and a children's train, beside a three-question party planner",
+        form: "bleed",
+      },
+      
+      spreads: [
+        {
+          id: "site",
+          label: "01 — Website",
+          title: "SITE",
+          note: "Arabic-led and right to left, built around a three-question planner rather than a catalogue: the occasion, then the fit, then the games that suit it — no registration and no payment to get an answer.",
+          layout: "bleeds",
+          site: {
+            url: "https://sweetest-days.com",
+            label: "Open sweetest-days.com",
+            desktop: {
+              src: "/work/sweetest-days/site-desktop.jpg",
+              alt: "The Sweetest Days homepage on desktop in Arabic, the planner's first question open beside photographs of the rides",
+              form: "bleed",
+            },
+            mobile: {
+              src: "/work/sweetest-days/site-mobile.jpg",
+              alt: "The Sweetest Days homepage on a phone, the Arabic headline and the planner stacked for one thumb",
+              form: "bleed",
+            },
+          },
+          assets: [],
+        },
+        {
+          id: "identity",
+          label: "02 — Brand identity",
+          title: "MARK",
+          /* Written ahead of its imagery on purpose — the spread renders
+             its pending panel until the branding is finished, which is
+             the state this job is actually in. */
+          note: "In development.",
+          layout: "plates",
+          assets: [],
+        },
+      ],
+    },
   ],
 
   services: {
