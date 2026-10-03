@@ -1637,7 +1637,7 @@ export const labContent: LabContent = {
           id: "packaging",
           label: "03 — Packaging",
           title: "CUPS",
-          note: "A box, a bag, a wrap and a cup, then the same mark at three temperatures — cream with a red lid, blue with the wordmark outlined, yellow carrying Loop at full size. Colour does the flavour coding so the cup never needs a label.",
+          note: "A box, a bag, a wrap and a cup, then the same mark at three temperatures — cream with a red lid, blue with the wordmark outlined, yellow carrying Loop at full size. Colour does the flavour coding so the cup never needs a label, and the sheet behind it draws every piece flat, down to the tamper strip and the freshness seal.",
           layout: "plates",
           assets: [
             {
@@ -1651,6 +1651,12 @@ export const labContent: LabContent = {
               alt: "Three Kiko Melt takeaway cups on a red ground: cream with a red lid and red wordmark, powder blue with an outlined wordmark, and yellow carrying the red Loop bird",
               form: "plate",
               ratio: "aspect-[3/4]",
+            },
+            {
+              src: "/work/kiko-melt/packaging-system.jpg",
+              alt: "The packaging system drawn flat under the line Packed With Good Mood — three takeaway cups in cherry, powder blue and butter yellow, a closed and open cookie box with its side panel, a window bag, a baked-today freshness seal, a flavour label, a tamper strip and the greaseproof paper pattern",
+              form: "plate",
+              ratio: "aspect-[1621/2000]",
             },
           ],
         },
@@ -1778,20 +1784,41 @@ export const labContent: LabContent = {
         },
         {
           id: "merch",
-          label: "06 — Merch & loyalty",
-          title: "LOOPS",
-          note: "Stickers, enamel pins, acrylic keyrings, and a card that asks for six loops before it gives anything back. The parts of a brand a customer chooses to carry, which is a harder thing to earn than a logo on a bag.",
+          label: "06 — Merch",
+          title: "MERCH",
+          note: "Six drawings that have to work at 30mm and still read: the iced chocolate, the smile on its own, the filled cookie, a heart with a bite out of it, the takeaway bag, and Loop in a baker's apron. Then the same six on a laptop lid, a bottle and a tote — the parts of a brand a customer chooses to carry, which is harder to earn than a logo on a bag.",
           layout: "plates",
           assets: [
+            {
+              src: "/work/kiko-melt/stickers.jpg",
+              alt: "The Kiko Melt sticker and pin artwork laid out on cream: an iced chocolate with a looped blue straw, the red smile, a filled cookie sandwich, a dripping heart with a bite taken out, a takeaway bag with a blue smile, and Loop in a baker's apron holding a cookie",
+              form: "plate",
+              ratio: "aspect-[3/4]",
+            },
             {
               src: "/work/kiko-melt/merch.jpg",
               alt: "Kiko Melt stickers on a blue laptop lid and a cream bottle, with matching enamel pins on a brown tote, beside a chocolate chip cookie on a plate",
               form: "plate",
               ratio: "aspect-[3/4]",
             },
+          ],
+        },
+        {
+          id: "club",
+          label: "07 — Loyalty",
+          title: "CLUB",
+          note: "The Melt Club: a red card on one side, six empty loops on the other, and a rule simple enough to say at the counter — six loops, one happy treat. The first loop is already stamped, because a card that starts at zero is a card that gets left in the bag.",
+          layout: "plates",
+          assets: [
+            {
+              src: "/work/kiko-melt/loyalty-card.jpg",
+              alt: "The Kiko Melt loyalty card artwork — a red front reading The Melt Club with Loop, and a cream back headed Collect Your Loops with a member line, six stamp circles joined by a yellow thread and the rule six loops equals one happy treat",
+              form: "plate",
+              ratio: "aspect-[3/4]",
+            },
             {
               src: "/work/kiko-melt/loyalty.jpg",
-              alt: "A red Kiko Melt member card in a leather wallet beside a Collect Your Loops stamp card reading six loops equals one happy treat, with Loop and oven-mitt acrylic keyrings on a set of keys",
+              alt: "A red Kiko Melt member card in a leather wallet beside the Collect Your Loops stamp card, with Loop and oven-mitt acrylic keyrings on a set of keys",
               form: "plate",
               ratio: "aspect-[3/4]",
             },
@@ -1809,7 +1836,7 @@ export const labContent: LabContent = {
             written to prevent. The line does not come off until there
             is a shop to photograph.
           */
-          label: "07 — In the shop",
+          label: "08 — In the shop",
           title: "SHOP",
           note: "Visualisations, not photographs — there is no Kiko Melt shop to stand outside. This is the system taken as far as it goes: a cream and red facade under a butter-yellow canopy, a crew in red with Loop across their backs, and the drink the counter is built to sell.",
           layout: "plates",
