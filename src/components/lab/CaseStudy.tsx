@@ -237,12 +237,17 @@ function SpreadAssets({
        things to show should show two; the three labelled slots are for a
        spread that has nothing yet and needs its shape judged. */
     const cells = spread.assets.length ? spread.assets.slice(0, 3) : [first, second, third];
+    /* A LONE PLATE GETS HALF THE ROW, not a third. Kiko Melt's colour
+       board is six swatches with their hex values set small; at a third
+       of the column they were about 7px tall and the artefact became a
+       picture of an artefact. Nothing else in the data has a one-asset
+       plates spread, so this widens that case and leaves two and three
+       exactly where they were. */
+    const columns = cells.length <= 2 ? "sm:grid-cols-2" : "sm:grid-cols-3";
+    const sizes =
+      cells.length <= 2 ? "(max-width: 640px) 90vw, 45vw" : "(max-width: 640px) 90vw, 30vw";
     return (
-      <div
-        className={`grid gap-6 sm:gap-8 ${
-          cells.length === 2 ? "sm:grid-cols-2" : "sm:grid-cols-3"
-        }`}
-      >
+      <div className={`grid gap-6 sm:gap-8 ${columns}`}>
         {cells.map((asset, index) => (
           <Reveal
             key={asset?.src ?? `plate-${index}`}
@@ -252,7 +257,7 @@ function SpreadAssets({
           >
             <Plate
               asset={asset}
-              sizes="(max-width: 640px) 90vw, 30vw"
+              sizes={sizes}
               palette={palette}
               label={`${String(index + 1).padStart(2, "0")} · Poster 2:3`}
             />

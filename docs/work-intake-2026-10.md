@@ -14,15 +14,23 @@ is load-bearing. Every other project on `/work` was paid for by the business
 named on it, and a visitor who cannot tell the difference has been misled by
 omission.
 
-**Built:** cover plus five spreads — Mark, Cups, Menu, Social, Merch — from the
-five boards supplied. They are 3:4 designed plates with their own typography
-and footer credits, so each is a `plate` at its native ratio rather than
-bleeding full-width or being cropped to the 2:3 the layout would otherwise
-impose.
+**Built:** cover plus seven spreads — Mark, Field, Cups, Menu, Social, Loops,
+Shop — from the boards supplied on 3 October.
 
-The cover is cut from the identity board: a 16:11 window across the packaging
-shelf, stopping above the footer credit line. Copies of the five boards live in
-`public/work/kiko-melt/`.
+The three logo colourways were cut out of the single 9:20 sheet: as one tall
+plate it stood 1200px beside a 720px neighbour and the row stopped reading as a
+row. Two of the files sent were lower-resolution copies of boards already in
+(`cups`, `merch`) and were dropped in favour of the 1932px versions; the bare
+wordmark PNG was dropped too, since the three colourways say the same thing
+better. Everything else is placed.
+
+Two defects fixed on the way through. `ratio` on a LabAsset is a **Tailwind
+class**, not a CSS ratio — the five plates shipped on 3 October carried
+`ratio: "3 / 4"`, which is not a class, so they all rendered at the default 2:3
+and were cropping the boards. They are `aspect-[3/4]` now. And a lone plate in
+a `plates` spread was taking a third of the row, which made the colour board's
+hex values about 7px tall; one asset now takes half the row. No other project
+has a one-asset plates spread, so nothing else moved.
 
 ### Three things before this publishes
 
@@ -36,10 +44,13 @@ shelf, stopping above the footer credit line. Copies of the five boards live in
 2. **The Arabic is unread by you.** It runs across the social board, the menu
    and the packaging, drafted by Claude, never checked by anyone who reads it.
    This is why `wip` is set.
-3. **The boards say `KIKI MELT / BRAND IDENTITY` in the top-right corner.** All
-   five. The wordmark says KIKO. Fix at source and re-export; these are
-   portfolio boards and a typo in the project label is the first thing an art
-   director's eye lands on.
+3. **The boards say `KIKI MELT / BRAND IDENTITY` in the top-right corner.** The
+   wordmark says KIKO. Fix at source and re-export at the same filenames and I
+   will swap them in; these are portfolio boards and a typo in the project
+   label is the first thing an art director's eye lands on.
+4. **The shop, uniform and drink frames are visualisations, not photographs.**
+   MASTER.md says so and the spread note now says so too, in its first
+   sentence. That line comes off only when there is a shop to photograph.
 
 Still in `creative/campaigns/kiko-melt/` and unused here: around 380 files,
 including the exports decks and the Behance set. Worth mining when the case

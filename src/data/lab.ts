@@ -1581,50 +1581,97 @@ export const labContent: LabContent = {
           id: "identity",
           label: "01 — Brand identity",
           title: "MARK",
-          note: "A wordmark with a smile cut into the O, and Loop — a single continuous red stroke that resolves into a bird with powder-blue feet. One drawing does the mascot, the icon and the seal.",
+          note: "A wordmark with a smile cut into the O, and Loop — a single continuous red stroke that resolves into a bird with powder-blue feet. One drawing does the mascot, the icon and the seal, and it holds in red on cream, cream on red and white on cocoa without being redrawn for any of them.",
+          layout: "plates",
+          /*
+            Cut from the single 9:20 colourway sheet Ali supplied. As one
+            tall plate it stood 1200px beside a 720px neighbour and the
+            row stopped reading as a row; as three it is what the sheet
+            was always arguing — one drawing, three grounds, no redraw.
+          */
+          assets: [
+            {
+              src: "/work/kiko-melt/logo-on-cream.webp",
+              alt: "The Kiko Melt lockup in melt red on a warm cream ground, the smile cut into the O",
+              form: "plate",
+              ratio: "aspect-[45/32]",
+            },
+            {
+              src: "/work/kiko-melt/logo-on-red.webp",
+              alt: "The Kiko Melt lockup in cream on a melt red ground, the smile showing the red through the O",
+              form: "plate",
+              ratio: "aspect-[45/32]",
+            },
+            {
+              src: "/work/kiko-melt/logo-on-cocoa.webp",
+              alt: "The Kiko Melt lockup in soft white on a dark cocoa ground",
+              form: "plate",
+              ratio: "aspect-[45/32]",
+            },
+          ],
+        },
+        {
+          id: "colour",
+          label: "02 — Colour",
+          title: "FIELD",
+          note: "Six values and a rule for spending them: melt red takes the money and nothing else, cream is the ground, and cocoa does the reading. Butter yellow and powder blue are the brand's room to play without ever becoming the brand.",
           layout: "plates",
           assets: [
             {
-              src: "/work/kiko-melt/identity.jpg",
-              alt: "The Kiko Melt lockup in red on cream above the packaging set: cookie box, paper bag, cup, branded wrap and a cut-out of the Loop mascot",
+              src: "/work/kiko-melt/palette.webp",
+              alt: "The Kiko Melt colour board: melt red #C9162B, warm cream #F7E8C3, butter yellow #F3C94F, powder blue #B7D1E5, dark cocoa #43251B and soft white #FFFDF7, each named with its hex value",
               form: "plate",
-              ratio: "3 / 4",
+              ratio: "aspect-[3/4]",
             },
           ],
         },
         {
           id: "packaging",
-          label: "02 — Packaging",
+          label: "03 — Packaging",
           title: "CUPS",
-          note: "The same mark at three temperatures — cream with a red lid, blue with the wordmark outlined, yellow carrying Loop at full size. Colour does the flavour coding so the cup never needs a label.",
+          note: "A box, a bag, a wrap and a cup, then the same mark at three temperatures — cream with a red lid, blue with the wordmark outlined, yellow carrying Loop at full size. Colour does the flavour coding so the cup never needs a label.",
           layout: "plates",
           assets: [
+            {
+              src: "/work/kiko-melt/identity.jpg",
+              alt: "The Kiko Melt packaging set on cream: a red cookie box, a bilingual paper bag, a cup carrying Loop, branded wrap and a cut-out of the mascot",
+              form: "plate",
+              ratio: "aspect-[3/4]",
+            },
             {
               src: "/work/kiko-melt/cups.jpg",
               alt: "Three Kiko Melt takeaway cups on a red ground: cream with a red lid and red wordmark, powder blue with an outlined wordmark, and yellow carrying the red Loop bird",
               form: "plate",
-              ratio: "3 / 4",
+              ratio: "aspect-[3/4]",
             },
           ],
         },
         {
           id: "menu",
-          label: "03 — Menu",
+          label: "04 — Menu",
           title: "MENU",
-          note: "Three boards, three colours, three decisions — bakery, cookies, drinks — each in Arabic and English with the item and its price on one line. Prices sit at zeros in the artwork — there is no client here to set them, and a made-up number on a menu board is still a made-up number.",
+          note: "Three boards, three colours, three decisions — bakery, cookies, drinks — each bilingual with the item and its price on one line. Prices sit at zeros in the artwork; there is no client here to set them, and a made-up number on a menu board is still a made-up number.",
           layout: "plates",
           assets: [
             {
-              src: "/work/kiko-melt/menu.jpg",
-              alt: "Three Kiko Melt menu boards in red, yellow and powder blue — bakery, cookies and drinks — each bilingual with illustrated hero items, held above a red cookie box",
+              src: "/work/kiko-melt/menu-boards.jpg",
+              alt: "The three Kiko Melt menu boards laid out flat on cream — bakery in red, cookies in yellow, drinks in powder blue — under the word MENU with Loop in a baker's apron",
               form: "plate",
-              ratio: "3 / 4",
+              /* The artwork itself, landscape, rather than the
+                 presentation board that photographs it. */
+              ratio: "aspect-[2000/1351]",
+            },
+            {
+              src: "/work/kiko-melt/menu.jpg",
+              alt: "The Kiko Melt menu boards shown in use, held above a red cookie box",
+              form: "plate",
+              ratio: "aspect-[3/4]",
             },
           ],
         },
         {
           id: "social",
-          label: "04 — Social & campaigns",
+          label: "05 — Social & campaigns",
           title: "SOCIAL",
           note: "The identity at post scale, where most of a local audience meets a cookie brand: a pull-apart shot, a two-way poll, a fill-in-the-blank, and Arabic-led lines that work as messages before they work as ads.",
           layout: "plates",
@@ -1633,22 +1680,65 @@ export const labContent: LabContent = {
               src: "/work/kiko-melt/social.jpg",
               alt: "Six Kiko Melt social posts laid out on a dark cocoa ground — a cookie pulled apart, a poll asking what Loop does next, a fill-in-the-blank card, and three Arabic-led posts",
               form: "plate",
-              ratio: "3 / 4",
+              ratio: "aspect-[3/4]",
             },
           ],
         },
         {
           id: "merch",
-          label: "05 — Merch",
-          title: "MERCH",
-          note: "Stickers and enamel pins built from the same drawings — an iced chocolate, a filled cookie, the smile on its own, and Loop in an apron. The parts of a brand a customer chooses to carry.",
+          label: "06 — Merch & loyalty",
+          title: "LOOPS",
+          note: "Stickers, enamel pins, acrylic keyrings, and a card that asks for six loops before it gives anything back. The parts of a brand a customer chooses to carry, which is a harder thing to earn than a logo on a bag.",
           layout: "plates",
           assets: [
             {
               src: "/work/kiko-melt/merch.jpg",
               alt: "Kiko Melt stickers on a blue laptop lid and a cream bottle, with matching enamel pins on a brown tote, beside a chocolate chip cookie on a plate",
               form: "plate",
-              ratio: "3 / 4",
+              ratio: "aspect-[3/4]",
+            },
+            {
+              src: "/work/kiko-melt/loyalty.jpg",
+              alt: "A red Kiko Melt member card in a leather wallet beside a Collect Your Loops stamp card reading six loops equals one happy treat, with Loop and oven-mitt acrylic keyrings on a set of keys",
+              form: "plate",
+              ratio: "aspect-[3/4]",
+            },
+          ],
+        },
+        {
+          id: "shop",
+          /*
+            APPLICATION VISUALS, AND THE NOTE SAYS SO IN ITS FIRST
+            SENTENCE. MASTER.md is explicit: the retail, interior and
+            uniform frames are visualisations, not photographs — there
+            is no Kiko Melt shop. On a self-initiated project shown
+            beside real client work, a shopfront a visitor reads as
+            built is the exact misunderstanding this whole entry is
+            written to prevent. The line does not come off until there
+            is a shop to photograph.
+          */
+          label: "07 — In the shop",
+          title: "SHOP",
+          note: "Visualisations, not photographs — there is no Kiko Melt shop to stand outside. This is the system taken as far as it goes: a cream and red facade under a butter-yellow canopy, a crew in red with Loop across their backs, and the drink the counter is built to sell.",
+          layout: "plates",
+          assets: [
+            {
+              src: "/work/kiko-melt/storefront.jpg",
+              alt: "A visualisation of a Kiko Melt shopfront on a sunlit street: red wordmark on cream above a butter-yellow canopy, powder-blue doors, red tiling and Loop on the window, with two women walking past",
+              form: "plate",
+              ratio: "aspect-[3/4]",
+            },
+            {
+              src: "/work/kiko-melt/uniform.webp",
+              alt: "A visualisation of crew uniform from behind — a red tee carrying the cream wordmark and Loop, with a red cap, in a bakery kitchen under a Melt Into Happy wall panel",
+              form: "plate",
+              ratio: "aspect-[3/4]",
+            },
+            {
+              src: "/work/kiko-melt/drink.jpg",
+              alt: "A visualisation of an iced Kiko Melt drink being poured at the counter, the cup carrying the wordmark and Loop, with sticker art floating beside it",
+              form: "plate",
+              ratio: "aspect-[3/4]",
             },
           ],
         },
