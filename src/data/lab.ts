@@ -112,8 +112,16 @@ export interface LabShowreel {
   posts: LabMedia[];
   /** 9:16, up to five. */
   stories: LabMedia[];
-  /** 16:9. */
-  films: LabMedia[];
+  /**
+   * 16:9. OPTIONAL, unlike posts and stories.
+   *
+   * A short rail says "there are more of these"; an empty film screen
+   * says "there is a film and it failed to load". Kiko Melt's social is
+   * stills only and always was, so the band leaves the section out
+   * rather than labelling a hole. Omit it where there is no film;
+   * declare it the moment there is one.
+   */
+  films?: LabMedia[];
 }
 
 /**
@@ -1673,16 +1681,63 @@ export const labContent: LabContent = {
           id: "social",
           label: "05 — Social & campaigns",
           title: "SOCIAL",
-          note: "The identity at post scale, where most of a local audience meets a cookie brand: a pull-apart shot, a two-way poll, a fill-in-the-blank, and Arabic-led lines that work as messages before they work as ads.",
+          note: "The identity at post scale, where most of a local audience meets a cookie brand: a cookie pulled apart, a poll that makes Loop the one with the decision to make, a fill-in-the-blank the audience finishes, and Arabic-led lines that work as messages before they work as ads.",
+          /*
+            THE SHOWREEL BAND, as Qobban's social spread uses (Ali,
+            2026-10-03). `assets` is empty and stays empty — the band
+            replaces the asset grid entirely, because 4:5 and 9:16 are
+            two ratios a `plates` row cannot hold together without
+            cropping one of them. The contact-sheet board that stood
+            here is gone with it: a picture of six posts is a weaker
+            thing than the six posts.
+
+            THE RAIL EXPECTS SIX OF EACH and interleaves them, because
+            six is what makes it read as continuous rather than as a
+            short list. Three of each have arrived, so three post slots
+            and three story slots render as labelled pending cells. That
+            is the component doing its job — the composition is
+            judgeable now and the rest drop in without the layout
+            changing shape — but it is visibly short, and the fix is
+            three more posts and three more stories, not a change here.
+          */
           layout: "plates",
-          assets: [
-            {
-              src: "/work/kiko-melt/social.jpg",
-              alt: "Six Kiko Melt social posts laid out on a dark cocoa ground — a cookie pulled apart, a poll asking what Loop does next, a fill-in-the-blank card, and three Arabic-led posts",
-              form: "plate",
-              ratio: "aspect-[3/4]",
-            },
-          ],
+          assets: [],
+          showreel: {
+            posts: [
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/post-01.webp",
+                alt: "An Arabic-led post reading \"I opened my wallet and found cookie crumbs\" — Loop holding an empty wallet beside a Kiko Melt carton of stacked cookies, with badges reading great decisions and balance: zero",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/post-02.webp",
+                alt: "A post reading \"My emotional support cookie — do not disturb\", Loop lying face down on a molten chocolate chunk cookie beside a Kiko Melt carry box",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/post-03.webp",
+                alt: "An Arabic-led post reading \"If I don't reply, I'm eating\" — Loop's eyes peering over the top of a half-eaten molten cookie",
+              },
+            ],
+            stories: [
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/story-01.webp",
+                alt: "A story reading Pull. Share. Smile. over two hands pulling a cookie apart on a molten chocolate string, with Melt Into Happy and Loop beneath it",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/story-02.webp",
+                alt: "A poll story reading \"Choose Loop's next move\" — Loop clutching a cookie between an outstretched hand and an open door, with the options Share it and Run",
+              },
+              {
+                kind: "image",
+                src: "/work/kiko-melt/social/story-03.webp",
+                alt: "An open-question story reading \"Finish the sentence: I deserve a cookie because...\" — Loop drawing the line with a pencil beside a molten cookie, over a blank answer panel",
+              },
+            ],
+          },
         },
         {
           id: "merch",

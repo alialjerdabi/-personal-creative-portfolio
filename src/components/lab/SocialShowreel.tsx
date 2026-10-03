@@ -283,12 +283,19 @@ export default function SocialShowreel({
         </DragRail>
       </section>
 
-      <section aria-label="Campaign films">
-        <p className="lab-placard">Campaign film</p>
-        <div className="mt-4">
-          <FilmScreen films={films} palette={palette} />
-        </div>
-      </section>
+      {/* ONLY WHERE THERE IS A FILM. The rail below keeps its empty
+          cells on purpose — a short rail reads as "there are more of
+          these", which is true. A whole section headed "Campaign film"
+          with nothing in it reads as a film that failed to load, which
+          is not. Kiko Melt's social is stills and always was. */}
+      {films.length > 0 && (
+        <section aria-label="Campaign films">
+          <p className="lab-placard">Campaign film</p>
+          <div className="mt-4">
+            <FilmScreen films={films} palette={palette} />
+          </div>
+        </section>
+      )}
     </div>
   );
 }
