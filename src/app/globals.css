@@ -90,7 +90,16 @@
   --lab-teal-ink: #007a6a;
   --lab-sun-ink: #896811;
   --lab-amber-ink: #8a6700;
-  --lab-cream-ink: #6d6c6a;
+  /*
+    Cream is the one slot whose ink is not its own field darkened —
+    darkening #eeece7 only ever lands on grey, and grey is an absence of
+    a decision rather than a colour. Ali's call 2026-10-03: this is Kiko
+    Melt's Dark Cocoa, #43251B, straight off the brand's own palette
+    board, which is where its headings were always going to live. The
+    dark-ground value below stays cream; cocoa on near-black would be
+    the invisible heading again with the colours swapped.
+  */
+  --lab-cream-ink: #43251b;
 
   --lab-orange: #ff5a1f;
   --lab-blue: #1b3fe0;
