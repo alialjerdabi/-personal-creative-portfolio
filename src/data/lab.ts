@@ -1805,8 +1805,38 @@ export const labContent: LabContent = {
           ],
         },
         {
+          id: "apparel",
+          /*
+            Ali asked for these in the club section or the field. Both
+            were already at two plates and neither could take a pair
+            without dropping something it needed — Club is the loyalty
+            mechanic, Field is six swatches. Apparel is its own product
+            family and it gets the same treatment every other pair on
+            this page gets: the board, then the board made. One line
+            moves it if that reads wrong.
+          */
+          label: "07 — Apparel",
+          title: "WEAR",
+          note: "Wear the mood: a cap carrying nothing but the smile, a tee that keeps the wordmark small at the chest and gives Loop the whole back, a brown apron for the people baking, a blue tote, yellow socks patterned with the bird. Staff kit and customer merch drawn as one range, because in a shop this size they are seen together or not at all.",
+          layout: "plates",
+          assets: [
+            {
+              src: "/work/kiko-melt/apparel-system.webp",
+              alt: "The Kiko Melt apparel range drawn flat under the line Wear The Mood — a red cap front and back, a red tee with the wordmark at the chest and Loop across the back, a brown apron, a powder blue tote, yellow socks patterned with the bird, and an enamel pin on its backing card",
+              form: "plate",
+              ratio: "aspect-[3/4]",
+            },
+            {
+              src: "/work/kiko-melt/apparel.webp",
+              alt: "The apparel laid out together: two cream tees showing the chest wordmark and the red Loop across the back, a red cap with the smile, a powder blue tote carrying the wordmark, yellow socks patterned with Loop and a brown apron, with cookies scattered around them",
+              form: "plate",
+              ratio: "aspect-[4/5]",
+            },
+          ],
+        },
+        {
           id: "club",
-          label: "07 — Loyalty",
+          label: "08 — Loyalty",
           title: "CLUB",
           note: "The Melt Club: a red card on one side, six empty loops on the other, and a rule simple enough to say at the counter — six loops, one happy treat. The first loop is already stamped, because a card that starts at zero is a card that gets left in the bag.",
           layout: "plates",
@@ -1837,7 +1867,7 @@ export const labContent: LabContent = {
             written to prevent. The line does not come off until there
             is a shop to photograph.
           */
-          label: "08 — In the shop",
+          label: "09 — In the shop",
           title: "SHOP",
           note: "Visualisations, not photographs — there is no Kiko Melt shop to stand outside. This is the system taken as far as it goes: a cream and red facade under a butter-yellow canopy, a crew in red with Loop across their backs, and the drink the counter is built to sell.",
           layout: "plates",
